@@ -1,3 +1,122 @@
+diff --git a/Interface/AddOns/BoomTime/BoomTime.lua b/Interface/AddOns/BoomTime/BoomTime.lua
+index 8dd06ad..e0c67ef 100644
+--- a/Interface/AddOns/BoomTime/BoomTime.lua
++++ b/Interface/AddOns/BoomTime/BoomTime.lua
+@@ -17,7 +17,7 @@ local instance_timer_sv = nil;
+ 
+ 
+ local board = CreateFrame("Frame", nil, UIParent);
+-board:SetSize(140, 80);
++board:SetSize(100, 80);
+ board:SetBackdrop({
+     bgFile = "Interface/ChatFrame/ChatFrameBackground",
+     edgeFile = "Interface/ChatFrame/ChatFrameBackground",
+@@ -31,14 +31,38 @@ board:SetMovable(true);
+ -- board:EnableMouse(true);
+ -- board:RegisterForDrag("LeftButton");
+ 
++function func.announce()
++    local now = time();
++    local party = UnitInParty("player");
++    for i = 1, 5 do
++        local t = instance_timer_sv[i];
++        if t then
++            local left = t - now + 57600 - 1;
++            local message = string.format("副本%d [%s]", i, date("%M:%S", left));
++            if party then
++                SendChatMessage(message, "PARTY");
++            else
++                print(message);
++            end
++        end
++    end
++end
++
++function func.toggle_lock()
++    if instance_timer_sv.locked then
++        func.unlock();
++    else
++        func.lock();
++    end
++end
+ function func.lock()
+-    board:EnableMouse(false);
++    -- board:EnableMouse(false);
+     board:SetBackdropColor(0.0, 0.0, 0.0, 0.0);
+     board:SetBackdropBorderColor(0.0, 0.0, 0.0, 0.0);
+     instance_timer_sv.locked = true;
+ end
+ function func.unlock()
+-    board:EnableMouse(true);
++    -- board:EnableMouse(true);
+     board:SetBackdropColor(0.0, 0.0, 0.0, 0.5);
+     board:SetBackdropBorderColor(0.0, 0.0, 0.0, 0.5);
+     instance_timer_sv.locked = false;
+@@ -56,21 +80,30 @@ local drop_menu_table = {
+     handler = _noop_,
+     elements = {
+         {
+-            handler = func.lock,
++            handler = func.announce,
++            para = {  },
++            text = "报告",
++        },
++        {
++            handler = func.toggle_lock,
+             para = {  },
+             text = "锁定",
+         },
+         {
+             handler = func.off,
+             para = {  },
+-            text = "关闭",
++            text = "隐藏",
+         }
+     },
+ };
+ 
+ board:SetScript("OnMouseDown", function(self, button)
+     if button == "LeftButton" then
+-        self:StartMoving();
++        if IsShiftKeyDown() then
++            func.announce();
++        elseif not instance_timer_sv.locked then
++            self:StartMoving();
++        end
+     else
+         ALADROP(board, "BOTTOMLEFT", drop_menu_table);
+     end
+@@ -90,7 +123,7 @@ for i = 1, 5 do
+     left:SetFont(GameFontNormal:GetFont(), 16);
+     left:SetPoint("TOPLEFT", board, "TOPLEFT", 0, - 16 * (i - 1));
+     left:Show();
+-    left:SetText("\124cffffff00副本次数" .. i .. "\124r: ");
++    left:SetText("\124cffffff00副本" .. i .. "\124r: ");
+     local line = board:CreateFontString(nil, "OVERLAY");
+     line:SetFont(GameFontNormal:GetFont(), 16);
+     line:SetPoint("LEFT", left, "RIGHT", 0, 0);
+@@ -123,7 +156,7 @@ end
+ function func.CHAT_MSG_SYSTEM(msg)
+     if strfind(msg, instance_reset_failed_pattern) or strfind(msg, instance_reset_success_pattern) then
+         tinsert(instance_timer_sv, time() + 3600);
+-        SendChatMessage("{rt1}副本已重置，请进入副本！{rt1}" , "PARTY", nil);
++        -- SendChatMessage("{rt1}副本已重置，请进入副本！{rt1}" , "PARTY", nil);
+     elseif msg == RESET_FAILED_NOTIFY then
+         -- print('next');
+         var.next_reset_out_instance = true;
+@@ -200,11 +233,7 @@ SlashCmdList["ALAINSTANCETIMER"] = function(msg)
+     elseif strfind(msg, "^off") then
+         func.off();
+     elseif strfind(msg, "^toggle_lock") then
+-        if instance_timer_sv.locked then
+-            func.unlock();
+-        else
+-            func.lock();
+-        end
++        func.toggle_lock();
+     else
+         if boomTimeSv.instance_timer_sv.on then
+             func.off();
 diff --git a/Interface/AddOns/BoomTime/BoomTime_Run.lua b/Interface/AddOns/BoomTime/BoomTime_Run.lua
 index 6fd363f..e30dce8 100644
 --- a/Interface/AddOns/BoomTime/BoomTime_Run.lua
