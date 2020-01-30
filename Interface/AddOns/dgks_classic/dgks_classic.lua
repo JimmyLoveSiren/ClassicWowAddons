@@ -1,4 +1,5 @@
 --TODO List
+-- Twitch is still dumb
 --Duel win detection
 --Pet kills on Hunters
 --Battleground start msg closer to start of bg
@@ -14,8 +15,12 @@
 --NPC Emote Targeting
 --FIXME Remove classic emotes
 --Just making a change so twitch triggers an update
+--Cross Character Killer Klvl Kclass KGuild Victim Vlvl VClass VGuild Timestamp Location Killshot_Log
+--Cross server ranking system (bnet channels)
+--
 
-local version = "1.13.02." .. "3f47acc6042267875e01742f2f682d09a1ac877f"
+local version = "1.13.02." .. "1.13.03.004"
+local databaseversion = "1"
 local streak = 0
 local deathstreak = 0
 local multikill = 0

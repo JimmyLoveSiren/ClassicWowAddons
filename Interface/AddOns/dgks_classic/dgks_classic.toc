@@ -1,8 +1,8 @@
-## Interface: 11302
+## Interface: 11303
 ## Title: dG KillShot 
 ## Notes: Lets people know you got a killshot.
 ## Author: Lance Inman 
-## Version: 8.1.0.3f47acc6042267875e01742f2f682d09a1ac877f 
+## Version: 8.1.0.659153e8adbe3e8c4fa1da09ca2fb978a8f0979d 
 ## OptionalDeps: Ace3, LibSink-2.0
 ## SavedVariables: dgksDB
 ## SavedVariablesPerCharacter: dgksDBPC
@@ -23,4 +23,5 @@ Libs\AceComm-3.0\AceComm-3.0.xml
 Libs\AceSerializer-3.0\AceSerializer-3.0.xml
 Libs\LibSink-2.0\lib.xml
 #@end-no-lib-strip@
+##dgks_classic_emotes.lua
 dgks_classic.lua

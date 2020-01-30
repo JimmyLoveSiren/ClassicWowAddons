@@ -170,6 +170,7 @@ L["If checked, you will be able to scale and move the map.|n|nScale the map by d
 L["If checked, you will be able to set the opacity of the map."] = "勾选后，你可以设置地图的透明度。"
 L["If checked, zone, dungeon and fishing skill levels will be shown."] = "勾选后，会在地图上显示区域、副本和钓鱼的相关等级。"
 L["Invalid command.  Enter /ltm help for help."] = "无效的命令。输入/ltm help来获取帮助信息。"
+L["Invalid map ID."] = "无效地图ID"
 L["Iron Docks"] = "钢铁码头"
 L["Ironforge"] = "铁炉堡"
 L["Karazhan"] = "卡拉赞"

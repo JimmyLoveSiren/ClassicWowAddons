@@ -1,28 +1,10 @@
-lightweight tag 0c410de020d08d3cc976018103d3016559e4f3d5 v2.3.6
+lightweight tag fcfbd22df2e158aa2a6847d324aef1e5894325c7 v2.3.8
 Author:	Boshi Lian <farmer1992@gmail.com>
-Date:	Sat Jan 18 20:22:40 2020 -0800
+Date:	Thu Jan 30 01:45:55 2020 -0800
 
-commit 0c410de020d08d3cc976018103d3016559e4f3d5
+commit fcfbd22df2e158aa2a6847d324aef1e5894325c7
 Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Sat Jan 18 20:22:40 2020 -0800
+Date:   Thu Jan 30 01:45:55 2020 -0800
 
-    prevent battle conflict
-
-commit 1c963cdd6e4939e3835c5816e97216ccfe7a2a5f
-Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Fri Jan 17 21:02:16 2020 -0800
-
-    something may cause leave timer reset
-
-commit c8d0f6f1b5cd7c0d44a72110fb0b47eec5c55570
-Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Wed Jan 15 02:24:26 2020 -0800
-
-    add rest btn
-
-commit 52a037be2e9e58add528c9762044c79a05e437ae
-Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Wed Jan 15 00:53:50 2020 -0800
-
-    color stat
+    fix + tz bug
 
