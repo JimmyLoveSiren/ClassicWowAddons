@@ -17,6 +17,8 @@ BigFootChat
 BlizzMove
 BuffMaster
 CharacterStatsClassic
+ClassicCastbars
+ClassicCastbars_Options
 ClassicThreatMeter
 Combuctor
 DBM-AQ20

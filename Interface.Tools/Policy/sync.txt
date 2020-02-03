@@ -23,8 +23,6 @@ BigFootBot
 BubbleChat
 ChannelFilter
 ClassicAuraDurations
-ClassicCastbars
-ClassicCastbars_Options
 ClassicCodex
 Clique
 CombatIndicator
