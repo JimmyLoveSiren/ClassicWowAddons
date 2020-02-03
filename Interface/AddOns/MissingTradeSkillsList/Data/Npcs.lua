@@ -15200,7 +15200,7 @@ MTSL_DATA["npcs"] = {
 			["y"] = " 2.81",
 			["x"] = "65.69",
 		},
-		["reacts"] = "Hostile",
+		["reacts"] = "Neutral",
 		["name"] = {
 			["Portuguese"] = "Meilosh",
 			["Russian"] = "Мелиош",

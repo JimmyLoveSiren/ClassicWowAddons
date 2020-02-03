@@ -48,7 +48,7 @@ MTSLUI_MINIMAP = {
 
     HookEvents = function(self)
         MTSLUI_TOOLS:AddDragToFrame(self.ui_frame)
-        -- Overwrite/add extra function/events)
+        -- Overwrite/add extra function/events
         self.ui_frame:SetScript("OnDragStart", MTSLUI_MINIMAP.OnMouseDown)
         self.ui_frame:SetScript("OnDragStop", MTSLUI_MINIMAP.OnMouseUp)
         self.ui_frame:SetScript("OnMouseDown", MTSLUI_MINIMAP.OnMouseDown)
@@ -59,6 +59,7 @@ MTSLUI_MINIMAP = {
             GameTooltip:SetOwner(frame, "ANCHOR_BOTTOMRIGHT")
             GameTooltip:SetText(MTSLUI_ADDON.NAME .. " (v" .. MTSLUI_ADDON.VERSION .. ")")
             GameTooltip:AddLine("Left Click: Open MTSL options menu", 1, 1, 1)
+            GameTooltip:AddLine("Alt + Left Click: Open NPC explorer", 1, 1, 1)
             GameTooltip:AddLine("Ctrl + Left Click: Open Account explorer", 1, 1, 1)
             GameTooltip:AddLine("Shift + Left Click: Open Database explorer", 1, 1, 1)
             GameTooltip:Show()
@@ -68,12 +69,12 @@ MTSLUI_MINIMAP = {
         self.ui_frame:SetScript("OnClick", function()
             if IsControlKeyDown() and not (IsAltKeyDown() or IsShiftKeyDown()) then
                 MTSLUI_ACCOUNT_EXPLORER_FRAME:Toggle()
+            elseif IsShiftKeyDown() and not (IsControlKeyDown() or IsAltKeyDown()) then
+                MTSLUI_DATABASE_EXPLORER_FRAME:Toggle()
+            elseif IsAltKeyDown() and not (IsControlKeyDown() or IsShiftKeyDown()) then
+                MTSLUI_NPC_EXPLORER_FRAME:Toggle()
             else
-                if IsShiftKeyDown() and not (IsControlKeyDown() or IsAltKeyDown()) then
-                    MTSLUI_DATABASE_EXPLORER_FRAME:Toggle()
-                else
-                    MTSLUI_OPTIONS_MENU_FRAME:Toggle()
-                end
+                MTSLUI_OPTIONS_MENU_FRAME:Toggle()
             end
         end)
     end,

@@ -39,9 +39,9 @@ MTSL_DATA = {
     -- holds counters for how many skills can be learned up the current content phase (counted using DEV MODe of APP)
     ["AMOUNT_SKILLS_CURRENT_PHASE"] = {
         ["Tailoring"] = 203,
-        ["Blacksmithing"] = 221,
+        ["Blacksmithing"] = 213,
         ["Alchemy"] = 109,
-        ["Mining"] = 16,
+        ["Mining"] = 15,
         ["First Aid"] = 16,
         ["Cooking"] = 83,
         ["Engineering"] = 168,

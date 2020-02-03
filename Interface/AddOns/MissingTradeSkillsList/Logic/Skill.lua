@@ -436,4 +436,51 @@ MTSL_LOGIC_SKILL = {
         end
         return MTSL_TOOLS:ListContainsNumber(factions, tonumber(faction_id))
     end,
+
+    ----------------------------------------------------------------------------------------
+    -- Checks if at skill is avaiable through an id of a npc
+    --
+    -- @profession_name     String      The name of the profession
+    -- @skill               Object      The skill to check
+    -- @npc_id		        Number		The id of the npc
+    --
+    -- return				Boolean		Flag indicating obtainable
+    -----------------------------------------------------------------------------------------
+    IsObtainableFromNpcById = function(self, profession_name, skill, npc_id)
+        local obtainable = false
+        -- Check if npc_id is contained in list of trainers if there are
+        if skill.trainers ~= nil and MTSL_TOOLS:ListContainsNumber(skill.trainers.sources, npc_id) then
+            obtainable = true
+        end
+        -- Check if questgiver
+        if obtainable == false and skill.quests ~= nil then
+            -- loop each quest
+            for _, v in pairs(skill.quests) do
+                local quest = MTSL_LOGIC_QUEST:GetQuestById(v)
+                if quest ~= nil and quest.npcs ~= nil and MTSL_TOOLS:ListContainsNumber(quest.npcs, npc_id) then
+                    obtainable = true
+                end
+            end
+        end
+        -- check if learned from item
+        if obtainable == false and skill.item ~= nil then
+            local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.item, profession_name)
+            -- npc can be a mob that drops it or vendor
+            if item ~= nil and ((item.drops ~= nil and item.drops.mobs ~= nil and MTSL_TOOLS:ListContainsNumber(item.drops.mobs, npc_id))
+                    or (item.vendors ~= nil and MTSL_TOOLS:ListContainsNumber(item.vendors.sources, npc_id))) then
+                obtainable = true
+            end
+            -- or questgiver
+            if obtainable == false and item ~= nil and item.quests ~= nil then
+                for _, v in pairs(item.quests) do
+                    local quest = MTSL_LOGIC_QUEST:GetQuestById(v)
+                    if quest ~= nil and quest.npcs ~= nil and MTSL_TOOLS:ListContainsNumber(quest.npcs, npc_id) then
+                        obtainable = true
+                    end
+                end
+            end
+        end
+        -- return the status we found
+        return obtainable
+    end
 }

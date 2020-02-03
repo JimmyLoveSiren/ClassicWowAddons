@@ -127,9 +127,10 @@ function MTSLUI_MISSING_TRADESKILLS_FRAME:RefreshUI (force)
         -- Refresh the UI frame showing the list of skill
         self.skill_list_frame:UpdateList(list_skills)
         -- Update the progressbar on bottom
-        local skills_max_amount = MTSL_LOGIC_PROFESSION:GetTotalNumberOfAvailableSkillsForProfession(self.current_profession_name)
+        local skills_max_amount = MTSL_LOGIC_PROFESSION:GetTotalNumberOfAvailableSkillsForProfession(self.current_profession_name, MTSL_DATA.MAX_PATCH_LEVEL)
+        local skills_phase_max_amount = MTSL_LOGIC_PROFESSION:GetTotalNumberOfAvailableSkillsForProfession(self.current_profession_name, MTSL_DATA.CURRENT_PATCH_LEVEL)
         local amount_missing = MTSL_TOOLS:CountItemsInArray(list_skills)
-        self.progressbar:UpdateStatusbar(0, skills_max_amount, amount_missing)
+        self.progressbar:UpdateStatusbar(0, skills_phase_max_amount, skills_max_amount, amount_missing)
         self:NoSkillSelected()
 
         -- if we miss skills, auto select first one (only do if we dont have one selected)

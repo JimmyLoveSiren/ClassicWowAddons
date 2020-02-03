@@ -5087,7 +5087,7 @@ MTSL_DATA["Tailoring"]["skills"] = {
 			["Portuguese"] = "Manto Glacial",
 			["Mexican"] = "Capa glacial",
 			["Russian"] = "Ледовый плащ",
-			["English"] = "GGlacial Cloak",
+			["English"] = "Glacial Cloak",
 		},
 		["min_skill"] = 300,
 		["phase"] = 6,

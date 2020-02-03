@@ -613,7 +613,7 @@ MTSL_DATA["quests"] = {
 	{
 		["phase"] = 1,
 		["id"] = 2753,
-		["min_xp_level"] = 33,
+		["min_xp_level"] = 32,
 		["name"] = {
 			["Portuguese"] = "Esmagado sob os calcanhares",
 			["Russian"] = "Тяжелая поступь",
@@ -632,7 +632,7 @@ MTSL_DATA["quests"] = {
 	{
 		["phase"] = 1,
 		["id"] = 2754,
-		["min_xp_level"] = 33,
+		["min_xp_level"] = 32,
 		["name"] = {
 			["Portuguese"] = "Trompas de frenesi",
 			["Russian"] = "Рога безумия",
@@ -651,7 +651,7 @@ MTSL_DATA["quests"] = {
 	{
 		["phase"] = 1,
 		["id"] = 2755,
-		["min_xp_level"] = 33,
+		["min_xp_level"] = 32,
 		["name"] = {
 			["Portuguese"] = "Alegria dos Omosh",
 			["Russian"] = "Радости Омоша",
@@ -1152,7 +1152,7 @@ MTSL_DATA["quests"] = {
 	{
 		["phase"] = 1,
 		["id"] = 5124,
-		["min_xp_level"] = 60,
+		["min_xp_level"] = 55,
 		["name"] = {
 			["Portuguese"] = "Manoplas de Placa Ardente",
 			["Russian"] = "Огненные латные рукавицы",
@@ -1171,7 +1171,7 @@ MTSL_DATA["quests"] = {
 	{
 		["phase"] = 1,
 		["id"] = 5127,
-		["min_xp_level"] = 58,
+		["min_xp_level"] = 55,
 		["name"] = {
 			["Portuguese"] = "A forja demoníaca",
 			["Russian"] = "Демонова кузня",
@@ -1553,7 +1553,7 @@ MTSL_DATA["quests"] = {
 			18769,
 		},
 		["id"] = 7649,
-		["min_xp_level"] = 60,
+		["min_xp_level"] = 50,
 		["name"] = {
 			["Portuguese"] = "Malha de Placas de Tório Encantado: volume I",
 			["Russian"] = "\"Зачарованная ториевая броня\", том I",
@@ -1565,14 +1565,14 @@ MTSL_DATA["quests"] = {
 			["Korean"] = "마력깃든 토륨 갑옷 I",
 			["German"] = "Verzauberter Thoriumplattenpanzer: Band I",
 		},
-		["phase"] = 1,
+		["phase"] = 2,
 	},
 	{
 		["items"] = {
 			18770,
 		},
 		["id"] = 7650,
-		["min_xp_level"] = 60,
+		["min_xp_level"] = 50,
 		["name"] = {
 			["Portuguese"] = "Malha de Placas de Tório Encantado: volume II",
 			["Russian"] = "\"Зачарованная ториевая броня\", том II",
@@ -1584,14 +1584,14 @@ MTSL_DATA["quests"] = {
 			["Korean"] = "마력 깃든 토륨 갑옷 II",
 			["German"] = "Verzauberter Thoriumplattenpanzer: Band II",
 		},
-		["phase"] = 1,
+		["phase"] = 2,
 	},
 	{
 		["items"] = {
 			18771,
 		},
 		["id"] = 7651,
-		["min_xp_level"] = 55,
+		["min_xp_level"] = 50,
 		["name"] = {
 			["Portuguese"] = "Malha de Placas de Tório Encantado: volume III",
 			["Russian"] = "\"Зачарованная ториевая броня\", том III",
@@ -1603,7 +1603,7 @@ MTSL_DATA["quests"] = {
 			["Korean"] = "마력 깃든 토륨 갑옷 III",
 			["German"] = "Verzauberter Thoriumplattenpanzer: Band III",
 		},
-		["phase"] = 1,
+		["phase"] = 2,
 	},
 	{
 		["phase"] = 1,

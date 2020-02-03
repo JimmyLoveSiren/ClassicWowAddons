@@ -19,12 +19,92 @@ MTSL_DATA["objects"] = {
 		["id"] = 164869,
 	},
 	{
+		["zone_id"] = 2017,
+		["phase"] = 1,
+		["id"] = 176325,
+		["location"] = {
+			["x"] = "20.60",
+			["y"] = "73.10",
+		},
+		["name"] = {
+			["Portuguese"] = "Instruções de Ferraria",
+			["Russian"] = "Чертежи кузнечного дела",
+			["Chinese"] = "锻造设计图",
+			["Spanish"] = "Diseños de herrería",
+			["Mexican"] = "Diseños de herrería",
+			["French"] = "Plans de forgeron",
+			["English"] = "Blacksmithing Plans",
+			["Korean"] = "대장기술 도면",
+			["German"] = "Schmiedekunstpläne",
+		},
+	},
+	{
+		["zone_id"] = 2017,
+		["phase"] = 1,
+		["id"] = 176327,
+		["location"] = {
+			["x"] = "76.90",
+			["y"] = "45.10",
+		},
+		["name"] = {
+			["Portuguese"] = "Instruções de Ferraria",
+			["Russian"] = "Чертежи кузнечного дела",
+			["Chinese"] = "锻造设计图",
+			["Spanish"] = "Diseños de herrería",
+			["Mexican"] = "Diseños de herrería",
+			["French"] = "Plans de forgeron",
+			["English"] = "Blacksmithing Plans",
+			["Korean"] = "대장기술 도면",
+			["German"] = "Schmiedekunstpläne",
+		},
+	},
+	{
+		["zone_id"] = 1584,
+		["phase"] = 1,
+		["id"] = 173232,
+		["location"] = {
+			["x"] = "36.60",
+			["y"] = "56.50",
+		},
+		["name"] = {
+			["Portuguese"] = "Instruções de Ferraria",
+			["Russian"] = "Чертежи кузнечного дела",
+			["Chinese"] = "锻造设计图",
+			["Spanish"] = "Diseños de herrería",
+			["Mexican"] = "Diseños de herrería",
+			["French"] = "Plans de forgeron",
+			["English"] = "Blacksmithing Plans",
+			["Korean"] = "대장기술 도면",
+			["German"] = "Schmiedekunstpläne",
+		},
+	},
+	{
+		["zone_id"] = 1584,
+		["phase"] = 1,
+		["id"] = 173234,
+		["location"] = {
+			["x"] = "43.00",
+			["y"] = "88.90",
+		},
+		["name"] = {
+			["Portuguese"] = "Instruções de Ferraria",
+			["Russian"] = "Чертежи кузнечного дела",
+			["Chinese"] = "锻造设计图",
+			["Spanish"] = "Diseños de herrería",
+			["Mexican"] = "Diseños de herrería",
+			["French"] = "Plans de forgeron",
+			["English"] = "Blacksmithing Plans",
+			["Korean"] = "대장기술 도면",
+			["German"] = "Schmiedekunstpläne",
+		},
+	},
+	{
 		["zone_id"] = 2557,
 		["phase"] = 1,
 		["id"] = 179501,
 		["location"] = {
-			["y"] = "-",
 			["x"] = "-",
+			["y"] = "-",
 		},
 		["name"] = {
 			["Portuguese"] = "Esconderijo de Knot Thimblejack",
@@ -43,8 +123,8 @@ MTSL_DATA["objects"] = {
 		["phase"] = 1,
 		["id"] = 180368,
 		["location"] = {
-			["y"] = "45.31",
-			["x"] = "37.94",
+			["x"] = "61.30",
+			["y"] = "49.00",
 		},
 		["name"] = {
 			["German"] = "Schrifttafel des Wahnsinns",
@@ -63,8 +143,8 @@ MTSL_DATA["objects"] = {
 		["phase"] = 1,
 		["id"] = 180503,
 		["location"] = {
-			["y"] = "45.31",
 			["x"] = "37.94",
+			["y"] = "45.31",
 		},
 		["name"] = {
 			["Portuguese"] = "[Sandy Cookbook]",
@@ -83,8 +163,8 @@ MTSL_DATA["objects"] = {
 		["phase"] = 1,
 		["id"] = 180794,
 		["location"] = {
-			["y"] = "17.03",
 			["x"] = "28.93",
+			["y"] = "17.03",
 		},
 		["name"] = {
 			["Portuguese"] = "Diário de Jandice Barov",

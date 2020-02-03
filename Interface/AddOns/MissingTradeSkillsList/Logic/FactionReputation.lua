@@ -38,15 +38,17 @@ MTSL_LOGIC_FACTION_REPUTATION = {
     --
     -- @faction_name	String	    The (English) name of the faction
     --
-    -- returns 			Number		The id of the faction (-1 if not found, 0 for neutral)
+    -- returns 			Number		The id of the faction (-1 if not found, 10000 for neutral)
     ------------------------------------------------------------------------------------------------
     GetFactionIdByName = function(self, faction_name)
         local faction_id = -1
-        local faction = MTSL_TOOLS:GetItemFromArrayByKeyValueIgnoringLocalisation(MTSL_DATA["factions"], "name", faction_name)
-        if faction ~= nil then
-            faction_id = faction.id
-        elseif faction_name == "Neutral" then
-            faction_id = 0
+        if faction_name == "Neutral" then
+            faction_id = 10000
+        elseif faction_name ~= "Hostile" then
+            local faction = MTSL_TOOLS:GetItemFromArrayByKeyValueIgnoringLocalisation(MTSL_DATA["factions"], "name", faction_name)
+            if faction ~= nil then
+                faction_id = faction.id
+            end
         end
         return faction_id
     end,

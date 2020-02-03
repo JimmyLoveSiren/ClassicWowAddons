@@ -711,4 +711,61 @@ MTSL_LOGIC_PLAYER_NPC = {
 
         return amount
     end,
+
+    -----------------------------------------------------------------------------------------------
+    -- Get a list of skills obtainable from an Npc
+    --
+    -- @npc 	            Object		The npc from whom we want a list
+    --
+    -- return				Array		The skills learnable from this npc
+    ------------------------------------------------------------------------------------------------
+    GetSkillsForNpc = function(self, npc)
+        local npc_skills = {}
+        -- loop each profession if npc is not nil
+        if npc ~= nil then
+            for _, p in pairs(MTSL_NAME_PROFESSIONS) do
+                local amount_prof = 0
+                local skills = MTSL_LOGIC_PROFESSION:GetAllSkillsAndLevelsForProfession(p)
+                -- check if each skill is obtainable or not
+                for _, s in pairs(skills) do
+           --         if MTSL_LOGIC_SKILL:IsObtainableFromNpcById(p, s, npc.id) == true then
+                        table.insert(npc_skills, s)
+                        amount_prof = amount_prof + 1
+             --       end
+                end
+            end
+        end
+        -- return the array we filled
+        return npc_skills
+    end,
+
+    -----------------------------------------------------------------------------------------------
+    -- Get a list of professions that an Npc is involved with
+    --
+    -- @npc 	            Object		The npc from whom we want a list
+    --
+    -- return				Array		The professions this npc is involved with
+    ------------------------------------------------------------------------------------------------
+    GetProfessionsForNpc = function(self, npc)
+        local professions = {}
+        -- loop each profession if npc is not nil
+        if npc ~= nil then
+            for _, p in pairs(MTSL_NAME_PROFESSIONS) do
+                local amount_prof = 0
+                local skills = MTSL_LOGIC_PROFESSION:GetAllSkillsAndLevelsForProfession(p)
+                local s = 1
+                local obtained = false
+                -- Check until we find an obtainable skill for the profession
+                while (obtained == false and skills[s] ~= nil) do
+                    if MTSL_LOGIC_SKILL:IsObtainableFromNpcById(p, skills[s], npc.id) == true then
+                        table.insert(professions, p)
+                        obtained = true
+                    end
+                    s = s + 1
+                end
+            end
+        end
+        -- return the array we filled
+        return professions
+    end,
 }

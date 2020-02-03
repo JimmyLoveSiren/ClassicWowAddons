@@ -9,12 +9,14 @@ MTSLUI_PLAYER = {
         MTSL,
         ACCOUNT,
         DATABASE,
+        NPC,
         OPTIONSMENU,
     },
     UI_SPLIT_MODE = {
         MTSL,
         ACCOUNT,
         DATABASE,
+        NPC,
     },
     FONT = {
         NAME,
@@ -141,6 +143,7 @@ MTSLUI_SAVED_VARIABLES = {
         MTSLUI_PLAYER.UI_SCALE.MTSL = self.DEFAULT_UI_SCALE
         MTSLUI_PLAYER.UI_SCALE.ACCOUNT = self.DEFAULT_UI_SCALE
         MTSLUI_PLAYER.UI_SCALE.DATABASE = self.DEFAULT_UI_SCALE
+        MTSLUI_PLAYER.UI_SCALE.NPC = self.DEFAULT_UI_SCALE
         MTSLUI_PLAYER.UI_SCALE.OPTIONSMENU = self.DEFAULT_UI_SCALE
     end,
 
@@ -152,6 +155,7 @@ MTSLUI_SAVED_VARIABLES = {
         MTSLUI_PLAYER.UI_SPLIT_MODE.MTSL = self.DEFAULT_UI_SPLIT_MODE
         MTSLUI_PLAYER.UI_SPLIT_MODE.ACCOUNT = self.DEFAULT_UI_SPLIT_MODE
         MTSLUI_PLAYER.UI_SPLIT_MODE.DATABASE = self.DEFAULT_UI_SPLIT_MODE
+        MTSLUI_PLAYER.UI_SPLIT_MODE.NPC = self.DEFAULT_UI_SPLIT_MODE
     end,
 
     -----------------------------------------------------------------------------------------------
@@ -230,7 +234,7 @@ MTSLUI_SAVED_VARIABLES = {
     -- Validates the saved splitmode from saved variable
     ------------------------------------------------------------------------------------------------
     ValidateSplitModes = function(self)
-        local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE" }
+        local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE", "NPC" }
         
         for _,k in pairs(keys_to_check) do
             -- reset split mode if not valid
@@ -247,11 +251,12 @@ MTSLUI_SAVED_VARIABLES = {
     -- @split_modes         Array           List containing the splitmodes for all main windows
     ------------------------------------------------------------------------------------------------
     SetSplitModes = function(self, split_modes)
-        local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE" }
+        local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE", "NPC" }
         local frames_to_split = {
             MTSL = MTSLUI_MISSING_TRADESKILLS_FRAME,
             ACCOUNT = MTSLUI_ACCOUNT_EXPLORER_FRAME,
             DATABASE = MTSLUI_DATABASE_EXPLORER_FRAME,
+            NPC = MTSLUI_NPC_EXPLORER_FRAME,
         }
         for _,k in pairs(keys_to_check) do
             -- apply split mode if valide
@@ -309,7 +314,7 @@ MTSLUI_SAVED_VARIABLES = {
     -- Validate the saved UI scales from saved variable
     ------------------------------------------------------------------------------------------------
     ValidateUIScales = function(self)
-        local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE", "OPTIONSMENU" }
+        local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE", "NPC", "OPTIONSMENU" }
 
         for _,k in pairs(keys_to_check) do
             -- reset split mode if not valid
@@ -336,11 +341,12 @@ MTSLUI_SAVED_VARIABLES = {
     -- @scale			Number			The number for UI scale (must be => MIN_UI_SCALE and <= MAX_UI_SCALE)
     ------------------------------------------------------------------------------------------------
     SetUIScales = function(self, scales)
-        local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE", "OPTIONSMENU" }
+        local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE", "NPC", "OPTIONSMENU" }
         local frames_to_scale = {
             MTSL = MTSLUI_MISSING_TRADESKILLS_FRAME,
             ACCOUNT = MTSLUI_ACCOUNT_EXPLORER_FRAME,
             DATABASE = MTSLUI_DATABASE_EXPLORER_FRAME,
+            NPC = MTSLUI_NPC_EXPLORER_FRAME,
             OPTIONSMENU = MTSLUI_OPTIONS_MENU_FRAME,
         }
         

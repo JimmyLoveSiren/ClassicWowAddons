@@ -5,7 +5,7 @@
 ------------------------------------------------------------------
 
 MTSLOPTUI_CONFIG_FRAME = {
-    FRAME_WIDTH = 715,
+    FRAME_WIDTH = 840,
     FRAME_HEIGHT = 325,
     MARGIN_LEFT = 25,
     MARGIN_RIGHT = 175,
@@ -13,6 +13,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         MTSL,
         ACCOUNT,
         DATABASE,
+        NPC,
     },
     ui_scales = {
         MTSL,
@@ -275,6 +276,14 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetText(self.ui_frame.orientation_database_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("DATABASE"))))
         -- center text above the dropdown
         self.ui_frame.orientation_database_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_database_drop_down, "Database Explorer", 0, 22, "LABEL", "CENTER")
+
+        self.ui_frame.orientation_npc_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_ORIENTATION_NPC", self.ui_frame, "UIDropDownMenuTemplate")
+        self.ui_frame.orientation_npc_drop_down:SetPoint("TOPLEFT", self.ui_frame.orientation_database_drop_down, "TOPRIGHT", -20, 0)
+        self.ui_frame.orientation_npc_drop_down.initialize = self.CreateDropDownOrientationNpc
+        UIDropDownMenu_SetWidth(self.ui_frame.orientation_npc_drop_down, self.WIDTH_DD)
+        UIDropDownMenu_SetText(self.ui_frame.orientation_npc_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("NPC"))))
+        -- center text above the dropdown
+        self.ui_frame.orientation_npc_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_npc_drop_down, "NPC Explorer", 0, 22, "LABEL", "CENTER")
     end,
 
     InitialiseOptionsUISplitScale = function (self, margin_top)
@@ -318,8 +327,16 @@ MTSLOPTUI_CONFIG_FRAME = {
         -- center text above the dropdown
         self.ui_frame.scale_database_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_database_drop_down, "Database Explorer", 0, 22, "LABEL", "CENTER")
 
+        self.ui_frame.scale_npc_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_SCALE_NPC", self.ui_frame, "UIDropDownMenuTemplate")
+        self.ui_frame.scale_npc_drop_down:SetPoint("TOPLEFT", self.ui_frame.scale_database_drop_down, "TOPRIGHT", -20, 0)
+        self.ui_frame.scale_npc_drop_down.initialize = self.CreateDropDownScaleNpc
+        UIDropDownMenu_SetWidth(self.ui_frame.scale_npc_drop_down, self.WIDTH_DD)
+        UIDropDownMenu_SetText(self.ui_frame.scale_npc_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("NPC"))
+        -- center text above the dropdown
+        self.ui_frame.scale_npc_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_npc_drop_down, "NPC Explorer", 0, 22, "LABEL", "CENTER")
+
         self.ui_frame.scale_optionsmenu_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_SCALE_OPTIONS", self.ui_frame, "UIDropDownMenuTemplate")
-        self.ui_frame.scale_optionsmenu_drop_down:SetPoint("TOPLEFT", self.ui_frame.scale_database_drop_down, "TOPRIGHT", -20, 0)
+        self.ui_frame.scale_optionsmenu_drop_down:SetPoint("TOPLEFT", self.ui_frame.scale_npc_drop_down, "TOPRIGHT", -20, 0)
         self.ui_frame.scale_optionsmenu_drop_down.initialize = self.CreateDropDownScaleOptionsMenu
         UIDropDownMenu_SetWidth(self.ui_frame.scale_optionsmenu_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.scale_optionsmenu_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("OPTIONSMENU"))
@@ -420,6 +437,11 @@ MTSLOPTUI_CONFIG_FRAME = {
         MTSLUI_TOOLS:FillDropDown(MTSLOPTUI_CONFIG_FRAME.orientations, MTSLOPTUI_CONFIG_FRAME.ChangeOrientationDatabaseHandler)
     end,
 
+    CreateDropDownOrientationNpc = function(self, level)
+        MTSLUI_TOOLS:FillDropDown(MTSLOPTUI_CONFIG_FRAME.orientations, MTSLOPTUI_CONFIG_FRAME.ChangeOrientationNpcHandler)
+    end,
+
+
     ----------------------------------------------------------------------------------------------------------
     -- Intialises drop down for UI scaling
     ----------------------------------------------------------------------------------------------------------
@@ -433,6 +455,10 @@ MTSLOPTUI_CONFIG_FRAME = {
 
     CreateDropDownScaleDatabase = function(self, level)
         MTSLUI_TOOLS:FillDropDown(MTSLOPTUI_CONFIG_FRAME.scales, MTSLOPTUI_CONFIG_FRAME.ChangeScaleDatabaseHandler)
+    end,
+
+    CreateDropDownScaleNpc = function(self, level)
+        MTSLUI_TOOLS:FillDropDown(MTSLOPTUI_CONFIG_FRAME.scales, MTSLOPTUI_CONFIG_FRAME.ChangeScaleNpcHandler)
     end,
 
     CreateDropDownScaleOptionsMenu = function(self, level)
@@ -533,6 +559,10 @@ MTSLOPTUI_CONFIG_FRAME = {
         MTSLOPTUI_CONFIG_FRAME:ChangeOrientation("DATABASE", value, text)
     end,
 
+    ChangeOrientationNpcHandler = function(value, text)
+        MTSLOPTUI_CONFIG_FRAME:ChangeOrientation("NPC", value, text)
+    end,
+
     ChangeOrientation = function(self, dropdown_name, value, text)
         self.split_modes[dropdown_name] = value
         UIDropDownMenu_SetText(self.ui_frame["orientation_" .. string.lower(dropdown_name) .. "_drop_down"], text)
@@ -551,6 +581,10 @@ MTSLOPTUI_CONFIG_FRAME = {
 
     ChangeScaleDatabaseHandler = function(value, text)
         MTSLOPTUI_CONFIG_FRAME:ChangeScale("DATABASE", value, text)
+    end,
+
+    ChangeScaleNpcHandler = function(value, text)
+        MTSLOPTUI_CONFIG_FRAME:ChangeScale("NPC", value, text)
     end,
 
     ChangeScaleOptionsMenuHandler = function(value, text)
@@ -605,12 +639,6 @@ MTSLOPTUI_CONFIG_FRAME = {
         MTSLUI_SAVED_VARIABLES:SetEnhancedTooltipActive(self.tooltip_check:GetChecked())
         MTSLUI_SAVED_VARIABLES:SetEnhancedTooltipFaction(self.tooltip_faction)
 
-        -- MTSLUI_SAVED_VARIABLES:SetPatchLevelMTSL(self.patch_level_mtsl)
-        -- Refresh the text shown for current phase on each filter frame
-        -- MTSLUI_MISSING_TRADESKILLS_FRAME.skill_list_filter_frame:UpdateCurrentPhase(MTSLUI_SAVED_VARIABLES:GetPatchLevelMTSL())
-        -- MTSLUI_ACCOUNT_EXPLORER_FRAME.skill_list_filter_frame:UpdateCurrentPhase(MTSLUI_SAVED_VARIABLES:GetPatchLevelMTSL())
-        -- MTSLUI_DATABASE_EXPLORER_FRAME.skill_list_filter_frame:UpdateCurrentPhase(MTSLUI_SAVED_VARIABLES:GetPatchLevelMTSL())
-
         MTSLUI_SAVED_VARIABLES:SetMTSLLocation(self.location_mtsl)
 
         MTSLUI_SAVED_VARIABLES:SetSplitModes(self.split_modes)
@@ -642,12 +670,14 @@ MTSLOPTUI_CONFIG_FRAME = {
         MTSLUI_SAVED_VARIABLES:SetMTSLLocation(self.location_mtsl)
 
         UIDropDownMenu_SetText(self.ui_frame.orientation_mtsl_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("MTSL"))))
-        UIDropDownMenu_SetText(self.ui_frame.orientation_database_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("ACCOUNT"))))
+        UIDropDownMenu_SetText(self.ui_frame.orientation_account_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("ACCOUNT"))))
         UIDropDownMenu_SetText(self.ui_frame.orientation_database_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("DATABASE"))))
+        UIDropDownMenu_SetText(self.ui_frame.orientation_npc_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("NPC"))))
 
         UIDropDownMenu_SetText(self.ui_frame.scale_mtsl_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("MTSL"))
         UIDropDownMenu_SetText(self.ui_frame.scale_account_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("ACCOUNT"))
         UIDropDownMenu_SetText(self.ui_frame.scale_database_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("DATABASE"))
+        UIDropDownMenu_SetText(self.ui_frame.scale_npc_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("NPC"))
         UIDropDownMenu_SetText(self.ui_frame.scale_optionsmenu_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("OPTIONSMENU"))
 
         UIDropDownMenu_SetText(self.ui_frame.font_type_drop_down, MTSLUI_PLAYER.FONT.NAME)

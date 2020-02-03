@@ -46,4 +46,15 @@ MTSL_LOGIC_QUEST = {
 
         return nil
     end,
+
+    -----------------------------------------------------------------------------------------------
+    -- Gets a quest based on its id
+    --
+    -- @quest_id		Number		The id of the quest to search
+    --
+    -- return			Object		Found quest
+    ------------------------------------------------------------------------------------------------
+    GetQuestById = function(self, id)
+        return MTSL_TOOLS:GetItemFromSortedListById(MTSL_DATA["quests"], id)
+    end,
 }

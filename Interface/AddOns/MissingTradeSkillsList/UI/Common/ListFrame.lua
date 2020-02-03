@@ -11,6 +11,7 @@ MTSLUI_LIST_FRAME = {
     MAX_ITEMS_SHOWN_CURRENTLY = 16, -- default mode
     MAX_ITEMS_SHOWN_VERTICAL = 16,
     MAX_ITEMS_SHOWN_HORIZONTAL = 7,
+    MAX_ITEMS_SHOWN,
     ITEM_HEIGHT = 19,
     -- array holding the buttons of this frame
     LIST_BUITTONS,
@@ -45,8 +46,13 @@ MTSLUI_LIST_FRAME = {
         self.LIST_BUITTONS = {}
         local left = 6
         local top = -6
-        -- intialise all buttons
-        for i=1,self.MAX_ITEMS_SHOWN_VERTICAL do
+        -- Determine the number of max items ever shown
+        self.MAX_ITEMS_SHOWN = self.MAX_ITEMS_SHOWN_VERTICAL
+        if self.MAX_ITEMS_SHOWN_HORIZONTAL > self.MAX_ITEMS_SHOWN then
+            self.MAX_ITEMS_SHOWN = self.MAX_ITEMS_SHOWN_HORIZONTAL
+        end
+        -- initialise all buttons
+        for i=1,self.MAX_ITEMS_SHOWN do
             -- Create a new list item (button) by making a copy of MTSLUI_LIST_ITEM
             local skill_button = MTSL_TOOLS:CopyObject(MTSLUI_LIST_ITEM)
             skill_button:Initialise(i, self, self.FRAME_WIDTH_VERTICAL - 7, self.ITEM_HEIGHT, left, top)
@@ -168,7 +174,7 @@ MTSLUI_LIST_FRAME = {
             end
         end
         -- hide the remaining buttons not shown when using horizontal split
-        for i=self.MAX_ITEMS_SHOWN_CURRENTLY + 1,self.MAX_ITEMS_SHOWN_VERTICAL do
+        for i=self.MAX_ITEMS_SHOWN_CURRENTLY + 1,self.MAX_ITEMS_SHOWN do
             self.LIST_BUITTONS[i]:Hide()
         end
     end,
@@ -246,7 +252,7 @@ MTSLUI_LIST_FRAME = {
                 -- Select the current button if visible
                 self:SelectCurrentSkillButton()
                 -- scrolled of screen so remove selected id
-                if self.selected_button_index == nil or self.selected_button_index < 1 or self.selected_button_index > self.MAX_ITEMS_SHOWN_VERTICAL then
+                if self.selected_button_index == nil or self.selected_button_index < 1 or self.selected_button_index > self.MAX_ITEMS_SHOWN_CURRENTLY then
                     self.selected_list_item_id = nil
                 end
             end
@@ -289,7 +295,7 @@ MTSLUI_LIST_FRAME = {
     SelectCurrentSkillButton = function (self)
         if self.selected_button_index ~= nil and
                 self.selected_button_index >= 1 and
-                self.selected_button_index <= self.MAX_ITEMS_SHOWN_VERTICAL then
+                self.selected_button_index <= self.MAX_ITEMS_SHOWN_CURRENTLY then
             self.LIST_BUITTONS[self.selected_button_index]:Select()
         end
     end,
@@ -300,7 +306,7 @@ MTSLUI_LIST_FRAME = {
     DeselectCurrentSkillButton = function (self)
         if self.selected_button_index ~= nil and
                 self.selected_button_index >= 1 and
-                self.selected_button_index <= self.MAX_ITEMS_SHOWN_VERTICAL then
+                self.selected_button_index <= self.MAX_ITEMS_SHOWN_CURRENTLY then
             self.LIST_BUITTONS[self.selected_button_index]:Deselect()
         end
     end,
@@ -349,11 +355,9 @@ MTSLUI_LIST_FRAME = {
     -- Change the name of skills searched for
     ----------------------------------------------------------------------------------------------------------
     ChangeSearchNameSkill = function(self, new_search_name_skill)
-        print("Searching for " .. new_search_name_skill)
         -- Only change if new one
         if self.search_name_skill ~= new_search_name_skill then
             self.search_name_skill = new_search_name_skill
-            print("Actualy searching")
             self:RefreshList()
         end
     end,

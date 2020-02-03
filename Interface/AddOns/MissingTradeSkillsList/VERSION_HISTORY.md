@@ -1,5 +1,20 @@
 ## Version History
 
+### v1.13.34 (Feb 3, 2020)
+
+* Update skills know count number to now show the number for the current phase but also total number after all content is released
+    * Updated numbers in progressbar to not only show current max amount of recipes but also the total in the end (= number between [])
+    * Updated numbers in Database explorer under each profession icon to not only show current max amount of recipes but also the total in the end (= number between [])
+    * Extra number between [] is not shown if current phase already has all total skills to be released
+* Added NPC explorer frame (/mtsl npc or alt + left click on minimap button)
+    * Shows a list of all available NPCs that teaches a skill, drop/vendor recipe or start quest
+    * Ability to filter by: Name, Faction, Profession, Type/Source, trainer rank, Zone 
+    * Icons showing standing of NPC (skull if hostile/mob, mix Alliance/horde icon for Neutral)
+    * Icons showing the profession to which the skill belongs
+* Added options to config menu to allow scaling & setting of splitmode of NPC explorer frame
+* Added buttons to each Explorer frame to be quickly swap to another explorer frame (Between Account, Database and NPC)
+* Corrected & verified all Blacksmithing data
+
 ### v1.13.33 (Jan 24, 2020)
 
 * Fixed bug that prevented minimap settings from being saved
@@ -10,6 +25,7 @@
 * Added more localisation strings
 * Fixed bug where addon frames sometimes where not always shown on top
 * Improved moving minimap button code, it should move smoothly now
+* Set patch level of content back to 2 instead of 3
 
 ### v1.13.32 (Jan 19, 2020)
 

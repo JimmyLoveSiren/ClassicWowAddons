@@ -264,6 +264,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.min_skill.value:SetText("-")
         self.labels.requires_xp.value:SetText("-")
         self.labels.requires_rep.value:SetText("-")
+        self.labels.requires_spec.value:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. "-")
         self.labels.holiday.value:SetText("-")
         self.labels.special_action.value:SetText("-")
         self.labels.price.value:SetText("-")
@@ -602,6 +603,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
             self:SetRequiredPhase(item.phase)
             self:SetRequiredXPLevel(item.min_xp_level)
             self:SetRequiredReputationWithFaction(item.reputation)
+            self:SetRequiredSpecialAction(item.special_action)
             self:SetRequiresHoliday(item.holiday)
             self:SetSourceType(MTSLUI_FONTS:GetTextColorByItemQuality(item.quality) .. MTSLUI_TOOLS:GetLocalisedData(item), is_alternative_source, is_primary_type)
 
@@ -702,13 +704,14 @@ MTSLUI_SKILL_DETAIL_FRAME = {
                 end
                 -- Obtained by interacting with an object
                 if has_objects > 0 then
+                    local objects = MTSL_LOGIC_ITEM_OBJECT:GetObjectsByIds(item.objects)
                     -- primary source since no vendors or quests or drops
                     if has_vendors <= 0 and has_quests <= 0 and has_drops <= 0 then
-                        self:ShowDetailsOfObjects(item.objects, 0)
+                        self:ShowDetailsOfObjects(objects, 0)
                     else
                         -- also set the recipe as alternative source item
                         self:SetSourceType(MTSLUI_FONTS:GetTextColorByItemQuality(item.quality) .. MTSLUI_TOOLS:GetLocalisedData(item), 1, is_primary_type)
-                        self:ShowDetailsOfObjects(item.objects, 1)
+                        self:ShowDetailsOfObjects(objects, 1)
                     end
                 end
             end
@@ -898,7 +901,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         labels_sources.ui_frame:Show()
         for i=1, amount_labels do
             if objects[i] ~= nil then
-                local text =  "[" .. MTSLUI_TOOLS:GetLocalisedLabel("object").. "] " ..  MTSLUI_TOOLS:GetLocalisedData(objects[i]) .. " - " ..  MTSL_LOGIC_WORLD:GetZoneNameById(objects[i].zone_id)
+                local text =  "[" .. MTSLUI_TOOLS:GetLocalisedLabel("object") .. "] " ..  MTSLUI_TOOLS:GetLocalisedData(objects[i]) .. " - " ..  MTSL_LOGIC_WORLD:GetZoneNameById(objects[i].zone_id)
                 -- add coords if known
                 if objects[i].location ~= nil and objects[i].location.x ~= "-" and
                         objects[i].location.x ~= "" then

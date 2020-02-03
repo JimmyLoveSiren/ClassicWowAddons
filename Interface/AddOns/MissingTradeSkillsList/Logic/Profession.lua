@@ -346,7 +346,7 @@ MTSL_LOGIC_PROFESSION = {
     -- return				Number		the number
     ------------------------------------------------------------------------------------------------
     GetTotalNumberOfAvailableSkillsForProfession = function(self, profession_name, max_phase)
-        if max_phase ==MTSL_DATA.CURRENT_PATCH_LEVEL then
+        if max_phase == MTSL_DATA.CURRENT_PATCH_LEVEL then
             return MTSL_DATA["AMOUNT_SKILLS_CURRENT_PHASE"][profession_name]
         else
             return MTSL_DATA["AMOUNT_SKILLS"][profession_name]
@@ -399,5 +399,33 @@ MTSL_LOGIC_PROFESSION = {
             return MTSLUI_TOOLS:GetLocalisedData(spec)
         end
         return ""
-    end
+    end,
+
+    -----------------------------------------------------------------------------------------------
+    -- Get the name of the profession based on a skill
+    --
+    -- @skill               Object      The skill for which we search the profession
+    --
+    -- return				String      The name of the profession
+    ------------------------------------------------------------------------------------------------
+    GetProfessionNameBySkill = function(self, skill)
+        local profession_name = ""
+        local p = 1
+        -- loop each profession until we find it
+        while profession_name == "" and MTSL_NAME_PROFESSIONS[p] ~= nil do
+            -- loop each skill for this profession and compare to skill we seek
+            local skills = self:GetAllSkillsAndLevelsForProfession(MTSL_NAME_PROFESSIONS[p])
+            local s = 1
+            while profession_name == "" and skills[s] ~= nil do
+                if skills[s] == skill then
+                    profession_name = MTSL_NAME_PROFESSIONS[p]
+                end
+                -- next skill
+                s = s + 1
+            end
+            -- next profession
+            p = p + 1
+        end
+        return profession_name
+    end,
 }

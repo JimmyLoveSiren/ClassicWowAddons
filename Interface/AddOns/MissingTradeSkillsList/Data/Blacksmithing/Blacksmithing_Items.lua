@@ -38,8 +38,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 37,
+				["min_xp_level"] = 15,
+				["max_xp_level"] = 30,
 			},
 		},
 		["id"] = 2882,
@@ -60,8 +60,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 58,
+				["min_xp_level"] = 15,
+				["max_xp_level"] = 30,
 			},
 		},
 		["id"] = 2883,
@@ -82,8 +82,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 37,
+				["min_xp_level"] = 20,
+				["max_xp_level"] = 35,
 			},
 		},
 		["id"] = 3608,
@@ -148,8 +148,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 43,
+				["min_xp_level"] = 20,
+				["max_xp_level"] = 35,
 			},
 		},
 		["id"] = 3611,
@@ -170,8 +170,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 37,
+				["min_xp_level"] = 20,
+				["max_xp_level"] = 35,
 			},
 		},
 		["id"] = 3612,
@@ -192,8 +192,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 43,
+				["min_xp_level"] = 25,
+				["max_xp_level"] = 40,
 			},
 		},
 		["id"] = 3866,
@@ -214,8 +214,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 59,
+				["min_xp_level"] = 25,
+				["max_xp_level"] = 40,
 			},
 		},
 		["id"] = 3867,
@@ -236,8 +236,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 58,
+				["min_xp_level"] = 30,
+				["max_xp_level"] = 45,
 			},
 		},
 		["id"] = 3868,
@@ -258,8 +258,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 50,
+				["min_xp_level"] = 30,
+				["max_xp_level"] = 45,
 			},
 		},
 		["id"] = 3869,
@@ -302,8 +302,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 41,
+				["min_xp_level"] = 25,
+				["max_xp_level"] = 40,
 			},
 		},
 		["id"] = 3871,
@@ -324,8 +324,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 41,
+				["min_xp_level"] = 25,
+				["max_xp_level"] = 40,
 			},
 		},
 		["id"] = 3872,
@@ -346,8 +346,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 47,
+				["min_xp_level"] = 30,
+				["max_xp_level"] = 45,
 			},
 		},
 		["id"] = 3873,
@@ -368,8 +368,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 47,
+				["min_xp_level"] = 30,
+				["max_xp_level"] = 45,
 			},
 		},
 		["id"] = 3874,
@@ -391,7 +391,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		["drops"] = {
 			["mobs_range"] = {
 				["min_xp_level"] = 30,
-				["max_xp_level"] = 46,
+				["max_xp_level"] = 45,
 			},
 		},
 		["id"] = 3875,
@@ -412,8 +412,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 37,
+				["min_xp_level"] = 20,
+				["max_xp_level"] = 35,
 			},
 		},
 		["id"] = 5543,
@@ -434,8 +434,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 37,
+				["min_xp_level"] = 15,
+				["max_xp_level"] = 30,
 			},
 		},
 		["id"] = 5578,
@@ -456,8 +456,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 38,
+				["min_xp_level"] = 20,
+				["max_xp_level"] = 35,
 			},
 		},
 		["id"] = 6044,
@@ -478,8 +478,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 42,
+				["min_xp_level"] = 25,
+				["max_xp_level"] = 40,
 			},
 		},
 		["id"] = 6045,
@@ -563,8 +563,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 54,
+				["min_xp_level"] = 35,
+				["max_xp_level"] = 50,
 			},
 		},
 		["id"] = 7975,
@@ -585,8 +585,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 35,
+				["max_xp_level"] = 50,
 			},
 		},
 		["id"] = 7976,
@@ -759,8 +759,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 58,
+				["min_xp_level"] = 40,
+				["max_xp_level"] = 55,
 			},
 		},
 		["id"] = 7989,
@@ -781,8 +781,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 60,
+				["min_xp_level"] = 40,
+				["max_xp_level"] = 55,
 			},
 		},
 		["id"] = 7990,
@@ -803,8 +803,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 40,
+				["max_xp_level"] = 55,
 			},
 		},
 		["id"] = 7991,
@@ -825,8 +825,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 52,
+				["min_xp_level"] = 35,
+				["max_xp_level"] = 50,
 			},
 		},
 		["id"] = 7992,
@@ -847,8 +847,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 57,
+				["min_xp_level"] = 40,
+				["max_xp_level"] = 55,
 			},
 		},
 		["id"] = 7993,
@@ -892,8 +892,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 40,
+				["max_xp_level"] = 55,
 			},
 		},
 		["id"] = 8028,
@@ -914,8 +914,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 52,
+				["min_xp_level"] = 35,
+				["max_xp_level"] = 50,
 			},
 		},
 		["id"] = 8029,
@@ -977,8 +977,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 59,
+				["min_xp_level"] = 20,
+				["max_xp_level"] = 35,
 			},
 		},
 		["id"] = 10424,
@@ -998,14 +998,15 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["English"] = "Plans: Inlaid Mithril Cylinder",
 		},
 		["special_action"] = {
-			["German"] = "Hergestellt vom einem gnomischen Ingenieur",
-			["Spanish"] = "Hecho por el ingeniero gnomo",
-			["English"] = "Made by gnomish engineer",
-			["Chinese"] = "由侏儒工程师制造",
-			["Russian"] = "Сделано гномским инженером",
-			["Korean"] = "그놈 엔지니어가 제작",
-			["French"] = "Fabriqué par un ingénieur gnome",
-			["Portuguese"] = "Feito pelo engenheiro gnômico",
+			["English"] = "Made by gnomish engineer (205)",
+			["German"] = "Hergestellt vom einem gnomischen Ingenieur (205)",
+			["Spanish"] = "Hecho por el ingeniero gnomo (205)",
+			["Mexican"] = "Hecho por el ingeniero gnomo (205)",
+			["French"] = "Fabriqué par un ingénieur gnome (205)",
+			["Portuguese"] = "Feito pelo engenheiro gnômico (205)",
+			["Russian"] = "Сделано гномским инженером (205)",
+			["Korean"] = "그놈 엔지니어가 제작 (205)",
+			["Chinese"] = "由侏儒工程师制造 (205)",
 		},
 		["id"] = 10713,
 		["phase"] = 1,
@@ -1111,11 +1112,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["Russian"] = "Чертеж: кольчуга из черного железа",
 			["English"] = "Plans: Dark Iron Mail",
 		},
-		["drops"] = {
-			["mobs_range"] = {
-				["min_xp_level"] = 6,
-				["max_xp_level"] = 56,
-			},
+		["objects"] = {
+			173232,
 		},
 		["id"] = 11614,
 		["phase"] = 1,
@@ -1133,11 +1131,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["Russian"] = "Чертеж: наплечники из черного железа",
 			["English"] = "Plans: Dark Iron Shoulders",
 		},
-		["drops"] = {
-			["mobs_range"] = {
-				["min_xp_level"] = 6,
-				["max_xp_level"] = 55,
-			},
+		["objects"] = {
+			173234,
 		},
 		["id"] = 11615,
 		["phase"] = 1,
@@ -1226,8 +1221,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 31,
-				["max_xp_level"] = 45,
+				["min_xp_level"] = 30,
+				["max_xp_level"] = 40,
 			},
 		},
 		["id"] = 12261,
@@ -1248,8 +1243,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12682,
@@ -1270,8 +1265,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12683,
@@ -1292,8 +1287,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12684,
@@ -1314,8 +1309,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12685,
@@ -1374,8 +1369,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12689,
@@ -1415,8 +1410,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12691,
@@ -1437,8 +1432,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12692,
@@ -1459,8 +1454,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12693,
@@ -1481,8 +1476,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
-				["max_xp_level"] = 63,
+				["min_xp_level"] = 45,
+				["max_xp_level"] = 60,
 			},
 		},
 		["id"] = 12694,
@@ -1503,7 +1498,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
+				["min_xp_level"] = 50,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1544,7 +1539,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
+				["min_xp_level"] = 50,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1566,7 +1561,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 58,
+				["min_xp_level"] = 50,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1645,7 +1640,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
+				["min_xp_level"] = 50,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1667,7 +1662,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
+				["min_xp_level"] = 50,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1695,7 +1690,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
+				["min_xp_level"] = 50,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1778,7 +1773,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
+				["min_xp_level"] = 50,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1800,7 +1795,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 10,
+				["min_xp_level"] = 55,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1884,7 +1879,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 59,
+				["min_xp_level"] = 60,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -1949,7 +1944,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 59,
+				["min_xp_level"] = 60,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -2028,7 +2023,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 58,
+				["min_xp_level"] = 60,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -2149,11 +2144,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["Russian"] = "Чертеж: Безмятежность",
 			["English"] = "Plans: Serenity",
 		},
-		["drops"] = {
-			["mobs_range"] = {
-				["min_xp_level"] = 6,
-				["max_xp_level"] = 60,
-			},
+		["objects"] = {
+			176325,
 		},
 		["id"] = 12827,
 		["phase"] = 1,
@@ -2192,11 +2184,8 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["Russian"] = "Чертеж: Порча",
 			["English"] = "Plans: Corruption",
 		},
-		["drops"] = {
-			["mobs_range"] = {
-				["min_xp_level"] = 6,
-				["max_xp_level"] = 61,
-			},
+		["objects"] = {
+			176327,
 		},
 		["id"] = 12830,
 		["phase"] = 1,
@@ -2370,6 +2359,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 17049,
 		["quality"] = "rare",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 6,
+		},
 	}, -- [111]
 	{
 		["vendors"] = {
@@ -2392,6 +2385,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 17051,
 		["quality"] = "rare",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 5,
+		},
 	}, -- [112]
 	{
 		["vendors"] = {
@@ -2414,6 +2411,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 17052,
 		["quality"] = "rare",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 7,
+		},
 	}, -- [113]
 	{
 		["vendors"] = {
@@ -2436,6 +2437,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 17053,
 		["quality"] = "rare",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 7,
+		},
 	}, -- [114]
 	{
 		["vendors"] = {
@@ -2458,6 +2463,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 17059,
 		["quality"] = "rare",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 6,
+		},
 	}, -- [115]
 	{
 		["vendors"] = {
@@ -2480,6 +2489,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 17060,
 		["quality"] = "rare",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 8,
+		},
 	}, -- [116]
 	{
 		["name"] = {
@@ -2514,9 +2527,14 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["English"] = "Plans: Elemental Sharpening Stone",
 		},
 		["drops"] = {
-			["mobs_range"] = {
-				["min_xp_level"] = 61,
-				["max_xp_level"] = 63,
+			["mobs"] = {
+				11982,
+				11988,
+				12056,
+				12057,
+				12118,
+				12259,
+				12264,
 			},
 		},
 		["id"] = 18264,
@@ -2614,7 +2632,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 	}, -- [123]
 	{
 		["vendors"] = {
-			["price"] = 20000,
+			["price"] = 22000,
 			["sources"] = {
 				11557, -- [1]
 			},
@@ -2633,10 +2651,14 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19202,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 576,
+			["level_id"] = 6,
+		},
 	}, -- [124]
 	{
 		["vendors"] = {
-			["price"] = 20000,
+			["price"] = 22000,
 			["sources"] = {
 				10856, -- [1]
 				10857, -- [2]
@@ -2657,6 +2679,11 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19203,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 529,
+			["level_id"] = 6,
+		},
+
 	}, -- [125]
 	{
 		["vendors"] = {
@@ -2679,6 +2706,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19204,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 576,
+			["level_id"] = 7,
+		},
 	}, -- [126]
 	{
 		["vendors"] = {
@@ -2703,6 +2734,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19205,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 529,
+			["level_id"] = 7,
+		},
 	}, -- [127]
 	{
 		["vendors"] = {
@@ -2725,6 +2760,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19206,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 6,
+		},
 	}, -- [128]
 	{
 		["vendors"] = {
@@ -2747,6 +2786,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19207,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 7,
+		},
 	}, -- [129]
 	{
 		["vendors"] = {
@@ -2769,6 +2812,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19208,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 7,
+		},
 	}, -- [130]
 	{
 		["vendors"] = {
@@ -2791,6 +2838,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19209,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 7,
+		},
 	}, -- [131]
 	{
 		["vendors"] = {
@@ -2813,6 +2864,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19210,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 8,
+		},
 	}, -- [132]
 	{
 		["vendors"] = {
@@ -2835,6 +2890,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19211,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 8,
+		},
 	}, -- [133]
 	{
 		["vendors"] = {
@@ -2857,6 +2916,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19212,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 8,
+		},
 	}, -- [134]
 	{
 		["vendors"] = {
@@ -2879,6 +2942,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19776,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 270,
+			["level_id"] = 7,
+		},
 	}, -- [135]
 	{
 		["vendors"] = {
@@ -2901,6 +2968,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19777,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 270,
+			["level_id"] = 6,
+		},
 	}, -- [136]
 	{
 		["vendors"] = {
@@ -2923,6 +2994,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19778,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 270,
+			["level_id"] = 5,
+		},
 	}, -- [137]
 	{
 		["vendors"] = {
@@ -2945,6 +3020,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19779,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 270,
+			["level_id"] = 7,
+		},
 	}, -- [138]
 	{
 		["vendors"] = {
@@ -2967,6 +3046,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19780,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 270,
+			["level_id"] = 6,
+		},
 	}, -- [139]
 	{
 		["vendors"] = {
@@ -2989,6 +3072,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 19781,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 270,
+			["level_id"] = 5,
+		},
 	}, -- [140]
 	{
 		["vendors"] = {
@@ -3011,6 +3098,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 20040,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 59,
+			["level_id"] = 8,
+		},
 	}, -- [141]
 	{
 		["name"] = {
@@ -3025,14 +3116,15 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["English"] = "Plans: Darkrune Gauntlets",
 		},
 		["special_action"] = {
-			["German"] = "Zufällige Belohnung",
-			["Spanish"] = "Recompensa aleatoria",
-			["English"] = "Random reward",
-			["Chinese"] = "随机奖励",
-			["Russian"] = "Случайная награда",
-			["Korean"] = "무작위 보상",
-			["French"] = "Récompense aléatoire",
-			["Portuguese"] = "Recompensa aleatória",
+			["English"] = MTSLUI_LOCALES_LABELS["random reward"]["English"],
+			["German"] = MTSLUI_LOCALES_LABELS["random reward"]["German"],
+			["French"] = MTSLUI_LOCALES_LABELS["random reward"]["French"],
+			["Spanish"] = MTSLUI_LOCALES_LABELS["random reward"]["Spanish"],
+			["Mexican"] = MTSLUI_LOCALES_LABELS["random reward"]["Mexican"],
+			["Portuguese"] = MTSLUI_LOCALES_LABELS["random reward"]["Portuguese"],
+			["Russian"] = MTSLUI_LOCALES_LABELS["random reward"]["Russian"],
+			["Korean"] = MTSLUI_LOCALES_LABELS["random reward"]["Korean"],
+			["Chinese"] = MTSLUI_LOCALES_LABELS["random reward"]["Chinese"],
 		},
 		["id"] = 20553,
 		["phase"] = 4,
@@ -3054,14 +3146,15 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["English"] = "Plans: Darkrune Breastplate",
 		},
 		["special_action"] = {
-			["German"] = "Zufällige Belohnung",
-			["Spanish"] = "Recompensa aleatoria",
-			["English"] = "Random reward",
-			["Chinese"] = "随机奖励",
-			["Russian"] = "Случайная награда",
-			["Korean"] = "무작위 보상",
-			["French"] = "Récompense aléatoire",
-			["Portuguese"] = "Recompensa aleatória",
+			["English"] = MTSLUI_LOCALES_LABELS["random reward"]["English"],
+			["German"] = MTSLUI_LOCALES_LABELS["random reward"]["German"],
+			["French"] = MTSLUI_LOCALES_LABELS["random reward"]["French"],
+			["Spanish"] = MTSLUI_LOCALES_LABELS["random reward"]["Spanish"],
+			["Mexican"] = MTSLUI_LOCALES_LABELS["random reward"]["Mexican"],
+			["Portuguese"] = MTSLUI_LOCALES_LABELS["random reward"]["Portuguese"],
+			["Russian"] = MTSLUI_LOCALES_LABELS["random reward"]["Russian"],
+			["Korean"] = MTSLUI_LOCALES_LABELS["random reward"]["Korean"],
+			["Chinese"] = MTSLUI_LOCALES_LABELS["random reward"]["Chinese"],
 		},
 		["id"] = 20554,
 		["phase"] = 4,
@@ -3083,14 +3176,15 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["English"] = "Plans: Darkrune Helm",
 		},
 		["special_action"] = {
-			["German"] = "Zufällige Belohnung",
-			["Spanish"] = "Recompensa aleatoria",
-			["English"] = "Random reward",
-			["Chinese"] = "随机奖励",
-			["Russian"] = "Случайная награда",
-			["Korean"] = "무작위 보상",
-			["French"] = "Récompense aléatoire",
-			["Portuguese"] = "Recompensa aleatória",
+			["English"] = MTSLUI_LOCALES_LABELS["random reward"]["English"],
+			["German"] = MTSLUI_LOCALES_LABELS["random reward"]["German"],
+			["French"] = MTSLUI_LOCALES_LABELS["random reward"]["French"],
+			["Spanish"] = MTSLUI_LOCALES_LABELS["random reward"]["Spanish"],
+			["Mexican"] = MTSLUI_LOCALES_LABELS["random reward"]["Mexican"],
+			["Portuguese"] = MTSLUI_LOCALES_LABELS["random reward"]["Portuguese"],
+			["Russian"] = MTSLUI_LOCALES_LABELS["random reward"]["Russian"],
+			["Korean"] = MTSLUI_LOCALES_LABELS["random reward"]["Korean"],
+			["Chinese"] = MTSLUI_LOCALES_LABELS["random reward"]["Chinese"],
 		},
 		["id"] = 20555,
 		["phase"] = 4,
@@ -3164,7 +3258,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["English"] = "Plans: Jagged Obsidian Shield",
 		},
 		["vendors"] = {
-			["price"] = 0,
+			["price"] = 50000,
 			["sources"] = {
 				15471, -- [1]
 			},
@@ -3211,7 +3305,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 			["English"] = "Plans: Obsidian Mail Tunic",
 		},
 		["vendors"] = {
-			["price"] = 0,
+			["price"] = 80000,
 			["sources"] = {
 				15471, -- [1]
 			},
@@ -3303,7 +3397,7 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["drops"] = {
 			["mobs_range"] = {
-				["min_xp_level"] = 61,
+				["min_xp_level"] = 60,
 				["max_xp_level"] = 63,
 			},
 		},
@@ -3332,6 +3426,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 22766,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 609,
+			["level_id"] = 7,
+		},
 	}, -- [154]
 	{
 		["vendors"] = {
@@ -3354,6 +3452,10 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 22767,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 609,
+			["level_id"] = 6,
+		},
 	}, -- [155]
 	{
 		["vendors"] = {
@@ -3376,5 +3478,9 @@ MTSL_DATA["Blacksmithing"]["items"] = {
 		},
 		["id"] = 22768,
 		["quality"] = "common",
+		["reputation"] = {
+			["faction_id"] = 609,
+			["level_id"] = 5,
+		},
 	}, -- [156]
 }

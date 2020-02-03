@@ -34,10 +34,10 @@ MTSLUI_EVENT_HANDLER = {
 				MTSLUI_TOGGLE_BUTTON:Initialise()
 				-- Create the MTSL window expanding tradeskill/craft window)
 				MTSLUI_MISSING_TRADESKILLS_FRAME:Initialise()
-				-- Create char window acountwide (Disabled for now)
+				-- Initialise the explorer frames
 				MTSLUI_ACCOUNT_EXPLORER_FRAME:Initialise()
-				-- Create database explorer window
 				MTSLUI_DATABASE_EXPLORER_FRAME:Initialise()
+				MTSLUI_NPC_EXPLORER_FRAME:Initialise()
 				-- Create the options menu
 				MTSLUI_OPTIONS_MENU_FRAME:Initialise()
 				-- Load the saved variables for UI
@@ -245,6 +245,9 @@ MTSLUI_EVENT_HANDLER = {
 				MTSLUI_DATABASE_EXPLORER_FRAME:Show()
 				MTSLUI_DATABASE_EXPLORER_FRAME:RefreshUI()
 			end
+		elseif msg == "npc" then
+			MTSLUI_NPC_EXPLORER_FRAME:Show()
+			MTSLUI_NPC_EXPLORER_FRAME:RefreshUI()
 		elseif msg == "about" then
             MTSLUI_TOOLS:PrintAboutMessage()
 		elseif msg == nil or msg == "" or msg == "options" or msg == "config" then

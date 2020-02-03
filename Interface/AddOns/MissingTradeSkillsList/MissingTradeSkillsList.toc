@@ -3,7 +3,7 @@
 ## Author: Thumbkin
 ## Notes: Shows missing skills & recipes for a profession and where to get them.
 ## SavedVariables: MTSL_PLAYERS, MTSLUI_PLAYER
-## Version: 1.13.33
+## Version: 1.13.34
 
 #
 # Load all global variables, saved variables & locale
@@ -109,6 +109,9 @@ UI\Common\ListItem.lua
 UI\Common\ListFrame.lua
 UI\Common\PlayerListFrame.lua
 UI\Common\FilterFrame.lua
+UI\Common\NpcFilterFrame.lua
+UI\Common\NpcListFrame.lua
+UI\Common\NpcSkillListFrame.lua
 UI\Common\PlayerFilterFrame.lua
 UI\Common\ProfessionListFrame.lua
 UI\Common\ProgressBar.lua
@@ -124,6 +127,7 @@ UI\Options\ResetFrame.lua
 # MainFrames
 UI\MainFrames\AccountExplorerFrame.lua
 UI\MainFrames\DatabaseExplorerFrame.lua
+UI\MainFrames\NpcExplorerFrame.lua
 UI\MainFrames\OptionsMenuFrame.lua
 UI\MainFrames\ToggleButton.lua
 UI\MainFrames\MissingTradeSkillsFrame.lua

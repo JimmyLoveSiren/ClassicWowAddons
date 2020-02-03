@@ -408,7 +408,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [12]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 1000,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -439,7 +439,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [13]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 1000,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -768,7 +768,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [22]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 1000,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -929,7 +929,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [27]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 1000,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -1264,7 +1264,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [38]
 	{
 		["trainers"] = {
-			["price"] = 450,
+			["price"] = 500,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -1295,7 +1295,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [39]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 1000,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -1360,7 +1360,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [42]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 1000,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -1558,7 +1558,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [52]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 1000,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -1582,7 +1582,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [53]
 	{
 		["trainers"] = {
-			["price"] = 1125,
+			["price"] = 1250,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -1657,7 +1657,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [57]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 5000,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -1698,7 +1698,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [59]
 	{
 		["trainers"] = {
-			["price"] = 6750,
+			["price"] = 7500,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -1855,7 +1855,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [67]
 	{
 		["trainers"] = {
-			["price"] = 900,
+			["price"] = 1000,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -1998,47 +1998,6 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 		["id"] = 7818,
 	}, -- [72]
 	{
-		["trainers"] = {
-			["price"] = 0,
-			["sources"] = {
-				514,
-				957,
-				1241,
-				1383,
-				2836,
-				2998,
-				3136,
-				3174,
-				3355,
-				3478,
-				3557,
-				4258,
-				4596,
-				4605,
-				5511,
-				6299,
-				10266,
-				10276,
-				10277,
-				10278,
-			},
-		},
-		["name"] = {
-			["German"] = "Ironforgekette",
-			["Spanish"] = "Anillas de Forjaz",
-			["Chinese"] = "铁炉堡链甲",
-			["Korean"] = "아이언포지 사슬 갑옷",
-			["French"] = "Cotte d'anneaux d'Ironforge",
-			["Portuguese"] = "Corrente de Altaforja",
-			["Mexican"] = "Cota de malla de Forjaz",
-			["Russian"] = "Стальгорнская кольчуга",
-			["English"] = "Ironforge Chain",
-		},
-		["min_skill"] = 70,
-		["phase"] = 1,
-		["id"] = 8366,
-	}, -- [73]
-	{
 		["item"] = 6735,
 		["min_skill"] = 100,
 		["id"] = 8367,
@@ -2057,7 +2016,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [74]
 	{
 		["trainers"] = {
-			["price"] = 225,
+			["price"] = 250,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -2250,7 +2209,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [84]
 	{
 		["trainers"] = {
-			["price"] = 2250,
+			["price"] = 2500,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -2274,7 +2233,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [85]
 	{
 		["trainers"] = {
-			["price"] = 2250,
+			["price"] = 2500,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -2298,7 +2257,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [86]
 	{
 		["trainers"] = {
-			["price"] = 2250,
+			["price"] = 2500,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -2322,7 +2281,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [87]
 	{
 		["trainers"] = {
-			["price"] = 2250,
+			["price"] = 2500,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -2346,7 +2305,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [88]
 	{
 		["trainers"] = {
-			["price"] = 4500,
+			["price"] = 5000,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -2370,7 +2329,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [89]
 	{
 		["trainers"] = {
-			["price"] = 4500,
+			["price"] = 5000,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -2394,7 +2353,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [90]
 	{
 		["trainers"] = {
-			["price"] = 45,
+			["price"] = 5000,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -2435,7 +2394,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [92]
 	{
 		["trainers"] = {
-			["price"] = 4500,
+			["price"] = 5000,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -2492,44 +2451,6 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 		["phase"] = 1,
 	}, -- [95]
 	{
-		["trainers"] = {
-			["price"] = 0,
-			["sources"] = {
-				514, -- [1]
-				957, -- [2]
-				1241, -- [3]
-				1383, -- [4]
-				2836, -- [5]
-				2998, -- [6]
-				3174, -- [7]
-				3355, -- [8]
-				3557, -- [9]
-				4258, -- [10]
-				4605, -- [11]
-				5511, -- [12]
-				6299, -- [13]
-				10266, -- [14]
-				10276, -- [15]
-				10277, -- [16]
-				10278, -- [17]
-			},
-		},
-		["name"] = {
-			["German"] = "Mithrilschuppenhandschuhe",
-			["Spanish"] = "Guantes de placas de mitril",
-			["Chinese"] = "秘银鳞片手套",
-			["Korean"] = "미스릴 미늘 장갑",
-			["French"] = "Gants en écailles de mithril",
-			["Portuguese"] = "Luvas de Escama de Mithril",
-			["Mexican"] = "Guantes de escamas de mitril",
-			["Russian"] = "Мифриловые чешуйчатые перчатки",
-			["English"] = "Mithril Scale Gloves",
-		},
-		["min_skill"] = 220,
-		["phase"] = 1,
-		["id"] = 9942,
-	}, -- [96]
-	{
 		["item"] = 7983,
 		["min_skill"] = 220,
 		["id"] = 9945,
@@ -2582,7 +2503,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [99]
 	{
 		["trainers"] = {
-			["price"] = 0,
+			["price"] = 9000,
 			["sources"] = {
 				5164, -- [1]
 				7230, -- [2]
@@ -2629,8 +2550,6 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 			["price"] = 15000,
 			["sources"] = {
 				2836, -- [1]
-				3355, -- [2]
-				4258, -- [3]
 			},
 		},
 		["name"] = {
@@ -2755,7 +2674,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 			["Russian"] = "Изысканная мифриловая кираса",
 			["English"] = "Ornate Mithril Breastplate",
 		},
-		["min_skill"] = 210,
+		["min_skill"] = 240,
 		["phase"] = 1,
 		["quests"] = {
 			2773, -- [1]
@@ -2764,7 +2683,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [108]
 	{
 		["trainers"] = {
-			["price"] = 0,
+			["price"] = 9000,
 			["sources"] = {
 				5164, -- [1]
 				7230, -- [2]
@@ -2799,7 +2718,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 			["Russian"] = "Изысканные мифриловые сапоги",
 			["English"] = "Ornate Mithril Boots",
 		},
-		["min_skill"] = 210,
+		["min_skill"] = 245,
 		["phase"] = 1,
 		["quests"] = {
 			2772, -- [1]
@@ -2818,7 +2737,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 			["Russian"] = "Изысканный мифриловый шлем",
 			["English"] = "Ornate Mithril Helm",
 		},
-		["min_skill"] = 210,
+		["min_skill"] = 245,
 		["phase"] = 1,
 		["quests"] = {
 			2771, -- [1]
@@ -2962,7 +2881,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [115]
 	{
 		["trainers"] = {
-			["price"] = 9000,
+			["price"] = 10000,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -3023,8 +2942,6 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 			["price"] = 15000,
 			["sources"] = {
 				2836, -- [1]
-				3355, -- [2]
-				4258, -- [3]
 			},
 		},
 		["name"] = {
@@ -3044,7 +2961,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [119]
 	{
 		["trainers"] = {
-			["price"] = 0,
+			["price"] = 13500,
 			["sources"] = {
 				7231, -- [1]
 				7232, -- [2]
@@ -3087,7 +3004,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [121]
 	{
 		["trainers"] = {
-			["price"] = 0,
+			["price"] = 13500,
 			["sources"] = {
 				7231, -- [1]
 				7232, -- [2]
@@ -3130,7 +3047,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [123]
 	{
 		["trainers"] = {
-			["price"] = 0,
+			["price"] = 13500,
 			["sources"] = {
 				7231, -- [1]
 				7232, -- [2]
@@ -3172,7 +3089,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [125]
 	{
 		["trainers"] = {
-			["price"] = 0,
+			["price"] = 13500,
 			["sources"] = {
 				7231, -- [1]
 				7232, -- [2]
@@ -3290,7 +3207,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [130]
 	{
 		["trainers"] = {
-			["price"] = 225,
+			["price"] = 250,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -3321,7 +3238,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [131]
 	{
 		["trainers"] = {
-			["price"] = 2250,
+			["price"] = 2500,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -3433,7 +3350,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [137]
 	{
 		["trainers"] = {
-			["price"] = 6750,
+			["price"] = 7500,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -4198,120 +4115,6 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 		["specialisation"] = 9788,
 	}, -- [180]
 	{
-		["trainers"] = {
-			["price"] = 0,
-			["sources"] = {
-				514, -- [1]
-				957, -- [2]
-				1241, -- [3]
-				1383, -- [4]
-				2836, -- [5]
-				2998, -- [6]
-				3174, -- [7]
-				3355, -- [8]
-				3557, -- [9]
-				4258, -- [10]
-				4605, -- [11]
-				5511, -- [12]
-				6299, -- [13]
-				10266, -- [14]
-				10276, -- [15]
-				10277, -- [16]
-				10278, -- [17]
-			},
-		},
-		["name"] = {
-			["German"] = "Thoriumgroßschwert",
-			["Spanish"] = "Espada magna de torio",
-			["Chinese"] = "瑟银巨剑",
-			["Korean"] = "토륨 대검",
-			["French"] = "Epée de guerre en thorium",
-			["Portuguese"] = "Montante de Tório",
-			["Mexican"] = "Espada magna de torio",
-			["Russian"] = "Ториевый большой меч",
-			["English"] = "Thorium Greatsword",
-		},
-		["min_skill"] = 260,
-		["phase"] = 1,
-		["id"] = 16960,
-	}, -- [181]
-	{
-		["trainers"] = {
-			["price"] = 0,
-			["sources"] = {
-				514, -- [1]
-				957, -- [2]
-				1241, -- [3]
-				1383, -- [4]
-				2836, -- [5]
-				2998, -- [6]
-				3174, -- [7]
-				3355, -- [8]
-				3557, -- [9]
-				4258, -- [10]
-				4605, -- [11]
-				5511, -- [12]
-				6299, -- [13]
-				10266, -- [14]
-				10276, -- [15]
-				10277, -- [16]
-				10278, -- [17]
-			},
-		},
-		["name"] = {
-			["German"] = "Kahlholzhacke",
-			["Spanish"] = "Tallado Maderagria",
-			["Chinese"] = "冷木斧",
-			["Korean"] = "귀신나무 도끼",
-			["French"] = "Bois morne taillé",
-			["Portuguese"] = "Desbasteiro de Lenhavil",
-			["Mexican"] = "Talladora de Picomadera",
-			["Russian"] = "Рубило из мрачнодерева",
-			["English"] = "Bleakwood Hew",
-		},
-		["min_skill"] = 270,
-		["phase"] = 1,
-		["id"] = 16965,
-	}, -- [182]
-	{
-		["trainers"] = {
-			["price"] = 0,
-			["sources"] = {
-				514, -- [1]
-				957, -- [2]
-				1241, -- [3]
-				1383, -- [4]
-				2836, -- [5]
-				2998, -- [6]
-				3174, -- [7]
-				3355, -- [8]
-				3557, -- [9]
-				4258, -- [10]
-				4605, -- [11]
-				5511, -- [12]
-				6299, -- [13]
-				10266, -- [14]
-				10276, -- [15]
-				10277, -- [16]
-				10278, -- [17]
-			},
-		},
-		["name"] = {
-			["German"] = "Veredelter Thoriumhammer",
-			["Spanish"] = "Martillo incrustado de torio",
-			["Chinese"] = "镶饰瑟银战锤",
-			["Korean"] = "세공된 토륨 망치",
-			["French"] = "Marteau damasquiné en thorium",
-			["Portuguese"] = "Martelo Marchetado de Tório",
-			["Mexican"] = "Martillo de torio taraceado",
-			["Russian"] = "Инкрустированный ториевый молот",
-			["English"] = "Inlaid Thorium Hammer",
-		},
-		["min_skill"] = 270,
-		["phase"] = 1,
-		["id"] = 16967,
-	}, -- [183]
-	{
 		["item"] = 12819,
 		["min_skill"] = 275,
 		["id"] = 16969,
@@ -4400,44 +4203,6 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 		["specialisation"] = 17039,
 	}, -- [188]
 	{
-		["trainers"] = {
-			["price"] = 0,
-			["sources"] = {
-				514, -- [1]
-				957, -- [2]
-				1241, -- [3]
-				1383, -- [4]
-				2836, -- [5]
-				2998, -- [6]
-				3174, -- [7]
-				3355, -- [8]
-				3557, -- [9]
-				4258, -- [10]
-				4605, -- [11]
-				5511, -- [12]
-				6299, -- [13]
-				10266, -- [14]
-				10276, -- [15]
-				10277, -- [16]
-				10278, -- [17]
-			},
-		},
-		["name"] = {
-			["German"] = "Runenschneide",
-			["Spanish"] = "Filo rúnico",
-			["Chinese"] = "符文之刃",
-			["Korean"] = "룬문자 칼날도끼",
-			["French"] = "Lame runique",
-			["Portuguese"] = "Gume Rúnico",
-			["Mexican"] = "Filo rúnico",
-			["Russian"] = "Рунный конец",
-			["English"] = "Rune Edge",
-		},
-		["min_skill"] = 285,
-		["phase"] = 1,
-		["id"] = 16980,
-	}, -- [189]
-	{
 		["item"] = 12827,
 		["min_skill"] = 285,
 		["phase"] = 1,
@@ -4490,82 +4255,6 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 		["id"] = 16985,
 		["specialisation"] = 17039,
 	}, -- [192]
-	{
-		["trainers"] = {
-			["price"] = 0,
-			["sources"] = {
-				514, -- [1]
-				957, -- [2]
-				1241, -- [3]
-				1383, -- [4]
-				2836, -- [5]
-				2998, -- [6]
-				3174, -- [7]
-				3355, -- [8]
-				3557, -- [9]
-				4258, -- [10]
-				4605, -- [11]
-				5511, -- [12]
-				6299, -- [13]
-				10266, -- [14]
-				10276, -- [15]
-				10277, -- [16]
-				10278, -- [17]
-			},
-		},
-		["name"] = {
-			["German"] = "Blutkralle",
-			["Spanish"] = "Garra sangrienta",
-			["Chinese"] = "血爪",
-			["Korean"] = "피의 갈퀴발톱",
-			["French"] = "Serre de sang",
-			["Portuguese"] = "Garra Sangrenta",
-			["Mexican"] = "Garfa sangrienta",
-			["Russian"] = "Кровавый коготь",
-			["English"] = "Blood Talon",
-		},
-		["min_skill"] = 300,
-		["phase"] = 1,
-		["id"] = 16986,
-	}, -- [193]
-	{
-		["trainers"] = {
-			["price"] = 0,
-			["sources"] = {
-				514, -- [1]
-				957, -- [2]
-				1241, -- [3]
-				1383, -- [4]
-				2836, -- [5]
-				2998, -- [6]
-				3174, -- [7]
-				3355, -- [8]
-				3557, -- [9]
-				4258, -- [10]
-				4605, -- [11]
-				5511, -- [12]
-				6299, -- [13]
-				10266, -- [14]
-				10276, -- [15]
-				10277, -- [16]
-				10278, -- [17]
-			},
-		},
-		["name"] = {
-			["German"] = "Dunkelspeer",
-			["Spanish"] = "Lanza Negra",
-			["Chinese"] = "黑暗之矛",
-			["Korean"] = "검은창",
-			["French"] = "Lance noire",
-			["Portuguese"] = "Lançanegra",
-			["Mexican"] = "Lanza Negra",
-			["Russian"] = "Черное копье",
-			["English"] = "Darkspear",
-		},
-		["min_skill"] = 300,
-		["phase"] = 1,
-		["id"] = 16987,
-	}, -- [194]
 	{
 		["item"] = 12833,
 		["min_skill"] = 300,
@@ -4782,7 +4471,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [205]
 	{
 		["trainers"] = {
-			["price"] = 225,
+			["price"] = 250,
 			["sources"] = {
 				1383, -- [1]
 				2836, -- [2]
@@ -4813,7 +4502,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 	}, -- [206]
 	{
 		["trainers"] = {
-			["price"] = 2250,
+			["price"] = 2500,
 			["sources"] = {
 				2836, -- [1]
 				3355, -- [2]
@@ -5260,7 +4949,7 @@ MTSL_DATA["Blacksmithing"]["skills"] = {
 			["Korean"] = "붉은영혼의 어깨보호구",
 			["French"] = "Epaulières d'âmesang",
 			["Portuguese"] = "Omoplatas Almassangre",
-			["Mexican"] = "Sobrehombros de alma de sangre",
+			["Mexican"] = "Sobrehombros de aslma de sangre",
 			["Russian"] = "Наплечники кровавого духа",
 			["English"] = "Bloodsoul Shoulders",
 		},
