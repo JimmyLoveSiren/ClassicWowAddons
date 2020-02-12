@@ -4,6 +4,5 @@
 ## Notes: v1.0.0 -- Show full buff times
 ## Version: 1.0.0
 ## DefaultState: enabled
-## SavedVariables: BuffTimersOptions
 
 BuffTimers.lua

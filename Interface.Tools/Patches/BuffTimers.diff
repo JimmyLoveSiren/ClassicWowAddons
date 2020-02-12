@@ -1,0 +1,96 @@
+diff --git a/Interface/AddOns/BuffTimers/BuffTimers.lua b/Interface/AddOns/BuffTimers/BuffTimers.lua
+index aeca520..5f61e8d 100644
+--- a/Interface/AddOns/BuffTimers/BuffTimers.lua
++++ b/Interface/AddOns/BuffTimers/BuffTimers.lua
+@@ -1,53 +1,14 @@
+-SLASH_BUFFTIMERS1 = "/bufftimers"
+-SLASH_BUFFTIMERS2 = "/bt"
+-
+-local function commandMessage(msg, msg2)
+-    DEFAULT_CHAT_FRAME:AddMessage("|caaaaaaaa" .. msg .. "|r" .. " " .. msg2)
+-end
+-
+-SlashCmdList["BUFFTIMERS"] = function(msg)
+-    msg = string.lower(msg)
+-
+-    if msg == "" then
+-        DEFAULT_CHAT_FRAME:AddMessage("These are the commands available to the BuffTimers addon:")
+-        commandMessage("seconds", "Toggle to show/hide the seconds in the buff time")
+-    elseif msg == "seconds" then
+-        BuffTimersOptions["seconds"] = not BuffTimersOptions["seconds"]
+-
+-        if (BuffTimersOptions["seconds"]) then
+-            DEFAULT_CHAT_FRAME:AddMessage("BuffTimers: enabled buffs to display seconds.")
+-        else
+-            DEFAULT_CHAT_FRAME:AddMessage("BuffTimers: disabled buffs to display seconds.")
+-        end
+-    end
+-end
+-
+ local function formatTime(time)
+-    local isSecondsOption = BuffTimersOptions["seconds"]
+-    local seconds = floor(mod(time, 60))
+-    local minutes = floor(time / 60)
+-
+-    if not isSecondsOption then
+-        minutes = ceil(time / 60)
+-    else
+-        -- Prefix seconds with a zero
+-        if (minutes > 0 and seconds < 10) then
+-            seconds = 0 .. seconds
+-        end
+-    end
+-
+-    if isSecondsOption then
+-        if minutes >= 1 then
+-            return minutes .. ":" .. seconds
+-        else
+-            return seconds .. "s"
++    if time < 60 then
++        return "|c00FFFFFF" .. floor(mod(time, 60)) .. "s|r"
++    elseif time < 600 then
++        local s = floor(mod(time, 60))
++        if s < 10 then
++            s = "0" .. s
+         end
++        return "|c00FFCC00" .. floor(time / 60) .. ":" .. s .. "|r"
+     else
+-        if minutes > 1 then
+-            return minutes .. "m"
+-        else
+-            return seconds .. "s"
+-        end
++        return "|c0000FF00" .. ceil(time / 60) .. "m|r"
+     end
+ end
+ 
+@@ -85,18 +46,3 @@ hooksecurefunc("AuraButton_Update", onAuraUpdate)
+ 
+ -- Aura duration update event
+ hooksecurefunc("AuraButton_UpdateDuration", onAuraDurationUpdate)
+-
+--- Addon load event
+-local frame = CreateFrame("FRAME")
+-frame:RegisterEvent("ADDON_LOADED")
+-
+-function frame:OnEvent(event, arg1)
+-    if event == "ADDON_LOADED" and arg1 == "BuffTimers" then
+-        if (not BuffTimersOptions) then
+-            BuffTimersOptions = {}
+-            BuffTimersOptions["seconds"] = true
+-        end
+-    end
+-end
+-
+-frame:SetScript("OnEvent", frame.OnEvent)
+diff --git a/Interface/AddOns/BuffTimers/BuffTimers.toc b/Interface/AddOns/BuffTimers/BuffTimers.toc
+index 406b19c..c21dc7c 100644
+--- a/Interface/AddOns/BuffTimers/BuffTimers.toc
++++ b/Interface/AddOns/BuffTimers/BuffTimers.toc
+@@ -4,6 +4,5 @@
+ ## Notes: v1.0.0 -- Show full buff times
+ ## Version: 1.0.0
+ ## DefaultState: enabled
+-## SavedVariables: BuffTimersOptions
+ 
+ BuffTimers.lua
