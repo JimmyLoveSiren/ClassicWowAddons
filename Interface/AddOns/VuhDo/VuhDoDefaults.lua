@@ -862,7 +862,7 @@ function VUHDO_loadDefaultConfig()
 		-- [[ MolTon Core ]]
 		-- Baron Geddon
 		20475   -- Living Bomb
-	 );
+	);
 
 	local debuffRemovalList = {};
 
@@ -1238,7 +1238,8 @@ local VUHDO_DEFAULT_PER_PANEL_SETUP = {
 	},
 
 	["ID_TEXT"] = {
-		["showName"] = true,
+		["showName"] = true, 
+		["showNickname"] = false,
 		["showClass"] = false,
 		["showTags"] = true,
 		["showPetOwners"] = true,
