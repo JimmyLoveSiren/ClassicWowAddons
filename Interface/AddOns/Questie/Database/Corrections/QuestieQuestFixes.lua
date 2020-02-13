@@ -26,6 +26,9 @@ function QuestieQuestFixes:Load()
         [24] = {
             [QuestieDB.questKeys.startedBy] = {{12677},nil,{16304}},
         },
+        [25] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Scout the gazebo on Mystral Lake that overlooks the nearby Alliance outpost.",{[331]={{48.92,69.56},},},},
+        },
         [26] = { -- Switch Alliance and Horde Druid quest IDs #948
             [QuestieDB.questKeys.startedBy] = {{4217,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 8,
@@ -76,7 +79,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {742,6382,6383,},
         },
         [254] = {
-            [QuestieDB.questKeys.parentQuest] = {253},
+            [QuestieDB.questKeys.parentQuest] = 253,
         },
         [308] = {
             [QuestieDB.questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
@@ -124,6 +127,9 @@ function QuestieQuestFixes:Load()
         [463] = {
             [QuestieDB.questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
         },
+        [464] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #809
+        },
         [467] = {
             [QuestieDB.questKeys.startedBy] = {{1340,2092,},nil,nil,}, -- #1379
         },
@@ -131,7 +137,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {455}, -- #809
         },
         [484] = {
-            [QuestieDB.questKeys.requiredMinRep] = {}, -- #1501
+            [QuestieDB.questKeys.requiredMinRep] = nil, -- #1501
         },
         [510] = {
             [QuestieDB.questKeys.startedBy] = {nil,{1740},nil}, -- #1512
@@ -608,7 +614,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
         },
         [3791] = {
-            [QuestieDB.questKeys.preQuestSingle] = {3788}, -- #885
+            [QuestieDB.questKeys.preQuestSingle] = {3787,3788}, -- #885
         },
         [3903] = {
             [QuestieDB.questKeys.preQuestSingle] = {18},
@@ -1131,6 +1137,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
         },
+        [7946] = {
+            [QuestieDB.questKeys.questLevel] = 60,
+        },
         [8149] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
@@ -1341,6 +1350,30 @@ function QuestieQuestFixes:Load()
         },
         [8882] = {
             [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8897] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8898,8899,8903},
+        },
+        [8898] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8897,8899,8903},
+        },
+        [8899] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8897,8898,8903},
+        },
+        [8900] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8901,8902,8904},
+        },
+        [8901] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8900,8902,8904},
+        },
+        [8902] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8900,8901,8904},
+        },
+        [8903] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
+        },
+        [8904] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
         },
         [8980] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
