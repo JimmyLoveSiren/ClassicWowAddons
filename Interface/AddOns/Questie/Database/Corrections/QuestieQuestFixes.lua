@@ -463,9 +463,6 @@ function QuestieQuestFixes:Load()
         [1708] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1230
         },
-        [1710] = {
-            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1231
-        },
         [1718] = {
             [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,5113,5479,},nil,nil,}, -- #1034
         },
@@ -1139,6 +1136,7 @@ function QuestieQuestFixes:Load()
         },
         [7946] = {
             [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.specialFlags] = 1,
         },
         [8149] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
@@ -1181,6 +1179,9 @@ function QuestieQuestFixes:Load()
         },
         [8403] = {
             [QuestieDB.questKeys.exclusiveTo] = {8372,8399,8400,8401,8402},
+        },
+        [8423] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8417},
         },
         [8426] = {
             [QuestieDB.questKeys.exclusiveTo] = {8368,8427,8428,8429,8430},
@@ -1392,3 +1393,24 @@ function QuestieQuestFixes:Load()
         },
     }
 end
+
+local falselyMarkedPvPQuests = {}
+
+---Checks wheather a quest is a PvP quest or not. Some PvP
+--- quests are falsely marked by the Blizzard GetQuestTagInfo API
+--- and need to be checked by hand
+---@param questId QuestId
+---@return boolean @True if the quest is in the falselyMarkedPvPQuests list, false otherwise
+function QuestieQuestFixes:IsPvPQuest(questId)
+    if questId ~= nil and falselyMarkedPvPQuests[questId] ~= nil then
+        return true
+    end
+    return false
+end
+
+falselyMarkedPvPQuests = {
+    [8404] = true,
+    [8405] = true,
+    [8406] = true,
+    [8408] = true,
+}
