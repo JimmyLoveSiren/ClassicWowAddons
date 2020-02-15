@@ -35,7 +35,7 @@ function MerchantButton:Initialize()
     if Addon.IS_RETAIL then
       self.Button:SetPoint("TOPRIGHT", _G.MerchantFrameLootFilter, "TOPLEFT", -4, 0)
     else
-      self.Button:SetPoint("TOPLEFT", 60, -28)
+      self.Button:SetPoint("TOPLEFT", 230, -32)
     end
   end
 
