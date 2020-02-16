@@ -1,0 +1,15 @@
+diff --git a/Interface/AddOns/ThreatClassic2/core/config.lua b/Interface/AddOns/ThreatClassic2/core/config.lua
+index 69a2076..f9f0a86 100644
+--- a/Interface/AddOns/ThreatClassic2/core/config.lua
++++ b/Interface/AddOns/ThreatClassic2/core/config.lua
+@@ -31,8 +31,8 @@ TC2.defaultConfig.general = {
+ TC2.defaultConfig.frame = {
+ 	test				= false,								-- toggle for test mode
+ 	scale				= 1,									-- global scale
+-	width				= 217,									-- frame width
+-	height				= 161,									-- frame height
++	width				= 160,									-- frame width
++	height				= 128,									-- frame height
+ 	locked				= false,								-- toggle for movable
+ 	strata				= "3-MEDIUM",							-- frame strata
+ 	position			= {"LEFT", "UIParent", "LEFT", 50, 0},	-- frame position
