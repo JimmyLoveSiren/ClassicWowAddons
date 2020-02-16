@@ -1,0 +1,6 @@
+## Interface: 11302
+## Title: PicoPoisons
+## Version: 1.00
+## Author: jsb
+## Notes: 在Buff上显示毒药的剩余次数
+PicoPoisons.lua
