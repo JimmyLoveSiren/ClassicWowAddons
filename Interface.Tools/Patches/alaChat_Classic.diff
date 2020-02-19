@@ -1,24 +1,21 @@
 diff --git a/Interface/AddOns/alaChat_Classic/addon.lua b/Interface/AddOns/alaChat_Classic/addon.lua
-index 7fa6226..0fde7e4 100644
+index b2fad5e..1b5763c 100644
 --- a/Interface/AddOns/alaChat_Classic/addon.lua
 +++ b/Interface/AddOns/alaChat_Classic/addon.lua
-@@ -143,11 +143,11 @@ local default = {
+@@ -144,8 +144,8 @@ local default = {
  	_version				 = 190830.0,
- 	_overrideVersion		 = 191217.0,
+ 	_overrideVersion		 = 200212.0,
  
+-	printWel				 = true,
 -	position				 = "BELOW_EDITBOX",
++	printWel				 = false,
 +	position				 = "ABOVE_EDITOBX",
  	direction				 = "HORIZONTAL",
  	scale					 = 1.0,
  	alpha					 = 1.0,
--	barStyle				 = "ala",
-+	barStyle				 = "blz",
- 
- 	shortChannelName		 = true,
- 	shortChannelNameFormat	 = "NW",
-@@ -155,8 +155,8 @@ local default = {
- 	chatEmote				 = false,
- 	chatEmote_channel		 = false,
+@@ -157,8 +157,8 @@ local default = {
+ 	chatEmote				 = true,
+ 	chatEmote_channel		 = true,
  	ColorNameByClass		 = true,
 -	shamanColor				 = false,
 -	channelBarChannel		 = { true,true,true,true,true,true,true,true,true,true,true,true,true,true },
@@ -27,7 +24,7 @@ index 7fa6226..0fde7e4 100644
  	channelBarStyle			 = "CHAR",
  
  	channel_Ignore_Switch 	 = true,
-@@ -173,14 +173,14 @@ local default = {
+@@ -175,14 +175,14 @@ local default = {
  	DBMCountDown			 = true,
  	ReadyCheck				 = true,
  	statReport				 = true,

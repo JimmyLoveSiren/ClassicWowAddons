@@ -166,9 +166,10 @@ L.WTG_STRING = {
 	WTG_STRING_OFF = "\124cffff4040已关闭\124r",
 };
 L.CONFIG = {
-	wel						 = "\124cffff3f3falaChat\124r已加载,/alac或/alachat打开设置。\n设置窗口移动到【ESC - 界面设置 - 插件(右上角) - alaChat_Classic】",
+	wel						 = "\124cffffff00毛装黑G、公屏谩骂、蹲小号、副本堵门、刷屏的全都不如狗，不接受反驳，反驳你就不如狗。\124r",
 	title					 = "设置",
 
+	printWel				 = "打印欢迎信息",
 	position				 = "位置(按住CTRL可拖动)",
 	direction				 = "方向",
 	scale					 = "缩放",

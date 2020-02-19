@@ -86,16 +86,16 @@ local function process_repeat(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 				end
 			end
 			if pos then
-				local pattern = gsub(strsub(msg, 1, pos), "[%%%.%+%-%*%?%[%]%(%)]", "%%%1");
+				local pattern = gsub(strsub(msg, 1, pos), "[%^%$%%%.%+%-%*%?%[%]%(%)]", "%%%1");
 				local temp = strfind(msg, pattern, pos);
 				local temp2 = -1;
 				if temp then
 					pattern = gsub(strsub(msg, 1, temp - 1), "[ ]+$", "");
-					local pattern2 = gsub(pattern, "[%%%.%+%-%*%?%[%]%(%)]","%%%1");
+					local pattern2 = gsub(pattern, "[%^%$%%%.%+%-%*%?%[%]%(%)]","%%%1");
 					temp, temp2 = gsub(msg, pattern2, "");
 					if temp2 > 1 then
 						temp = gsub(gsub(temp, "^[ ]+", ""), "[ ]+$", "");
-						temp2 = gsub(temp, "[%%%.%+%-%*%?%[%]%(%)]", "%%%1");
+						temp2 = gsub(temp, "[%^%$%%%.%+%-%*%?%[%]%(%)]", "%%%1");
 						if strfind(pattern, temp2) then
 							temp = "";
 						end
@@ -313,7 +313,7 @@ local function chat_filter_word_SetVal(val)
 	if val == "" then
 		return;
 	end
-	val = gsub(val, "[%%%.%+%-%*%?%[%]%(%)]","%%%1").. "\n\n";
+	val = gsub(val, "[%^%$%%%.%+%-%*%?%[%]%(%)]","%%%1").. "\n\n";
 	for v in gmatch(val,"%s*([^\n^;]+)[\n;]") do
 		local _, _, v0 = strfind(v, "^#(.+)");
 		if v0 then
@@ -436,7 +436,7 @@ local function keyWordHighlight_SetVal(val)
 	if val == "" then
 		return;
 	end
-	val = gsub(val, "[%%%.%+%-%*%?%[%]%(%)]","%%%1").. "\n\n";
+	val = gsub(val, "[%^%$%%%.%+%-%*%?%[%]%(%)]","%%%1").. "\n\n";
 	for v in gmatch(val,"%s*([^\n^;]+)[\n;]") do
 		tinsert(keyWord,v);
 		local v1 = strupper(v);

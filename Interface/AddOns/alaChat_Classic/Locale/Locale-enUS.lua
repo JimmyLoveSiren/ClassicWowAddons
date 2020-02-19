@@ -166,9 +166,10 @@ L.WTG_STRING = {
 	WTG_STRING_OFF = "\124cffff4040Off\124r",
 };
 L.CONFIG = {
-	wel					 = "\124cffff3f3falaChat\124r Loaded./alac or /alachat to open config window. \nConfig window is moved to [ESC - Interface Options - Addons(at topleft) - alaChat_Classic]",
+	-- wel					 = "\124cffff3f3falaChat\124r Loaded.",
 	title				 = "Settings",
 
+	printWel			 = "Print welcome msg",
 	position			 = "Position(Hold ctrl drag)",
 	direction			 = "Direction",
 	scale				 = "Scale",

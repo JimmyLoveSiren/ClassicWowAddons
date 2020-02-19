@@ -16,7 +16,7 @@ local abs, acos, asin, atan, atan2, ceil, cos, deg, exp, floor, fmod, frexp,ldex
 		abs, acos, asin, atan, atan2, ceil, cos, deg, exp, floor, fmod or math.fmod, frexp,ldexp, log, log10, max, min, mod, rad, random, sin, sqrt, tan, fastrandom;
 local format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, tonumber, tostring =
 		format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, tonumber, tostring;
-local strcmputf8i, strlenutf8, strtrim, strsplit, strjoin, strconcat, tostringall =  strcmputf8i, strlenutf8, strtrim, strsplit, strjoin, strconcat, tostringall;
+local strcmputf8i, strlenutf8, strtrim, strsplit, strjoin, strconcat, tostringall = strcmputf8i, strlenutf8, strtrim, strsplit, strjoin, strconcat, tostringall;
 local ipairs, pairs, sort, tContains, tinsert, tremove, wipe = ipairs, pairs, sort, tContains, tinsert, tremove, wipe;
 local gcinfo, foreach, foreachi, getn = gcinfo, foreach, foreachi, getn;	-- Deprecated
 ----------------------------------------------------------------------------------------------------
@@ -89,6 +89,7 @@ local labelTexture = "interface\\minimap\\raid";
 local config = nil;
 
 local key = {
+	"printWel",
 	"position",
 	"direction",
 	"scale",
@@ -99,7 +100,7 @@ local key = {
 	"shortChannelNameFormat",
 	"hyperLinkEnhanced",
 	"chatEmote",
-	-- "chatEmote_channel",
+	"chatEmote_channel",
 	"ColorNameByClass",
 	"shamanColor",
 	"channelBarChannel",
@@ -141,8 +142,9 @@ local key = {
 };
 local default = {
 	_version				 = 190830.0,
-	_overrideVersion		 = 191217.0,
+	_overrideVersion		 = 200212.0,
 
+	printWel				 = false,
 	position				 = "ABOVE_EDITOBX",
 	direction				 = "HORIZONTAL",
 	scale					 = 1.0,
@@ -152,8 +154,8 @@ local default = {
 	shortChannelName		 = true,
 	shortChannelNameFormat	 = "NW",
 	hyperLinkEnhanced		 = true,
-	chatEmote				 = false,
-	chatEmote_channel		 = false,
+	chatEmote				 = true,
+	chatEmote_channel		 = true,
 	ColorNameByClass		 = true,
 	shamanColor				 = true,
 	channelBarChannel		 = { true,true,true,false,false,true,true,false,false,false,false,false,false,false },
@@ -190,13 +192,13 @@ local default = {
 	keyWordHighlight_Exc	 = false,
 	chat_filter				 = true,
 	chat_filter_word		 = "",
-	chat_filter_repeated_words = false,
-	chat_filter_repeated_words_deep = false;
+	chat_filter_repeated_words = true,
+	chat_filter_repeated_words_deep = true;
 	chat_filter_repeated_words_info = false,
-	chat_filter_rep_interval = 15,
+	chat_filter_rep_interval = 30,
 };
 local override = {
-	_version				 = 191217.0,
+	_version				 = 200212.0,
 	-- barStyle				 = 'blz',
 	-- level					 = false,
 	-- copy					 = false,
@@ -204,10 +206,15 @@ local override = {
 	-- chat_filter_repeated_words = false,
 	-- chat_filter_repeated_words_deep = false,
 	-- chat_filter_repeated_words_info = false,
-	chatEmote				 = false,
+	-- chatEmote				 = false,
+	chatEmote				 = true,
+	chatEmote_channel		 = true,
 	copyTagFormat			 = "[%H:%M:%S]",
+	chat_filter_repeated_words = true,
+	chat_filter_repeated_words_deep = true;
 };
 local buttons = {
+	--[[1]]	{ 				name = "printWel"					,type = "CheckButton"	,label = LCONFIG.printWel				,key = "printWel"				, },
 	--[[1]]	{ 				name = "position"					,type = "DropDownMenu"	,label = LCONFIG.position				,key = "position"				,value = { "BELOW_EDITBOX", "ABOVE_EDITOBX", "ABOVE_CHATFRAME" }, },
 	--[[1]]	{ sub = true,	name = "direction"					,type = "DropDownMenu"	,label = LCONFIG.direction				,key = "direction"				,value = { "HORIZONTAL", "VERTICAL" }, },
 	--[[2]]	{ 				name = "scale"						,type = "Slider"		,label = LCONFIG.scale					,key = "scale"					,minRange = 0.1	,maxRange = 2.0	,stepSize = 0.1	, },
@@ -238,7 +245,7 @@ local buttons = {
 	--[[18]]{ 				name = "roll"						,type = "CheckButton"	,label = LCONFIG.roll					,key = "roll"					, },
 	--[[19]]{ sub = true,	name = "DBMCountDown"				,type = "CheckButton"	,label = LCONFIG.DBMCountDown			,key = "DBMCountDown"			, },
 	--[[20]]{ sub = true,	name = "ReadyCheck"					,type = "CheckButton"	,label = LCONFIG.ReadyCheck				,key = "ReadyCheck"				, },
-	--[[24]]{ 				name = "level"						,type = "CheckButton"	,label = LCONFIG.level					,key = "level"					, },
+	--[[24]]{ sub = true,	name = "level"						,type = "CheckButton"	,label = LCONFIG.level					,key = "level"					, },
 	--[[25]]{ 				name = "editBoxTab"					,type = "CheckButton"	,label = LCONFIG.editBoxTab				,key = "editBoxTab"				, },
 	--[[26]]{ sub = true,	name = "restoreAfterWhisper"		,type = "CheckButton"	,label = LCONFIG.restoreAfterWhisper	,key = "restoreAfterWhisper"	, },
 	--[[26]]{ sub = true,	name = "restoreAfterChannel"		,type = "CheckButton"	,label = LCONFIG.restoreAfterChannel	,key = "restoreAfterChannel"	, },
@@ -1088,7 +1095,10 @@ local function alaC_Init()
 			end);
 		end
 	end
-	print(LCONFIG.wel);
+	if config.printWel and LCONFIG.wel then
+		SendSystemMessage(LCONFIG.wel);
+		-- print(LCONFIG.wel);
+	end
 end
 
 local f = CreateFrame("Frame");
@@ -1104,6 +1114,8 @@ FUNC._CONFIGSET = function(config, set)
 	alaChatConfig[config] = set;
 end
 
+FUNC.ON.printWel = function() end;
+FUNC.OFF.printWel = function() end;
 FUNC.SETVALUE.position = function(pos, init, override)
 	if not init or override then
 		alaBaseBtn:Pos(pos);
@@ -1230,6 +1242,7 @@ do
 			"CHAT_MSG_WHISPER",
 			"CHAT_MSG_BN_WHISPER",
 			"CHAT_MSG_WHISPER_INFORM",
+			"CHAT_MSG_BN_WHISPER_INFORM",
 			"CHAT_MSG_RAID",
 			"CHAT_MSG_RAID_LEADER",
 			"CHAT_MSG_RAID_WARNING",

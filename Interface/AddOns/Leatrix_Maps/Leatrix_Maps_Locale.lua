@@ -1686,6 +1686,7 @@ L["If checked, you will be able to scale and move the map.|n|nScale the map by d
 L["If checked, you will be able to set the opacity of the map."] = "Ermöglicht die Transparenz der Weltkarte einzustellen wenn aktiviert."
 L["If checked, zone, dungeon and fishing skill levels will be shown."] = "Zeigt den Levelbereich für Zonen, Instanzen und Angelfertigkeiten an wenn aktiviert."
 L["Invalid command.  Enter /ltm help for help."] = "Unbekannter Befehl.  Schreibe  /ltm help  für weitere Befehle und hilfe."
+L["Invalid map ID."] = "Unbekannter Weltkarten-ID."
 L["Iron Docks"] = "Eisendocks"
 L["Ironforge"] = "Ironforge"
 L["Karazhan"] = "Karazhan"

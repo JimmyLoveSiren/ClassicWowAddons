@@ -80,19 +80,26 @@ function ItemRefTooltip.SetHyperlink(self,link)
 		return _SetHyperlink(self, link);
 	end
 end
+local function hook_InterfaceOptionsSocialPanelTimestamps()
+		hooksecurefunc(InterfaceOptionsSocialPanelTimestamps,"SetValue",function(_,fmt)
+				if fmt=="none" then
+					stamp_fmt=nil;
+				else
+					stamp_fmt=fmt;
+				end
+				alac_SetConfig(stamp_fmt);
+				if control_copy then
+					set(stamp_fmt);
+				end
+			end
+			);
+end
 local function copy_Init()
-	hooksecurefunc(InterfaceOptionsSocialPanelTimestamps,"SetValue",function(_,fmt)
-			if fmt=="none" then
-				stamp_fmt=nil;
-			else
-				stamp_fmt=fmt;
-			end
-			alac_SetConfig(stamp_fmt);
-			if control_copy then
-				set(stamp_fmt);
-			end
-		end
-		);
+	if InterfaceOptionsSocialPanelTimestamps.SetValue and type(InterfaceOptionsSocialPanelTimestamps.SetValue) == 'function' then
+		hook_InterfaceOptionsSocialPanelTimestamps();
+	else
+		C_Timer.After(1.0, copy_Init);
+	end
 end
 local function copy_ToggleOn()
 	if control_copy then

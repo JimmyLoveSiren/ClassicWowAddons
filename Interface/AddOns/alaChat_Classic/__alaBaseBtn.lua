@@ -666,7 +666,7 @@ alaBaseBtn:SetScript("OnEvent", function()
 										alaBaseData.xBtn.dir = alaBaseData.xBtn.dir or "HORIZONTAL";
 										alaBaseData.xBtn.scale = alaBaseData.xBtn.scale or 1.0;
 										alaBaseData.xBtn.alpha = alaBaseData.xBtn.alpha or 1.0;
-										alaBaseData.xBtn.style = alaBaseData.xBtn.style or 'ala';
+										alaBaseData.xBtn.style = alaBaseData.xBtn.style or 'blz';
 										--if alaBaseData.xBtn then
 											if not alaBaseData.xBtn._version or alaBaseData.xBtn._version < __alaBaseBtn_Version then
 												alaBaseData.xBtn._version = __alaBaseBtn_Version;

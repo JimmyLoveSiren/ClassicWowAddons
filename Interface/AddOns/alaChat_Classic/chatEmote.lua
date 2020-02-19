@@ -10,7 +10,8 @@ local L = NS.L;
 if not L then return;end
 local LOCALE = GetLocale();
 ----------------------------------------------------------------------------------------------------
-local math, table, string, pairs, type, select, tonumber, unpack = math, table, string, pairs, type, select, tonumber, unpack;
+local pairs, type, select, tonumber, unpack = pairs, type, select, tonumber, unpack;
+local strfind, strsub, strlen, gsub, strmatch, gmatch = strfind, strsub, strlen, gsub, strmatch, gmatch;
 
 local GameTooltip = GameTooltip;
 local GetCurrentResolution = GetCurrentResolution;
@@ -128,7 +129,7 @@ local control_chatEmote_channel = false;
 local function IconSize(f)
 	--local _, font = f:GetFont();
 	--local res=select(GetCurrentResolution(),GetScreenResolutions())
-	--local _,h=string.match(res,"(%d+)x(%d+)")
+	--local _,h=match(res,"(%d+)x(%d+)")
 	font = iconScale * 16;--*h/800
 	font = floor(font);
 	return font;
@@ -245,6 +246,7 @@ local function CreatePanel(mainButton)
 		}
 	);
 	panel:SetBackdropColor(0, 0, 0);
+	panel:SetClampedToScreen(true);
 	panel.showTimer = 0;
 	
 	panel:SetScript("OnUpdate", function(self, elapsed)
@@ -296,14 +298,14 @@ local Emote_Index2Path = nil;
 local Emote_Path2Index = nil;
 local function ChatEmoteFilter(self, event, msg, ...)
 	--print(msg)
-	-- for s in string.gmatch(msg, "({[^}]+})") do
+	-- for s in gmatch(msg, "({[^}]+})") do
 	-- 	if (Emote_Index2Path[s]) then
-	-- 		 msg = string.gsub(msg , s, "\124T" .. Emote_Index2Path[s] .. ":" ..IconSize(self) .. "\124t", 1);
+	-- 		 msg = gsub(msg , s, "\124T" .. Emote_Index2Path[s] .. ":" ..IconSize(self) .. "\124t", 1);
 	-- 	end
 	-- end
 	for k, t in pairs(Emote_Index2Path) do
-		if string.find(msg, k) then
-			msg = string.gsub(msg, k, t);
+		if strfind(msg, k) then
+			msg = gsub(msg, k, t);
 		end
 	end
 	return false, msg, ...
@@ -311,14 +313,14 @@ end
 
 local function ChatEmoteFilter2(msg)
 	--print(msg)
-	-- for s in string.gmatch(msg, "({[^}]+})") do
+	-- for s in gmatch(msg, "({[^}]+})") do
 	-- 	if (Emote_Index2Path[s]) then
-	-- 		 msg = string.gsub(msg , s, "\124T" .. Emote_Index2Path[s] .. ":" ..IconSize(self) .. "\124t", 1);
+	-- 		 msg = gsub(msg , s, "\124T" .. Emote_Index2Path[s] .. ":" ..IconSize(self) .. "\124t", 1);
 	-- 	end
 	-- end
 	for k, t in pairs(Emote_Index2Path) do
-		if string.find(msg, k) then
-			msg = string.gsub(msg, k, t);
+		if strfind(msg, k) then
+			msg = gsub(msg, k, t);
 		end
 	end
 	return msg
@@ -326,7 +328,7 @@ end
 
 local function SendChatMessage_Filter(text)
 	if control_chatEmote then
-		for s in string.gmatch(text, "\124T([^:]+):%d+\124t") do
+		for s in gmatch(text, "\124T([^:]+):%d+\124t") do
 			local index = Emote_Path2Index[s];
 			if index then
 			-- local index = nil;
@@ -336,7 +338,7 @@ local function SendChatMessage_Filter(text)
 			-- 	end
 			-- end
 			-- if index then
-				text = string.gsub(text, "(\124T[^:]+:%d+\124t)", index, 1);
+				text = gsub(text, "(\124T[^:]+:%d+\124t)", index, 1);
 			end
 		end
 	end
@@ -406,6 +408,7 @@ local function chatEmote_ToggleOn(initing)
 		ala_add_message_event_filter("CHAT_MSG_WHISPER", "chatEmote", ChatEmoteFilter)
 		ala_add_message_event_filter("CHAT_MSG_BN_WHISPER", "chatEmote", ChatEmoteFilter)
 		ala_add_message_event_filter("CHAT_MSG_WHISPER_INFORM", "chatEmote", ChatEmoteFilter)
+		ala_add_message_event_filter("CHAT_MSG_BN_WHISPER_INFORM", "chatEmote", ChatEmoteFilter)
 		ala_add_message_event_filter("CHAT_MSG_RAID", "chatEmote", ChatEmoteFilter)
 		ala_add_message_event_filter("CHAT_MSG_RAID_LEADER", "chatEmote", ChatEmoteFilter)
 		ala_add_message_event_filter("CHAT_MSG_RAID_WARNING", "chatEmote", ChatEmoteFilter)
@@ -445,6 +448,7 @@ local function chatEmote_ToggleOff()
 		ala_remove_message_event_filter("CHAT_MSG_WHISPER", "chatEmote")
 		ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER", "chatEmote")
 		ala_remove_message_event_filter("CHAT_MSG_WHISPER_INFORM", "chatEmote")
+		ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER_INFORM", "chatEmote")
 		ala_remove_message_event_filter("CHAT_MSG_RAID", "chatEmote")
 		ala_remove_message_event_filter("CHAT_MSG_RAID_LEADER", "chatEmote")
 		ala_remove_message_event_filter("CHAT_MSG_RAID_WARNING", "chatEmote")
