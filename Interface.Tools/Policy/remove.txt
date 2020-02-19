@@ -41,7 +41,7 @@ HandyNotes_DungeonLocations (Classic)
 HandyNotes_TravelGuide (Classic)
 Mapster
 MerInspect
-MobHealth
+RealMobHealth
 Spy
 ThreatClassic2
 TUnitFrame
