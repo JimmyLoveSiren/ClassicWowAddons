@@ -328,7 +328,7 @@ function QuestieTooltips:Initialize()
     end)
 
     -- For the hover frame.
-    GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
+    -- GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
     GameTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
     GameTooltip:HookScript("OnShow", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also

@@ -1,0 +1,13 @@
+diff --git a/Interface/AddOns/Questie/Modules/QuestieTooltips.lua b/Interface/AddOns/Questie/Modules/QuestieTooltips.lua
+index 507195b..c3129a9 100644
+--- a/Interface/AddOns/Questie/Modules/QuestieTooltips.lua
++++ b/Interface/AddOns/Questie/Modules/QuestieTooltips.lua
+@@ -328,7 +328,7 @@ function QuestieTooltips:Initialize()
+     end)
+ 
+     -- For the hover frame.
+-    GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
++    -- GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
+     GameTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
+     GameTooltip:HookScript("OnShow", function(self)
+         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
