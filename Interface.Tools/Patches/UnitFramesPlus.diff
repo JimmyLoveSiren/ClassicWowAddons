@@ -1,5 +1,5 @@
 diff --git a/Interface/AddOns/UnitFramesPlus/UnitFramesPlus.lua b/Interface/AddOns/UnitFramesPlus/UnitFramesPlus.lua
-index 71da2b1..db2d729 100644
+index 71da2b1..90479bf 100644
 --- a/Interface/AddOns/UnitFramesPlus/UnitFramesPlus.lua
 +++ b/Interface/AddOns/UnitFramesPlus/UnitFramesPlus.lua
 @@ -1,9 +1,9 @@
@@ -54,7 +54,7 @@ index 71da2b1..db2d729 100644
          target = 0,         --宠物目标
          targettmp = 0,      --宠物目标临时显示
          targetmovable = 0,  --Shift拖动宠物目标头像
-@@ -58,19 +58,19 @@ UnitFramesPlusDefaultDB = {
+@@ -58,26 +58,26 @@ UnitFramesPlusDefaultDB = {
          race = 1,           --种族和类型
          colorhp = 1,        --生命条染色
          colortype = 2,      --生命条染色类型：1职业，2生命值百分比
@@ -72,12 +72,21 @@ index 71da2b1..db2d729 100644
          portraitnpcno = 1,  --NPC不显示职业图标
          mouseshow = 0,      --鼠标滑过时才显示数值
          extrabar = 0,       --扩展框
-         bartext = 1,        --目标血条数值
+-        bartext = 1,        --目标血条数值
 -        hpmp = 1,           --不显示扩展框时增加生命值和法力值(百分比)显示
++        bartext = 0,        --目标血条数值
 +        hpmp = 0,           --不显示扩展框时增加生命值和法力值(百分比)显示
          hpmppartone = 4,    --生命值和法力值第一部分：1当前值，2最大值，3損失值，4百分比
          hpmpparttwo = 5,    --生命值和法力值第二部分：1当前值，2最大值，3損失值，4百分比，5不显示
          hpmpunit = 1,       --生命值和法力值进位
+         unittype = 2,       --1为千进制(k/m)，2为万进位(万/亿)
+         threat = 1,         --仇恨高亮
+         threattext = 1,     --仇恨百分比
+-        fontsize = 12,      --扩展显示的数字大小
++        fontsize = 14,      --扩展显示的数字大小
+     },
+ 
+     targettarget = {
 @@ -91,7 +91,7 @@ UnitFramesPlusDefaultDB = {
          debuff = 1,         --额外的ToT debuff
          cooldown = 1,       --额外的ToT debuff冷却
