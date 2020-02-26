@@ -1,30 +1,31 @@
 diff --git a/Interface/AddOns/alaChat_Classic/addon.lua b/Interface/AddOns/alaChat_Classic/addon.lua
-index b2fad5e..1b5763c 100644
+index e6ac8dc..66fdddb 100644
 --- a/Interface/AddOns/alaChat_Classic/addon.lua
 +++ b/Interface/AddOns/alaChat_Classic/addon.lua
 @@ -144,8 +144,8 @@ local default = {
- 	_version				 = 190830.0,
- 	_overrideVersion		 = 200212.0,
+ 	_version				 = 200226.0,
+ 	_overrideVersion		 = 200226.0,
  
 -	printWel				 = true,
 -	position				 = "BELOW_EDITBOX",
 +	printWel				 = false,
 +	position				 = "ABOVE_EDITOBX",
  	direction				 = "HORIZONTAL",
- 	scale					 = 1.0,
+ 	scale					 = 0.9,
  	alpha					 = 1.0,
-@@ -157,8 +157,8 @@ local default = {
+@@ -157,9 +157,9 @@ local default = {
  	chatEmote				 = true,
  	chatEmote_channel		 = true,
  	ColorNameByClass		 = true,
 -	shamanColor				 = false,
--	channelBarChannel		 = { true,true,true,true,true,true,true,true,true,true,true,true,true,true },
 +	shamanColor				 = true,
+ 	-- SAY, PARTY, RAID, RAID_WARNING, INSTANCE_CHAT, GUILD, YELL, WHISPER, OFFICER, GENERAL, TRADE, LOCAL_DEFENSE, LOOK_FOR_GROUP, "WORLD"
+-	channelBarChannel		 = { true,true,true,true,true,true,true,false,false,true,true,false,true,true },
 +	channelBarChannel		 = { true,true,true,false,false,true,true,false,false,false,false,false,false,false },
  	channelBarStyle			 = "CHAR",
  
  	channel_Ignore_Switch 	 = true,
-@@ -175,14 +175,14 @@ local default = {
+@@ -176,14 +176,14 @@ local default = {
  	DBMCountDown			 = true,
  	ReadyCheck				 = true,
  	statReport				 = true,

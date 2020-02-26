@@ -88,8 +88,6 @@ L.SC_DATA1 = {
 	CHAT_RAID_GET = "|Hchannel:RAID|h[团]|h%s: ",
 	CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[团]|h%s: ",
 	CHAT_RAID_WARNING_GET = "[团]%s: ",
-	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:BG|h[副]|h%s: ",
-	CHAT_INSTANCE_CHAT_GET = "|Hchannel:BG|h[副]|h%s: ",
 
 	CHAT_AFK_GET = "[AFK]%s: ",
 	CHAT_DND_GET = "[DND]%s: ",

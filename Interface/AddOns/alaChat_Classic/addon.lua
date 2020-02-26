@@ -141,13 +141,13 @@ local key = {
 	"chat_filter_repeated_words_info",
 };
 local default = {
-	_version				 = 190830.0,
-	_overrideVersion		 = 200212.0,
+	_version				 = 200226.0,
+	_overrideVersion		 = 200226.0,
 
 	printWel				 = false,
 	position				 = "ABOVE_EDITOBX",
 	direction				 = "HORIZONTAL",
-	scale					 = 1.0,
+	scale					 = 0.9,
 	alpha					 = 1.0,
 	barStyle				 = "blz",
 
@@ -158,6 +158,7 @@ local default = {
 	chatEmote_channel		 = true,
 	ColorNameByClass		 = true,
 	shamanColor				 = true,
+	-- SAY, PARTY, RAID, RAID_WARNING, INSTANCE_CHAT, GUILD, YELL, WHISPER, OFFICER, GENERAL, TRADE, LOCAL_DEFENSE, LOOK_FOR_GROUP, "WORLD"
 	channelBarChannel		 = { true,true,true,false,false,true,true,false,false,false,false,false,false,false },
 	channelBarStyle			 = "CHAR",
 
@@ -197,21 +198,13 @@ local default = {
 	chat_filter_repeated_words_info = false,
 	chat_filter_rep_interval = 30,
 };
+if GetAddOnInfo('!!!163UI!!!') then
+	default.printWel = false;
+	default.chatEmote_channel = false;
+	default.chat_filter_repeated_words = false;
+end
 local override = {
 	_version				 = 200212.0,
-	-- barStyle				 = 'blz',
-	-- level					 = false,
-	-- copy					 = false,
-	-- hyperLinkHoverShow		 = true,
-	-- chat_filter_repeated_words = false,
-	-- chat_filter_repeated_words_deep = false,
-	-- chat_filter_repeated_words_info = false,
-	-- chatEmote				 = false,
-	chatEmote				 = true,
-	chatEmote_channel		 = true,
-	copyTagFormat			 = "[%H:%M:%S]",
-	chat_filter_repeated_words = true,
-	chat_filter_repeated_words_deep = true;
 };
 local buttons = {
 	--[[1]]	{ 				name = "printWel"					,type = "CheckButton"	,label = LCONFIG.printWel				,key = "printWel"				, },
