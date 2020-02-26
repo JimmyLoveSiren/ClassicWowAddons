@@ -491,6 +491,32 @@ GTFO.SpellID["302305"] = {
   sound = 3;
 };
 
+GTFO.SpellID["308357"] = {
+  --desc = "Piercing Shot (Fallen Heartpiercer)";
+  sound = 3;
+};
+
+GTFO.SpellID["308508"] = {
+  --desc = "Rift Strike (Fallen Riftwalker)";
+  sound = 3;
+};
+
+GTFO.SpellID["308481"] = {
+  --desc = "Rift Strike (Fallen Riftwalker)";
+  sound = 3;
+};
+
+GTFO.SpellID["308288"] = {
+  --desc = "Darkened Sky (Alleria Windrunner)";
+  sound = 3;
+};
+
+GTFO.SpellID["309819"] = {
+  --desc = "Void Eruption (Alleria Windrunner)";
+  sound = 3;
+};
+
+
 -- ***********************
 -- * Shrine of the Storm *
 -- ***********************
@@ -586,7 +612,80 @@ GTFO.SpellID["302456"] = {
   sound = 3;
 };
 
+GTFO.SpellID["315894"] = {
+  --desc = "Glowing Fragment (Sun King Nahkotep)";
+  sound = 3;
+};
 
+GTFO.SpellID["314722"] = {
+  --desc = "Solar Detonation (Watcher Rehu)";
+  sound = 3;
+};
+
+GTFO.SpellID["302919"] = {
+  --desc = "Spear Trap";
+  sound = 3;
+};
+
+GTFO.SpellID["303743"] = {
+  --desc = "Spear Trap";
+  sound = 3;
+};
+
+GTFO.SpellID["319944"] = {
+  --desc = "Void Destruction (Yox'ith)";
+  sound = 3;
+};
+
+GTFO.SpellID["306529"] = {
+  --desc = "Falling Debris";
+  sound = 3;
+};
+
+GTFO.SpellID["316016"] = {
+  --desc = "Void Storm (Extractor Thelsara)";
+  sound = 3;
+};
+
+GTFO.SpellID["316538"] = {
+  --desc = "Dark Outburst (Spawn of Shad'har)";
+  sound = 3;
+};
+
+GTFO.SpellID["306900"] = {
+  --desc = "Molten Eruption";
+  sound = 3;
+};
+
+GTFO.SpellID["316609"] = {
+  --desc = "Skull Breaker (Terror Tendril)";
+  sound = 3;
+};
+
+GTFO.SpellID["310066"] = {
+  --desc = "Lightning Strike";
+  sound = 3;
+};
+
+GTFO.SpellID["306765"] = {
+  --desc = "Surging Darkness (Thrall)";
+  sound = 3;
+};
+
+GTFO.SpellID["297746"] = {
+  --desc = "Seismic Slam (Thrall)";
+  sound = 3;
+};
+
+GTFO.SpellID["291338"] = {
+  --desc = "Blooddrinker (Madness: Bloodthirsty)";
+  sound = 4;
+};
+
+GTFO.SpellID["305369"] = {
+  --desc = "Break Spirit (Voidbound Honor Guard)";
+  sound = 3;
+};
 
 -- ******************
 -- * Waycrest Manor *
@@ -1729,6 +1828,70 @@ GTFO.SpellID["303963"] = {
 
 GTFO.SpellID["303729"] = {
   --desc = "Crackling Tornado (Rak'sha the Swift)";
+  sound = 3;
+};
+
+-- *************
+-- * Ny'alotha *
+-- *************
+
+-- TODO: Molten Eruption (Wrathion)
+-- TODO: Gale Blast (Wrathion) (Avoid inner blast)
+-- TODO: Black Wings (Maut) (?)
+-- TODO: Terror Wave (Dark Inquisitor Xanesh)
+-- TODO: Doom (Dark Inquisitor Xanesh)
+-- TODO: Nullification Blast (Tek'ris)
+-- TODO: Entropic Echo (Tek'ris)
+-- TODO: Umbral Eruption (Shad'har the Insatiable) -- Avoidable?
+-- TODO: Umbral Breath (Shad'har the Insatiable) -- Avoidable?
+-- TODO: Entropic Breath (Shad'har the Insatiable) -- Avoidable?
+-- TODO: Bubbling Breath (Shad'har the Insatiable) -- Avoidable?
+-- TODO: Eye of N'Zoth (Il'gynoth, Corruption Reborn) -- Non-Tank
+-- TODO: Twilight Breath (Vexiona) -- Non-Tank
+-- TODO: Brutal Smash (Iron-Willed Enforcer) -- Mythic only, avoidable?
+-- TODO: Twilight Decimator (Vexiona)
+-- TODO: Madness Bomb (Carapace of N'Zoth) -- FF alert
+-- TODO: Horrific Hemorrhage (Carapace of N'Zoth) -- Avoidable?
+-- TODO: Insanity Bomb (Carapace of N'Zoth) -- FF alert
+-- TODO: Corrupted Viscera (N'Zoth) -- Avoidable?
+-- TODO: Psychic Burst (N'Zoth) -- FF
+-- TODO: Flames of Insanity (N'Zoth) -- Avoidable?
+-- TODO: Stupefying Glare (N'Zoth) -- Avoidable?
+
+GTFO.SpellID["305978"] = {
+  --desc = "Searing Breath (Wrathion)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["307974"] = {
+  --desc = "Tail Swipe (Wrathion)";
+  sound = 3;
+};
+
+GTFO.SpellID["314754"] = {
+  --desc = "Shadow Crash (Umbral Seer)";
+  sound = 3;
+};
+
+GTFO.SpellID["316383"] = {
+  --desc = "Void Slam (Anubisath Sentinel)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["315013"] = {
+  --desc = "Bursting Shadows (Aqir Shadowcrafter)";
+  sound = 3;
+};
+
+GTFO.SpellID["311383"] = {
+  --desc = "Torment (Dark Inquisitor Xanesh)";
+  sound = 3;
+};
+
+GTFO.SpellID["315932"] = {
+  --desc = "Brutal Smash (Iron-Willed Enforcer)";
   sound = 3;
 };
 
