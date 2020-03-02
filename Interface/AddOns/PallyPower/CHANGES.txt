@@ -1,10 +1,9 @@
 ------------------------------------------------------------------------
-r259 | Dyaxler | 2020-01-04 01:33:32 +0000 (Sat, 04 Jan 2020) | 3 lines
+r261 | Dyaxler | 2020-02-29 15:42:41 +0000 (Sat, 29 Feb 2020) | 2 lines
 Changed paths:
    M /trunk/PallyPower.lua
 
-* Better cross realms name handling. Internally PallyPower will keep track of and assign a players fullname-realm to it's frames thus eliminating any name conflicts if two players from different servers have the same name. Visually, all you will see are a players "short name" which is just a text label and has no impact on how things are assigned ID's, Spells etc.
-
-* I've scrubbed through all the buff assigning "permissions" tables. Instead of not allowing access to 'Clear' and 'Auto-Assign', unless you are the Party/Raid Leader/Assist, you will always have access to at least your owns buffs. There is one exception... no leaders in a Battleground can auto assign you buffs unless you check Free Assignment. As I've said in earlier versions, most groups give everyone Raid Assist so tanks can easily mark themselves. To keep other players from being jerks - forcing auto assignments by leaders like in Raids are disabled in Battlegrounds. If you trust all the Paladins in your BG then use Free Assignment. Auto-Assign will work as intended and it has it's own Battleground template.
+* Fixed a typo in my code that was causing some inconsistencies in Auto-Assign.
+* Fixed a bug with Pets. When the roster got updated a Pets name would be the same as their master.
 ------------------------------------------------------------------------
 
