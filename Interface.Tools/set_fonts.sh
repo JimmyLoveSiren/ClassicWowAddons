@@ -1,5 +1,5 @@
 #!/bin/bash
-cd `dirname $0`
+cd `git rev-parse --show-cdup`
 FONT="Fonts/${1:-fzcy}.ttf"
 FONT_DIR=../Fonts
 mkdir -p "$FONT_DIR"
