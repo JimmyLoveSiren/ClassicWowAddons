@@ -1,9 +1,8 @@
 ------------------------------------------------------------------------
-r261 | Dyaxler | 2020-02-29 15:42:41 +0000 (Sat, 29 Feb 2020) | 2 lines
+r265 | Dyaxler | 2020-03-05 19:58:45 +0000 (Thu, 05 Mar 2020) | 1 line
 Changed paths:
    M /trunk/PallyPower.lua
 
-* Fixed a typo in my code that was causing some inconsistencies in Auto-Assign.
-* Fixed a bug with Pets. When the roster got updated a Pets name would be the same as their master.
+* Removed a nil check from an Ambiguate() call that was causing some communication issues between Paladins
 ------------------------------------------------------------------------
 

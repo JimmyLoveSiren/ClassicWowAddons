@@ -85,16 +85,14 @@ L["MAINTANKGBUFFDP"] = "Override Druids / Paladins..."
 L["MAINTANKGBUFFDP_DESC"] = "Select the Greater Blessing assignment you wish to over-write on Main Tank: Druids / Paladins."
 --[[Translation missing --]]
 L["MAINTANKGBUFFW"] = "Override Warriors..."
---[[Translation missing --]]
-L["MAINTANKGBUFFW_DESC"] = "Select the Greater Blessing assignment you wish to over-write on Main Tank: Warriors."
+L["MAINTANKGBUFFW_DESC"] = "Выберите великое благословение, которое хотите перебафать на главного танка: Воина."
 --[[Translation missing --]]
 L["MAINTANKNBUFFDP"] = "...with Normal..."
 --[[Translation missing --]]
 L["MAINTANKNBUFFDP_DESC"] = "Select the Normal Blessing you wish to use to over-write the Main Tank: Druids / Paladins."
 --[[Translation missing --]]
 L["MAINTANKNBUFFW"] = "...with Normal..."
---[[Translation missing --]]
-L["MAINTANKNBUFFW_DESC"] = "Select the Normal Blessing you wish to use to over-write the Main Tank: Warriors."
+L["MAINTANKNBUFFW_DESC"] = "Выберите обычное благословение, которое хотите перебафать на главного танка: Воина."
 L["None"] = "Нет"
 L["None Buffed"] = "Нет баффов"
 L["OPTIONS"] = "Настойки"
