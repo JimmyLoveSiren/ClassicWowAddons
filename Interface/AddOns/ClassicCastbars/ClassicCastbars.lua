@@ -123,7 +123,7 @@ function addon:StopCast(unitID, noFadeOut)
     if not castbar then return end
 
     if not castbar.isTesting then
-        self:HideCastbar(castbar, noFadeOut)
+        self:HideCastbar(castbar, unitID, noFadeOut)
     end
 
     castbar._data = nil
@@ -592,7 +592,7 @@ addon:SetScript("OnUpdate", function(self, elapsed)
                     -- of lag we have to only stop it if the cast has been active for atleast 0.25 sec
                     if cast and cast.isPlayer and currTime - cast.timeStart > 0.25 then
                         if not castStopBlacklist[cast.spellName] and GetUnitSpeed(unitID) ~= 0 then
-                            local castAlmostFinishied = ((currTime - cast.timeStart) > cast.maxValue - 0.05)
+                            local castAlmostFinishied = ((currTime - cast.timeStart) > cast.maxValue - 0.1)
                             -- due to lag its possible that the cast is successfuly casted but still shows interrupted
                             -- unless we ignore the last few miliseconds here
                             if not castAlmostFinishied then
@@ -653,7 +653,8 @@ addon:SetScript("OnUpdate", function(self, elapsed)
                     if cast.isChanneled and not cast.isCastComplete and not cast.isInterrupted and not cast.isFailed then
                         -- show finish animation on channels that doesnt have CLEU stop event
                         -- Note: channels always have finish animations on stop, even if it was an early stop
-                        self:DeleteCast(cast.unitGUID, false, true, true, false)
+                        local skipFade = ((currTime - cast.timeStart) > cast.maxValue + 0.4) -- skips fade anim on castbar being RESHOWN if the cast is expired
+                        self:DeleteCast(cast.unitGUID, false, true, true, skipFade)
                     else
                         local skipFade = ((currTime - cast.timeStart) > cast.maxValue + 0.25)
                         self:DeleteCast(cast.unitGUID, false, true, false, skipFade)
