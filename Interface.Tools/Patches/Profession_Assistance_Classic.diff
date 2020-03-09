@@ -1,0 +1,49 @@
+diff --git a/Interface/AddOns/Profession_Assistance_Classic/Localization.lua b/Interface/AddOns/Profession_Assistance_Classic/Localization.lua
+index f8ffa131..f3fc5c91 100644
+--- a/Interface/AddOns/Profession_Assistance_Classic/Localization.lua
++++ b/Interface/AddOns/Profession_Assistance_Classic/Localization.lua
+@@ -3394,6 +3394,10 @@ if (locale == "zhCN") then
+ 	
+ 	-- Enchanting Materials --
+ 	L["Strange Dust"] = "奇异之尘"
++	L["Soul Dust"] = "灵魂之尘"
++	L["Vision Dust"] = "幻象之尘"
++	L["Dream Dust"] = "梦境之尘"
++	L["Illusion Dust"] = "幻影之尘"
+ 	L["Light Illusion Dust"] = "轻盈的幻影之尘"
+ 	L["Rich Illusion Dust"] = "浓缩的幻影之尘"
+ 	L["Arcane Dust"] = "奥法之尘"
+@@ -3405,6 +3409,12 @@ if (locale == "zhCN") then
+ 	L["Gloom Dust"] = "幽影之尘"
+ 	L["Lesser Magic Essence"] = "次级魔法精华"
+ 	L["Greater Magic Essence"] = "强效魔法精华"
++	L["Lesser Astral Essence"] = "次级星界精华"
++	L["Greater Astral Essence"] = "强效星界精华"
++	L["Lesser Mystic Essence"] = "次级秘法精华"
++	L["Greater Mystic Essence"] = "强效秘法精华"
++	L["Lesser Nether Essence"] = "次级虚空精华"
++	L["Greater Nether Essence"] = "强效虚空精华"
+ 	L["Lesser Eternal Essence"] = "次级不灭精华"
+ 	L["Greater Eternal Essence"] = "强效不灭精华"
+ 	L["Lesser Planar Essence"] = "次级位面精华"
+@@ -3414,6 +3424,12 @@ if (locale == "zhCN") then
+ 	L["Lesser Celestial Essence"] = "次级天界精华"
+ 	L["Greater Celestial Essence"] = "强效天界精华"
+ 	L["Mysterious Essence"] = "神秘精华"
++	L["Small Glimmering Shard"] = "小块微光碎片"
++	L["Large Glimmering Shard"] = "大块微光碎片"
++	L["Small Glowing Shard"] = "小块闪光碎片"
++	L["Large Glowing Shard"] = "大块闪光碎片"
++	L["Small Radiant Shard"] = "小块强光碎片"
++	L["Large Radiant Shard"] = "大块强光碎片"
+ 	L["Small Brilliant Shard"] = "小块魔光碎片"
+ 	L["Large Brilliant Shard"] = "大块魔光碎片"
+ 	L["Small Prismatic Shard"] = "小块棱光碎片"
+@@ -3428,6 +3444,7 @@ if (locale == "zhCN") then
+ 	L["Luminous Shard"] = "辉光碎片"
+ 	L["Leylight Shard"] = "魔光碎片"
+ 	L["Umbra Shard"] = "幽界碎片"
++	L["Nexus Crystal"] = "连结水晶"
+ 	L["Maelstrom Crystal"] = "漩涡水晶"
+ 	L["Void Crystal"] = "虚空水晶"
+ 	L["Abyss Crystal"] = "深渊水晶"
