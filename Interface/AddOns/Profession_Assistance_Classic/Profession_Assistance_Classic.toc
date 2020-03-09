@@ -1,0 +1,14 @@
+## Interface: 11303
+## Title: Profession Assistance Classic
+## Author: Dragonfreaky
+## Notes: Giving extra details to professions!
+## Version: 1.0
+## X-Credits: Misstory; My wife, Spellchecker, Giving me ideas & testing my addon. She deserves it all!
+## SavedVariables: PA_SavedSettings
+
+Localization.lua
+OptionInterface.lua
+ItemInfo.lua
+ItemInfo2.lua
+ItemInfo3.lua
+Core.lua
