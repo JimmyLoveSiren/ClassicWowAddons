@@ -1,4 +1,4 @@
-## Interface: 11303
+## Interface: 11304
 ## Title: Buff Owner 1.1
 ## Version: 1.1
 ## Author: SDPhantom

@@ -1,17 +1,21 @@
 ------------------------------------------------------------------------
-r143 | bsmorgan | 2020-01-31 15:20:16 +0000 (Fri, 31 Jan 2020) | 1 line
+r150 | bsmorgan | 2020-03-11 19:57:21 +0000 (Wed, 11 Mar 2020) | 1 line
 Changed paths:
-   M /trunk/UI/ShoppingList.lua
+   M /trunk/Plugins/Auctionator.lua
 
-- Fix issue #136
+- Fix Auctionator plugin
 ------------------------------------------------------------------------
-r142 | bsmorgan | 2020-01-20 14:41:00 +0000 (Mon, 20 Jan 2020) | 1 line
+r149 | bsmorgan | 2020-03-11 14:15:32 +0000 (Wed, 11 Mar 2020) | 1 line
 Changed paths:
-   M /trunk/Inventory.lua
-   M /trunk/SkilletOptions.lua
-   M /trunk/SkilletQueue.lua
-   M /trunk/UI/ShoppingList.lua
+   M /trunk/UI/MainFrame.lua
+   M /trunk/UI/MainFrame.xml
 
-- Copy Auction House fix from Skillet
+- Fix issue #143
+------------------------------------------------------------------------
+r148 | bsmorgan | 2020-03-11 14:02:21 +0000 (Wed, 11 Mar 2020) | 1 line
+Changed paths:
+   M /trunk/Plugins/Auctionator.lua
+
+- Fix Auctionator plugin
 ------------------------------------------------------------------------
 

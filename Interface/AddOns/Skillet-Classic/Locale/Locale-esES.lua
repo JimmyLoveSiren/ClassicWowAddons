@@ -210,6 +210,10 @@ L["Same faction"] = [=[Misma facción
 L["Save"] = "Guardar"
 L["Scale"] = "Escala"
 L["SCALEDESC"] = "Escala de la venta de Habilidades de Comercio (predeterminado 1.0)"
+--[[Translation missing --]]
+L["SCALETOOLTIPDESC"] = "Set scale of skill and reagent tooltips to match recipe tooltip (global uiscale)."
+--[[Translation missing --]]
+L["SCALETOOLTIPNAME"] = "Scale All Tooltips"
 L["Scan completed"] = "Escaneo completado"
 L["Scanning tradeskill"] = "Escaneando Habilidades de Comercio"
 L["Search"] = [=[Buscar
@@ -268,6 +272,8 @@ L["SUPPORTCRAFTINGNAME"] = "Support Crafting"
 L["Supported Addons"] = "Addons Soportados"
 L["SUPPORTEDADDONSDESC"] = "Addons soportados que pueden o son usados para rastrear el inventario"
 L["This merchant sells reagents you need!"] = "¡Este mercader vende los reactivos que necesitas!"
+--[[Translation missing --]]
+L["TOOLTIPSCALEDESC"] = "Scales the recipe list, detail item and reagent tooltips"
 L["Total Cost:"] = "Coste Total:"
 L["Total spent"] = "Total gastado"
 L["Trained"] = "Aprendido"

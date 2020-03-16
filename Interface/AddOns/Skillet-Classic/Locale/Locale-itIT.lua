@@ -203,6 +203,10 @@ L["Same faction"] = true
 L["Save"] = "Salva"
 L["Scale"] = "Scala"
 L["SCALEDESC"] = "Scala la finestra delle professioni (di base 1.0)"
+--[[Translation missing --]]
+--[[ L["SCALETOOLTIPDESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SCALETOOLTIPNAME"] = ""--]] 
 L["Scan completed"] = "Scansione Completa"
 L["Scanning tradeskill"] = "Scansionamento Professioni"
 L["Search"] = true
@@ -257,6 +261,8 @@ L["Start"] = "Inizia"
 L["Supported Addons"] = "Addon Supportati"
 L["SUPPORTEDADDONSDESC"] = "Addon supportati che possono o sono utilizzati per esaminare l'inventario"
 L["This merchant sells reagents you need!"] = "Questo mercante vende i reagenti che ti servono!"
+--[[Translation missing --]]
+--[[ L["TOOLTIPSCALEDESC"] = ""--]] 
 L["Total Cost:"] = "Costo totale:"
 L["Total spent"] = "Totale speso"
 L["Trained"] = "Allenato"

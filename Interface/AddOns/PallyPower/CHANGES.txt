@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------
-r265 | Dyaxler | 2020-03-05 19:58:45 +0000 (Thu, 05 Mar 2020) | 1 line
+r267 | Dyaxler | 2020-03-13 15:38:27 +0000 (Fri, 13 Mar 2020) | 1 line
 Changed paths:
-   M /trunk/PallyPower.lua
+   M /trunk/PallyPower.toc
 
-* Removed a nil check from an Ambiguate() call that was causing some communication issues between Paladins
+* Interface Version Updated
 ------------------------------------------------------------------------
 

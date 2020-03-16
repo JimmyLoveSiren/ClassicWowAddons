@@ -1,10 +1,34 @@
-lightweight tag fcfbd22df2e158aa2a6847d324aef1e5894325c7 v2.3.8
+lightweight tag 2671e7dd7362bd7fc8a9e4b13cdf2398ebfae297 v2.3.9
 Author:	Boshi Lian <farmer1992@gmail.com>
-Date:	Thu Jan 30 01:45:55 2020 -0800
+Date:	Mon Mar 16 02:32:04 2020 -0700
 
-commit fcfbd22df2e158aa2a6847d324aef1e5894325c7
+commit 2671e7dd7362bd7fc8a9e4b13cdf2398ebfae297
 Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Thu Jan 30 01:45:55 2020 -0800
+Date:   Mon Mar 16 02:32:04 2020 -0700
 
-    fix + tz bug
+    fix typo
+
+commit 67169279438b1634d6bc0a1d97b22f0504a8b131
+Author: Boshi Lian <farmer1992@gmail.com>
+Date:   Mon Mar 16 02:31:58 2020 -0700
+
+    move pos update to score update
+
+commit 7b5f5c1121fc581e91f87c9f3a28f71aaa973869
+Author: Boshi Lian <farmer1992@gmail.com>
+Date:   Sun Mar 15 05:43:50 2020 -0700
+
+    fix battle map unit color not work every time
+
+commit d16db2059c35b3a2637d1604c0c3dd78e09fc277
+Author: Boshi Lian <farmer1992@gmail.com>
+Date:   Sun Mar 15 03:41:34 2020 -0700
+
+    first approach to fix number position
+
+commit 47e883ef6b4d0709faf2261d742b56d97328a988
+Author: Boshi Lian <farmer1992@gmail.com>
+Date:   Thu Mar 12 05:48:27 2020 -0700
+
+    bump ver
 
