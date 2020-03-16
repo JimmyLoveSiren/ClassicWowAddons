@@ -1,7 +1,7 @@
-﻿## Interface: 11303
+﻿## Interface: 11304
 ## Title: tdPack2
 ## Author: Dencer
-## Version: 1.4.0
+## Version: 1.4.1
 ## OptionalDeps: Bagnon, Combuctor, tdBag
 ## SavedVariables: TDDB_PACK2
 

@@ -10,11 +10,9 @@ L["Are you sure |cffff191919DELETE|r rule and its |cffff1919SUBRULES|r?"] = "규
 L["Are you sure |cffff191919DELETE|r rule?"] = "규칙을 |cffff1919삭제|r 하시겠습니까?"
 L["Are you sure to |cffff1919RESET|r saving rules?"] = "보관 규칙을 |cffff1919재설정|r 하시겠습니까?"
 L["Are you sure to |cffff1919RESET|r sorting rules?"] = "정리 규칙을 |cffff1919재설정|r 하시겠습니까?"
---[[Translation missing --]]
---[[ L["Are you sure you want to restore the current Settings?"] = ""--]] 
+L["Are you sure you want to restore the current Settings?"] = "현재 설정을 복원 하시겠습니까?"
 L["Bag button features"] = "가방 버튼 기능"
---[[Translation missing --]]
---[[ L["Bank and bag stacking together"] = ""--]] 
+L["Bank and bag stacking together"] = "은행과 가방을 함께 중첩"
 L["Bank button features"] = "은행 버튼 기능"
 L["Character Specific Settings"] = "캐릭터 개별 설정"
 L["COMMENT_CLASS"] = "직업 아이템"
@@ -24,7 +22,27 @@ L["Enable chat message"] = "대화 메세지 사용"
 L["Enjoy!"] = "즐기세요!"
 L["Global"] = "전역"
 L["Help"] = "도움말"
-L["Keep bank items stack full"] = "은행에 아이템을 가득 채움"
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Cloth"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Cooking"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Elemental"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Enchanting"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Herb"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Jewelry"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Leather"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Metal & Stone"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Mount"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["ITEM_TAG: Pet"] = ""--]] 
+L["Keep bank items stack full"] = "은행 아이템을 중첩하여 채움"
 L["KEYWORD_CLASS"] = "직업"
 L["KEYWORD_MOUNT"] = "타거나 내립니다"
 L["Leave bank, pack cancel."] = "은행을 떠나 정리를 취소합니다."
@@ -43,8 +61,7 @@ L["Put in an item to add simple rule"] = "간단한 규칙을 추가하기 위�
 L["Put where?"] = "어디에 넣을까요?"
 L["Reset saving rules"] = "보관 규칙 재설정"
 L["Reset sorting rules"] = "정리 규칙 재설정"
---[[Translation missing --]]
---[[ L["Restore default Settings"] = ""--]] 
+L["Restore default Settings"] = "기본 설정 복원"
 L["Reverse pack"] = "반대로 정리"
 L["Right Click"] = "우클릭"
 L["Root"] = "최상위"
