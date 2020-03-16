@@ -10,7 +10,7 @@ local ThreatPlates = Addon.ThreatPlates
 ---------------------------------------------------------------------------------------------------
 
 -- WoW APIs
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+local RAID_CLASS_COLORS, CLASS_SORT_ORDER = RAID_CLASS_COLORS, CLASS_SORT_ORDER
 
 local L = ThreatPlates.L
 local RGB, RGB_P, RGB_WITH_HEX = ThreatPlates.RGB, ThreatPlates.RGB_P, ThreatPlates.RGB_WITH_HEX
@@ -67,8 +67,14 @@ local function GetDefaultColorsForClasses()
   local class_colors = {}
 
   for i, class_name in ipairs(CLASS_SORT_ORDER) do
+    -- Do not use GetRGBAsBytes to fix a error created by addons that change the entries of RAID_CLASS_COLORS from ColorMixin to a
+    -- simple r/g/b array
+    -- Perfered solution here would be:
+    -- class_colors[class_name] = RGB_WITH_HEX(RAID_CLASS_COLORS[class_name]:GetRGBAsBytes())
+
     -- RAID_CLASS_COLORS[class_name] is not null even in Classic for unknown classes like MONK
-    class_colors[class_name] = ThreatPlates.RGB_WITH_HEX(RAID_CLASS_COLORS[class_name]:GetRGBAsBytes())
+    local color = RAID_CLASS_COLORS[class_name]
+    class_colors[class_name] = RGB_WITH_HEX(color.r * 255, color.g * 255, color.b * 255)
   end
 
   return class_colors
@@ -955,7 +961,7 @@ ThreatPlates.DEFAULT_SETTINGS = {
         allowMarked = true,
         overrideScale = false,
         overrideAlpha = false,
-        icon = "spell_shadow_shadowfiend.blp",
+        icon = (Addon.CLASSIC and "Spell_nature_spiritwolf.blp") or "spell_shadow_shadowfiend.blp",
         scale = 1,
         alpha = 1,
         color = {
