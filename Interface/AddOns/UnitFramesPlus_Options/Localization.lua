@@ -47,7 +47,7 @@
     UFP_OP_BuiltinCooldown = "使用内置冷却计时";
     UFP_OP_BuiltinCooldowntext = "显示冷却计时数值";
     UFP_OP_BuiltinExactEnemyHP = "使用内置精确生命值";
-    UFP_OP_BuiltinExactEnemyHPPrune = "精简内置数据";
+    -- UFP_OP_BuiltinExactEnemyHPPrune = "精简内置数据";
     UFP_OP_BuiltinThreat = "使用内置仇恨高亮";
     UFP_OP_BuiltinThreattext = "显示仇恨百分比";
     UFP_OP_BuiltinThreatTooltip = "每个小队/团队成员都必须装有至少一个基于LibThreatClassic2的插件才能正常计算仇恨";
@@ -78,7 +78,8 @@
     UFP_OP_Party_TargetLite = "简易模式";
     UFP_OP_Party_OnOff = "离线监测";
     UFP_OP_Party_HideRaid = "隐藏系统团队框架";
-    -- UFP_OP_Party_Always = "团队中显示小队";
+    UFP_OP_Party_Always = "团队中显示小队";
+    UFP_OP_Party_Error = "\n\n注意：可能导致战斗中插件报错";
     UFP_OP_Buff = "显示Buff";
     UFP_OP_Filter = "Buff过滤";
     UFP_OP_FilterAll = "所有";
@@ -155,7 +156,7 @@ elseif GetLocale() == "zhTW" then
     UFP_OP_BuiltinCooldown = "使用內置冷卻計時";
     UFP_OP_BuiltinCooldowntext = "顯示冷卻計時數值";
     UFP_OP_BuiltinExactEnemyHP = "使用內置精確生命值";
-    UFP_OP_BuiltinExactEnemyHPPrune = "精簡內置資料";
+    -- UFP_OP_BuiltinExactEnemyHPPrune = "精簡內置資料";
     UFP_OP_BuiltinThreat = "使用內置仇恨高亮";
     UFP_OP_BuiltinThreattext = "顯示仇恨百分比";
     UFP_OP_BuiltinThreatTooltip = "每個小隊/團隊成員都必須裝有至少一個基於LibThreatClassic2的插件才能正常計算仇恨";
@@ -186,7 +187,8 @@ elseif GetLocale() == "zhTW" then
     UFP_OP_Party_TargetLite = "簡易模式";
     UFP_OP_Party_OnOff = "離線監測";
     UFP_OP_Party_HideRaid = "隱藏系统團隊框架";
-    -- UFP_OP_Party_Always = "團隊中顯示小隊";
+    UFP_OP_Party_Always = "團隊中顯示小隊";
+    UFP_OP_Party_Error = "\n\n注意：可能導致戰鬥中插件報錯";
     UFP_OP_Buff = "顯示Buff";
     UFP_OP_Filter = "Buff過濾";
     UFP_OP_FilterAll = "所有";
@@ -263,7 +265,7 @@ else
     UFP_OP_BuiltinCooldown = "Built-in Cooldown";
     UFP_OP_BuiltinCooldowntext = "Cooldown text";
     UFP_OP_BuiltinExactEnemyHP = "Exact target HP";
-    UFP_OP_BuiltinExactEnemyHPPrune = "Prune built-in data";
+    -- UFP_OP_BuiltinExactEnemyHPPrune = "Prune built-in data";
     UFP_OP_BuiltinThreat = "Built-in Threat highlight";
     UFP_OP_BuiltinThreattext = "Built-in Threat percent";
     UFP_OP_BuiltinThreatTooltip = "Each party/raid member should use at least one LibThreatClassic2 based addon for threat calculation";
@@ -294,7 +296,8 @@ else
     UFP_OP_Party_TargetLite = "Lite mode";
     UFP_OP_Party_OnOff = "Offline detection";
     UFP_OP_Party_HideRaid = "Hide blizzard raid frame";
-    -- UFP_OP_Party_Always = "Show party in raid";
+    UFP_OP_Party_Always = "Show party in raid";
+    UFP_OP_Party_Error = "\n\nWarning: this may cause addon errors during combat";
     UFP_OP_Buff = "Party member buff";
     UFP_OP_Filter = "Buff filter";
     UFP_OP_FilterAll = "All";

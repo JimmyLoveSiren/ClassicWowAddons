@@ -11,6 +11,9 @@ function UnitFramesPlus_TargetPositionSet()
         TargetFrame:ClearAllPoints();
         TargetFrame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", UnitFramesPlusVar["target"]["x"], UnitFramesPlusVar["target"]["y"]);
     end
+    if UnitFramesPlus_TargetTargetPosition then
+        UnitFramesPlus_TargetTargetPosition();
+    end
 end
 
 function UnitFramesPlus_TargetPosition()
@@ -50,8 +53,10 @@ local function UnitFramesPlus_TargetShiftDrag()
         end
     end)
 
-    TargetFrame:SetMovable(1);
-    TargetFrame:SetClampedToScreen(1);
+    TargetFrame_SetLocked(true);
+    TargetFrame:SetMovable(true);
+    TargetFrame:SetUserPlaced(false);
+    TargetFrame:SetClampedToScreen(true);
 
     --更改目标头像默认位置以防止其和玩家扩展框重叠
     hooksecurefunc("UIParent_UpdateTopFramePositions", function()
@@ -1070,7 +1075,8 @@ function UnitFramesPlus_TargetPortrait()
                 tpt:RegisterUnitEvent("UNIT_CONNECTION", "target");
             else
                 if tpt:IsEventRegistered("UNIT_MODEL_CHANGED") then
-                    tpt:UnregisterAllEvents();
+                    tpt:UnregisterEvent("UNIT_MODEL_CHANGED");
+                    tpt:UnregisterEvent("UNIT_HEALTH_FREQUENT");
                 end
             end
             tpt:SetScript("OnEvent", function(self, event, ...)
