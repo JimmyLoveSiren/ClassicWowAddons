@@ -701,25 +701,25 @@ local function ApplicationStartup(self)
 	filterDefFilter[#filterDefFilter + 1] = "([contains=金团] or [contains=G团] or [contains=RMB团] or [contains=包团] or [contains=内销]) and not [channel=s]"
 	filterDefActive[#filterDefActive + 1] = false
 
-	-- filterDefDesc[#filterDefDesc + 1]     = "纳克萨玛斯"
-	-- filterDefFilter[#filterDefFilter + 1] = "([contains=纳克萨玛斯] or [contains=NAXX]) and not [channel=s]"
-	-- filterDefActive[#filterDefActive + 1] = false
+	filterDefDesc[#filterDefDesc + 1]     = "纳克萨玛斯"
+	filterDefFilter[#filterDefFilter + 1] = "([contains=纳克萨玛斯] or [contains=NAXX]) and not [channel=s]"
+	filterDefActive[#filterDefActive + 1] = false
 
-	-- filterDefDesc[#filterDefDesc + 1]     = "安其拉"
-	-- filterDefFilter[#filterDefFilter + 1] = "([contains=安其拉] or [contains=TAQ]) and not ([contains=废墟]) and not [channel=s]"
-	-- filterDefActive[#filterDefActive + 1] = false
+	filterDefDesc[#filterDefDesc + 1]     = "安其拉"
+	filterDefFilter[#filterDefFilter + 1] = "([contains=安其拉] or [contains=TAQ]) and not ([contains=废墟]) and not [channel=s]"
+	filterDefActive[#filterDefActive + 1] = false
 
-	-- filterDefDesc[#filterDefDesc + 1]     = "安其拉废墟"
-	-- filterDefFilter[#filterDefFilter + 1] = "([contains=废墟] or [contains=RAQ]) and not [channel=s]"
-	-- filterDefActive[#filterDefActive + 1] = false
+	filterDefDesc[#filterDefDesc + 1]     = "安其拉废墟"
+	filterDefFilter[#filterDefFilter + 1] = "([contains=废墟] or [contains=RAQ]) and not [channel=s]"
+	filterDefActive[#filterDefActive + 1] = false
 
-	-- filterDefDesc[#filterDefDesc + 1]     = "祖尔格拉布"
-	-- filterDefFilter[#filterDefFilter + 1] = "([contains=祖尔格拉布] or [contains=祖格] or [contains=ZG]) and not [channel=s]"
-	-- filterDefActive[#filterDefActive + 1] = false
+	filterDefDesc[#filterDefDesc + 1]     = "祖尔格拉布"
+	filterDefFilter[#filterDefFilter + 1] = "([contains=祖尔格拉布] or [contains=祖格] or [contains=ZG]) and not [channel=s]"
+	filterDefActive[#filterDefActive + 1] = false
 
-	-- filterDefDesc[#filterDefDesc + 1]     = "黑翼之巢"
-	-- filterDefFilter[#filterDefFilter + 1] = "([contains=黑翼] or [contains=BWL]) and not [channel=s]"
-	-- filterDefActive[#filterDefActive + 1] = false
+	filterDefDesc[#filterDefDesc + 1]     = "黑翼之巢"
+	filterDefFilter[#filterDefFilter + 1] = "([contains=黑翼] or [contains=黑E] or [contains=BWL]) and not [channel=s]"
+	filterDefActive[#filterDefActive + 1] = false
 
 	filterDefDesc[#filterDefDesc + 1]     = "奥妮克希亚的巢穴"
 	filterDefFilter[#filterDefFilter + 1] = "[contains=黑龙] and not [channel=s]"
