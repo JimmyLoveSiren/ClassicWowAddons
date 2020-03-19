@@ -1,8 +1,12 @@
 ------------------------------------------------------------------------
-r267 | Dyaxler | 2020-03-13 15:38:27 +0000 (Fri, 13 Mar 2020) | 1 line
+r269 | Dyaxler | 2020-03-17 19:28:24 +0000 (Tue, 17 Mar 2020) | 5 lines
 Changed paths:
-   M /trunk/PallyPower.toc
+   M /trunk/PallyPower.lua
 
-* Interface Version Updated
+* Changed a group of event registers triggered after PLAYER_ENTERING_WORLD. It now triggers two seconds later to prevent sequencing issues upon login, instance zoning and map zoning - apparently not everything is in fact available to the UI after this event fires. Names of raid members and their pets would sometimes cause nil errors when PallyPower updates/builds it's frames after an UpdateRoster() is fired.
+
+* An update/bug fix for LibThreatClassic2 (library included in ThreatClassic2 and Details:TinyThreat) was causing errors when buffing Pets with Greater Blessings. This fix has made it into ThreatClassic2 but has yet to make it into Details. Please do not report any more bugs related to pet buffing. This is not a PallyPower issue.
+
+* Added a missing nil check/bug fix to one of the Ambiguate calls that should have been included in an earlier release.
 ------------------------------------------------------------------------
 
