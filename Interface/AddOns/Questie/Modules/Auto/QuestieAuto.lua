@@ -78,8 +78,11 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_PROGRESS", event, ...)
     doneTalking = false
 
-    if not shouldRunAuto then
-        Questie:Debug(DEBUG_DEVELOP, "shouldRunAuto = false")
+    if (not shouldRunAuto) then
+        return
+    elseif _QuestieAuto:IsBindTrue(Questie.db.char.autoModifier) then
+        shouldRunAuto = false
+        Questie:Debug(DEBUG_DEVELOP, "Modifier-Key down: Disabling QuestieAuto for now")
         return
     end
 
@@ -187,8 +190,7 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
                 quest = QuestieDB:GetQuest(questId)
                 if quest == nil then
                     Questie:Debug(DEBUG_DEVELOP, "retry failed. Quest", questId, "might not be in the DB!")
-                end
-                if (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
+                elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
                     Questie:Debug(DEBUG_INFO, "Questie Auto-Acceping quest")
                     AcceptQuest()
                 end
