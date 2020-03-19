@@ -4,46 +4,6 @@
 
 MTSL_LOGIC_WORLD = {
     ------------------------------------------------------------------------------------------------
-    -- Returns a list of Continents ordered by name
-    --
-    -- returns 		Array		The contintents
-    ------------------------------------------------------------------------------------------------
-    GetContinents = function(self)
-        return MTSL_TOOLS:SortArrayByLocalisedProperty(MTSL_DATA["continents"], "name")
-    end,
-
-    ------------------------------------------------------------------------------------------------
-    -- Returns a continent by id
-    --
-    -- @id          Number      The id of the continent
-    --
-    -- returns 		Array		The continent
-    ------------------------------------------------------------------------------------------------
-    GetContinentById = function(self, id)
-        return MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["contitents"], "id", id)
-    end,
-
-    ------------------------------------------------------------------------------------------------
-    -- Returns a continent by name
-    --
-    -- @name        String      The name of the continent
-    --
-    -- returns 		Array		The continent
-    ------------------------------------------------------------------------------------------------
-    GetContinentByName = function(self, name)
-        return MTSL_TOOLS:GetItemFromLocalisedArrayByKeyValue(MTSL_DATA["contitents"], "name", name)
-    end,
-
-    ------------------------------------------------------------------------------------------------
-    -- Returns a list of Zones ordered by name
-    --
-    -- returns 		Array		The zones
-    ------------------------------------------------------------------------------------------------
-    GetZones = function(self)
-        return MTSL_TOOLS:SortArrayByLocalisedProperty(MTSL_DATA["zones"], "name")
-    end,
-
-    ------------------------------------------------------------------------------------------------
     -- Returns a zone by name
     --
     -- @name        String      The name of the zone
@@ -70,16 +30,14 @@ MTSL_LOGIC_WORLD = {
     end,
 
     ------------------------------------------------------------------------------------------------
-    -- Returns a list of Zones for a contintent
+    -- Returns the zone by id
     --
-    -- @continent_name      String      The name of the contintent
+    -- @zone_id		Number		The id of the zone
     --
-    -- returns 		        Array		The zones
+    -- returns 		Object		The zone
     ------------------------------------------------------------------------------------------------
-    GetZonesInContinentByName = function(self, continent_name)
-        local cont_id = self:GetContintent(continent_name)["id"]
-        local zones_continent = MTSL_TOOLS:GetAllItemsFromArrayByKeyValue(MTSL_DATA["zones"], "cont_id", cont_id)
-        return MTSL_TOOLS:SortArrayByLocalisedProperty(zones_continent, "name")
+    GetZoneId = function(self, id)
+        return MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["zones"], "id", id)
     end,
 
     ------------------------------------------------------------------------------------------------

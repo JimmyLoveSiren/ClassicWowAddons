@@ -223,8 +223,8 @@ MTSLUI_TOOLS = {
 	----------------------------------------------------------------------------------------
 	PrintAboutMessage = function (self)
 		print(MTSLUI_FONTS.COLORS.TEXT.TITLE .. MTSLUI_ADDON.NAME)
-		print(MTSLUI_FONTS.COLORS.TEXT.TITLE .. MTSLUI_FONTS.TAB .. MTSLUI_TOOLS:GetLocalisedLabel("author") .. MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_ADDON.AUTHOR)
-		print(MTSLUI_FONTS.COLORS.TEXT.TITLE .. MTSLUI_FONTS.TAB .. MTSLUI_TOOLS:GetLocalisedLabel("version") .. MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_ADDON.VERSION)
+		print(MTSLUI_FONTS.COLORS.TEXT.TITLE .. MTSLUI_FONTS.TAB .. self:GetLocalisedLabel("author") .. MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_ADDON.AUTHOR)
+		print(MTSLUI_FONTS.COLORS.TEXT.TITLE .. MTSLUI_FONTS.TAB .. self:GetLocalisedLabel("version") .. MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_ADDON.VERSION)
 	end,
 
 	----------------------------------------------------------------------------------------
@@ -261,28 +261,6 @@ MTSLUI_TOOLS = {
 	end,
 
 	------------------------------------------------------------------------------------------------
-	-- Gets the English name for a trade skill
-	--
-	-- @trade_skill_name	String		The name of the trade skill in current locale
-	--
-	-- return				String		The English name of the trade skill
-	------------------------------------------------------------------------------------------------
-	GetLocaleTradeSkillName = function(self, trade_skill_name)
-		return MTSLUI_LOCALES_PROFESSIONS[MTSLUI_CURRENT_LANGUAGE][trade_skill_name]
-	end,
-
-	------------------------------------------------------------------------------------------------
-	-- Gets the English name for a reputation level
-	--
-	-- @reputation_level	String		The name of the reputation level in current locale
-	--
-	-- return				String		The English name of the reputation level
-	------------------------------------------------------------------------------------------------
-	GetLocaleReputationLevel = function(self, reputation_level)
-		return MTSLUI_LOCALES_REP_LEVELS[MTSLUI_CURRENT_LANGUAGE][reputation_level]
-	end,
-
-	------------------------------------------------------------------------------------------------
 	-- Creates a TomTom waypoint if possible
 	--
 	-- @label_text			String			The string containing the zonename, coords & descrption
@@ -304,7 +282,7 @@ MTSLUI_TOOLS = {
 							if IsAddOnLoaded("TomTom") and SlashCmdList["TOMTOM_WAY"] ~= nil then
 								SlashCmdList["TOMTOM_WAY"](zone .. x_coord .. y_coord .. " " .. name_npc .. " (" .. item_name .. ")")
 							elseif not self.tomtom_warned then
-								print(MTSLUI_FONTS.COLORS.TEXT.WARNING .. "MTSL: " .. MTSLUI_TOOLS:GetLocalisedLabel("tomtom needed"))
+								print(MTSLUI_FONTS.COLORS.TEXT.WARNING .. "MTSL: " .. self:GetLocalisedLabel("tomtom needed"))
 								self.tomtom_warned = true
 							end
 						end
@@ -355,9 +333,18 @@ MTSLUI_TOOLS = {
 
 	------------------------------------------------------------------------------------------------
 	-- Returns the text for a label in the current locale/language
-------------------------------------------------------------------------------------------------
+	------------------------------------------------------------------------------------------------
 	GetLocalisedLabel = function(self, label)
+		if MTSLUI_CURRENT_LANGUAGE == nil then MTSLUI_CURRENT_LANGUAGE = "English" end
 		return MTSLUI_LOCALES_LABELS[label][MTSLUI_CURRENT_LANGUAGE]
+	end,
+
+	------------------------------------------------------------------------------------------------
+	-- Returns the text for a label in the current locale/language
+	------------------------------------------------------------------------------------------------
+	GetLocalisedLabelSpecialAction = function(self, label)
+		if MTSLUI_CURRENT_LANGUAGE == nil then MTSLUI_CURRENT_LANGUAGE = "English" end
+		return MTSL_DATA["special_actions"][label]["name"][MTSLUI_CURRENT_LANGUAGE]
 	end,
 
 	------------------------------------------------------------------------------------------------

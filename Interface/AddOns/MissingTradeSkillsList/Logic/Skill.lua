@@ -12,68 +12,91 @@ MTSL_LOGIC_SKILL = {
     --
     -- return				Boolean			Flag indicating availability
     -----------------------------------------------------------------------------------------
-    IsSkillAvailableInPhase = function(self, skill, profession_name, max_phase)
-        local available = true
-        if skill.phase ~= nil and skill.phase > max_phase then
-            available = false
-        -- Ignore checks if we check for MTSL_DATA.MAX_PATCH_LEVEL cause then all are available
-        elseif max_phase < MTSL_DATA.MAX_PATCH_LEVEL then
-            -- check if at least one of the sources is available in the current or previous phases
-            -- With trainers, quest or object a skill is always available
-            -- Check for the content phase of the item
-            if skill.trainers == nil and skill.quests == nil and skill.object == nil then
-                if skill.item == nil then
-                    print(MTSLUI_FONTS.COLORS.TEXT.ERROR .. "MTSL: Skill  " .. skill.name["English"] .. " (id: " .. skill.id .. ") has no sources. Report this bug!")
-                    return false
-                else
-                    local skill_item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.item, profession_name)
-                    if skill_item ~= nil and skill_item.phase  > max_phase then
-                        available = false
+    IsSkillAvailableInPhase = function(self, skill, max_phase)
+        return tonumber(skill.phase) <= tonumber(max_phase)
+    end,
+
+    VerifyPhasesForAllSkills = function(self)
+        for k, v in pairs(MTSL_DATA["skills"]) do
+            for _, skill in pairs(v) do
+                local min_current_phase = skill.phase
+                if min_current_phase == nil then min_current_phase = MTSL_DATA.MIN_PATCH_LEVEL end
+                local max_current_phase = min_current_phase
+
+                if skill.trainers then
+                    local trainers = MTSL_LOGIC_PLAYER_NPC:GetNpcsByIds(skill.trainers.sources)
+                    for _, t in pairs(trainers) do
+                        if t.phase ~= nil and t.phase > max_current_phase then
+                            max_current_phase = t.phase
+                        end
+                    end
+                end
+
+                if skill.quests then
+                    local quests = MTSL_LOGIC_QUEST:GetQuestsByIds(skill.quests)
+                    for _, q in pairs(quests) do
+                        if q.phase ~= nil and q.phase > max_current_phase then
+                            max_current_phase = q.phase
+                        end
+                    end
+                end
+
+                if skill.items then
+                    local skill_item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.items[1], k)
+                    if skill_item ~= nil and skill_item.phase ~= nil and skill_item.phase  > max_current_phase then
+                        max_current_phase = skill_item.phase
+                    end
+                    -- TODO, check vendors & drops & objects
+                end
+
+                if skill.objects then
+                    local objects = MTSL_LOGIC_ITEM_OBJECT:GetObjectsByIds(skill.objects)
+                    for _, o in pairs(objects) do
+                        if o.phase ~= nil and o.phase > max_current_phase then
+                            max_current_phase = o.phase
+                        end
                     end
                 end
             end
+
+            if tonumber(min_current_phase) < tonumber(max_current_phase) then
+                print(k .. " " .. v.name.English .. " " .. min_current_phase .. "-" .. max_current_phase)
+            end
         end
-        return available
     end,
 
     ----------------------------------------------------------------------------------------
-    -- Checks if a skill is available in this content phase in a certain zone
+    -- Checks if a skill is available in a certain zone
     --
     -- @skill				Object			The skill
     -- @profession_name		String			The name of the profession
-    -- @max_phase			Number			The number of content phase that is maximal allowed
     -- @zone_id				Number			The id of the zone (0 = all)
     --
     -- return				Boolean			Flag indicating availability
     -----------------------------------------------------------------------------------------
-    IsSkillAvailableInPhaseAndZone = function(self, skill, profession_name, max_phase, zone_id)
+    IsSkillAvailableInZone = function(self, skill, profession_name, zone_id)
         local available = true
-        -- first check if available in Phase
-        if self:IsSkillAvailableInPhase(skill, profession_name, max_phase) then
-            -- check fot at least one source in the zone (skip zone if id = 0 => all are good)
-            if zone_id ~= 0 then
-                local at_least_one_source = false
-                -- if trainers, loop em
-                if skill.trainers ~= nil then
-                    local npcs = MTSL_LOGIC_PLAYER_NPC:GetNpcsByIds(skill.trainers.sources)
-                    at_least_one_source = self:HasAtleastOneNpcInZoneById(npcs, zone_id)
-                end
-                -- keep going if still no valid source found
-                if not at_least_one_source and skill.quests ~= nil then
-                    at_least_one_source = self:HasAtleastOneObtainableQuestInZone(skill.quests, profession_name, zone_id)
-                end
-                -- keep going if still no valid source found
-                if not at_least_one_source and skill.object ~= nil then
-                    at_least_one_source = self:HasAtleastOneObtainableObjectInZone( { skill.object }, zone_id)
-                end
-                -- keep going if still no valid source found
-                if not at_least_one_source and skill.item ~= nill then
-                    at_least_one_source = self:HasAtleastOneObtainableItemInZone( { skill.item }, profession_name, zone_id)
-                end
-                available = at_least_one_source
+        -- check fot at least one source in the zone (skip zone if id = 0 => all are good)
+        if zone_id ~= 0 then
+            local at_least_one_source = false
+            -- if trainers, loop em
+            if skill.trainers ~= nil then
+                local npcs = MTSL_LOGIC_PLAYER_NPC:GetNpcsByIds(skill.trainers.sources)
+                at_least_one_source = self:HasAtleastOneNpcInZoneById(npcs, zone_id)
             end
-        else
-            available = false
+            -- keep going if still no valid source found
+            if not at_least_one_source and skill.quests ~= nil then
+                at_least_one_source = self:HasAtleastOneObtainableQuestInZone(skill.quests, profession_name, zone_id)
+            end
+            -- keep going if still no valid source found
+            if not at_least_one_source and skill.objects ~= nil then
+                at_least_one_source = self:HasAtleastOneObtainableObjectInZone(skill.objects, zone_id)
+            end
+            -- keep going if still no valid source found
+            if not at_least_one_source and skill.items ~= nill then
+                at_least_one_source = self:HasAtleastOneObtainableItemInZone(skill.items, profession_name, zone_id)
+            end
+            available = at_least_one_source
         end
         return available
     end,
@@ -150,26 +173,38 @@ MTSL_LOGIC_SKILL = {
     HasAtleastOneObtainableItemInZone = function(self, item_ids, profession_name, zone_id)
         local i = 1
         local is_obtainable = false
-        while item_ids[i] ~= nil and is_obtainable == false do
+        while item_ids[i] and is_obtainable == false do
             local skill_item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(item_ids[i], profession_name)
-            if skill_item ~= nil then
+            if skill_item then
                 -- item has many sources (drops, quests, vendors)
                 -- check quests
-                if skill_item.quests ~= nil then
+                if skill_item.quests then
                     is_obtainable = self:HasAtleastOneObtainableQuestInZone(skill_item.quests, profession_name, zone_id)
                 end
                 -- check vendors
-                if not is_obtainable and skill_item.vendors ~= nil then
+                if not is_obtainable and skill_item.vendors then
                     local vendors = MTSL_LOGIC_PLAYER_NPC:GetNpcsByIds(skill_item.vendors.sources)
                     is_obtainable = self:HasAtleastOneNpcInZoneById(vendors, zone_id)
                 end
                 -- check drops only if not a world drop
-                if not is_obtainable and skill_item.drops ~= nil then
-                    -- Exclude world drops
-                    if skill_item.drops.mobs_range ~= nil then
-                        is_obtainable = false
+                if not is_obtainable and skill_item.drops then
+                    -- World drop
+                    if skill_item.drops.range then
+                        -- check if the zone levels are in range of the drop range mobs
+                        local zone = MTSL_LOGIC_WORLD:GetZoneId(zone_id)
+                        if zone.levels then
+                            if (tonumber(zone.levels.min) > tonumber(skill_item.drops.range.max_xp_level) or
+                                    tonumber(zone.levels.max) < tonumber(skill_item.drops.range.min_xp_level)) then
+                                is_obtainable = false
+                            else
+                                is_obtainable = true
+                            end
+                        else
+                            is_obtainable = false
+                        end
+                        -- Drop mobs
                     else
-                        local mobs = MTSL_LOGIC_PLAYER_NPC:GetMobsByIds(skill_item.drops.mobs)
+                        local mobs = MTSL_LOGIC_PLAYER_NPC:GetMobsByIds(skill_item.drops.sources)
                         is_obtainable = self:HasAtleastOneNpcInZoneById(mobs, zone_id)
                     end
                 end
@@ -177,34 +212,6 @@ MTSL_LOGIC_SKILL = {
             i = i + 1
         end
         return is_obtainable
-    end,
-
-    ------------------------------------------------------------------------------------------------
-    -- Returns a list of skills obtainable in a certain zone for a certain profession
-    --
-    -- @zone				String		The name of the zone (ANY for all zones)
-    -- @profession_name		String		Name of the profession
-    -- @order_by_name	    Boolean		Flag indicating if sorting by name or min_skill
-    --
-    -- returns	 		    Array		The skills
-    ------------------------------------------------------------------------------------------------
-    GetSkillsForZone = function(self, zone, profession_name, order_by_name)
-        if zone == "ANY" then
-            return {}
-        else
-            local skills = {}
-            for k,v in pairs (MTSL_DATA[profession_name]["skills"]) do
-                if self:IsLearnableInZone(v, zone) then
-                    table.insert(skills, v)
-                end
-            end
-            if order_by_name then
-                MTSL_TOOLS:SortArrayByLocalisedProperty(skills, "name")
-            else
-                MTSL_TOOLS:SortArrayByProperty(skills, "min_skill")
-            end
-            return skills
-        end
     end,
 
     ------------------------------------------------------------------------------------------------
@@ -216,10 +223,10 @@ MTSL_LOGIC_SKILL = {
     -- returns	 		Array		The skills
     ------------------------------------------------------------------------------------------------
     GetSkillForProfessionByItemId = function(self, item_id, profession_name)
-        local skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA[profession_name]["skills"], "item", item_id)
+        local skill = MTSL_TOOLS:GetItemFromArrayByKeyArrayValue(MTSL_DATA["skills"][profession_name], "items", item_id)
         -- try a level if nil
         if skill == nil then
-            skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA[profession_name]["levels"], "item", item_id)
+            skill = MTSL_TOOLS:GetItemFromArrayByKeyArrayValue(MTSL_DATA["levels"][profession_name], "items", item_id)
         end
         return skill
     end,
@@ -233,10 +240,10 @@ MTSL_LOGIC_SKILL = {
     -- returns	 		Array		The skills
     ------------------------------------------------------------------------------------------------
     GetSkillForProfessionById = function(self, skill_id, profession_name)
-        local skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA[profession_name]["skills"], "id", skill_id)
+        local skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["skills"][profession_name], "id", skill_id)
         -- try a level if nil
         if skill == nil then
-            skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA[profession_name]["levels"], "id", skill_id)
+            skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["levels"][profession_name], "id", skill_id)
         end
         return skill
     end,
@@ -251,10 +258,10 @@ MTSL_LOGIC_SKILL = {
     ------------------------------------------------------------------------------------------------
     GetSourcesForSkillForProfessionById = function(self, skill_id, profession_name)
         local source_types = {}
-        local skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA[profession_name]["skills"], "id", skill_id)
+        local skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["skills"][profession_name], "id", skill_id)
         -- try a level if nil
         if skill == nil then
-            skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA[profession_name]["levels"], "id", skill_id)
+            skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["levels"][profession_name], "id", skill_id)
         end
         if skill ~= nil then
             -- try types on skill itself
@@ -265,8 +272,8 @@ MTSL_LOGIC_SKILL = {
                 table.insert(source_types, "quest")
             end
             -- if learned from item, determine the source types based on the item source
-            if skill.item ~= nil then
-                local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.item, profession_name)
+            if skill.items ~= nil then
+                local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.items[1], profession_name)
                 if item ~= nil then
                     if item.vendors ~= nil then
                         table.insert(source_types, "vendor")
@@ -284,7 +291,7 @@ MTSL_LOGIC_SKILL = {
                 end
             end
             -- if we learned from object
-            if skill.object ~= nil then
+            if skill.objects ~= nil then
                 table.insert(source_types, "object")
             end
             -- if only obtainable during holiday event
@@ -320,10 +327,10 @@ MTSL_LOGIC_SKILL = {
     ------------------------------------------------------------------------------------------------
     GetFactionsForSkillForProfessionById = function(self, skill_id, profession_name)
         local factions = {}
-        local skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA[profession_name]["skills"], "id", skill_id)
+        local skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["skills"][profession_name], "id", skill_id)
         -- try a level if nil
         if skill == nil then
-            skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA[profession_name]["levels"], "id", skill_id)
+            skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["levels"][profession_name], "id", skill_id)
         end
         -- if we find the skill of the profession, search for factions
         if skill ~= nil then
@@ -334,15 +341,15 @@ MTSL_LOGIC_SKILL = {
                     self:AddFactionForDataToArray(factions, t)
                 end
             end
-            if skill.object then
+            if skill.objects then
                 table.insert(factions, MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName("Alliance"))
                 table.insert(factions, MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName("Horde"))
             end
             -- try reputation/reacts on skill itself
             self:AddFactionForDataToArray(factions, skill)
             -- if learned from item, add the factions based on the item source
-            if skill.item ~= nil then
-                local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.item, profession_name)
+            if skill.items ~= nil then
+                local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.items[1], profession_name)
                 if item ~= nil then
                     self:AddFactionForDataToArray(factions, item)
                     if item.vendors ~= nil then
@@ -353,7 +360,7 @@ MTSL_LOGIC_SKILL = {
                         end
                     end
                     -- it is is a drop of mobs or learned from object or special action, add both alliance and horde
-                    if item.drops or item.object or item.special_action then
+                    if item.drops or item.objects or item.special_action then
                         table.insert(factions, MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName("Alliance"))
                         table.insert(factions, MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName("Horde"))
                     end
@@ -463,12 +470,14 @@ MTSL_LOGIC_SKILL = {
             end
         end
         -- check if learned from item
-        if obtainable == false and skill.item ~= nil then
-            local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.item, profession_name)
-            -- npc can be a mob that drops it or vendor
-            if item ~= nil and ((item.drops ~= nil and item.drops.mobs ~= nil and MTSL_TOOLS:ListContainsNumber(item.drops.mobs, npc_id))
-                    or (item.vendors ~= nil and MTSL_TOOLS:ListContainsNumber(item.vendors.sources, npc_id))) then
-                obtainable = true
+        if obtainable == false and skill.items ~= nil then
+            local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.items[1], profession_name)
+            if item ~= nil then
+                -- npc can be a mob that drops it or vendor
+                if item ~= nil and ((item.drops ~= nil and item.drops.sources ~= nil and MTSL_TOOLS:ListContainsNumber(item.drops.sources, npc_id))
+                        or (item.vendors ~= nil and MTSL_TOOLS:ListContainsNumber(item.vendors.sources, npc_id))) then
+                    obtainable = true
+                end
             end
             -- or questgiver
             if obtainable == false and item ~= nil and item.quests ~= nil then

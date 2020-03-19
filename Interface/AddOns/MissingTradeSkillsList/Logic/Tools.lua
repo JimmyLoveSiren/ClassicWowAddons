@@ -2,6 +2,9 @@
 -- Contains all shared functions for the logic --
 -------------------------------------------------
 
+MTSL_AVAILABLE_PROFESSIONS = { "Alchemy", "Blacksmithing", "Cooking", "Enchanting", "Engineering", "First Aid", "Leatherworking", "Mining", "Poisons", "Tailoring" }
+MTSL_AVAILABLE_LANGUAGES = { "French", "English", "German", "Russian", "Spanish", "Portuguese", "Chinese", "Taiwanese" }
+
 MTSL_TOOLS = {
 	---------------------------------------------------------------------------------------
 	-- Conver a number to xx g xx s xx c
@@ -41,38 +44,8 @@ MTSL_TOOLS = {
 	-- returns		Boolean		Flag indicating if data is valid
 	----------------------------------------------------------------------------------------------------------
 	CheckIfDataIsValid = function(self)
-		-- check the professions
-		local professions_to_check = { "Alchemy", "Blacksmithing", "Enchanting", "Engineering", "Leatherworking", "Mining", "Tailoring", "Cooking", "First Aid" }
-		local subitems_per_professsion_to_check = { "skills", "levels", "items" }
-		local langs_to_check = { "French", "English", "German", "Russian", "Spanish", "Portuguese" }
-		for _, v in pairs(professions_to_check) do
-			-- profession not present
-			if MTSL_DATA[v] == nil then
-				print(MTSLUI_FONTS.COLORS.TEXT.ERROR .. "MTSL: Could not load all the data needed for the addon! Missing profession " .. v .. ". Please reinstall the addon!")
-				return false
-			end
-			for _, w in pairs(subitems_per_professsion_to_check) do
-				-- subset not present
-				if MTSL_DATA[v][w] == nil then
-					print(MTSLUI_FONTS.COLORS.TEXT.ERROR .. "MTSL: Could not load all the data needed for the addon! Missing " .. w .. " in profession " .. v .. ". Please reinstall the addon!")
-					return false
-				end
-				-- loop each subset
-				for _, x in pairs(MTSL_DATA[v][w]) do
-					-- check for each translation in the item
-					for _, z in pairs(langs_to_check) do
-					-- name not translated to a language not present
-						if x.name == nil or x["name"][z] == nil then
-							print(MTSLUI_FONTS.COLORS.TEXT.ERROR .. "MTSL: Could not load all the data needed for the addon! Missing translation for " .. w .. " with id " .. x.id .. " in profession " .. v .. ". Please reinstall the addon!")
-							return false
-						end
-					end
-				end
-			end
-		end
-		-- check the NPCs, objets & quests
-		local objects_to_check = { "npcs", "objects", "quests", "zones", "factions", "continents" }
-		for _, v in pairs(professions_to_check) do
+		local objects_to_check = { "continents", "factions", "holidays", "npcs", "objects", "professions", "profession_ranks", "quests", "reputation_levels", "special_actions", "zones", "items", "levels", "skills", "specialisations"}
+		for _, v in pairs(objects_to_check) do
 			-- object not present
 			if MTSL_DATA[v] == nil then
 				print(MTSLUI_FONTS.COLORS.TEXT.ERROR .. "MTSL: Could not load all the data needed for the addon! Missing " .. v .. ". Please reinstall the addon!")
@@ -214,6 +187,26 @@ MTSL_TOOLS = {
 		if key_value ~= nil then
 			for k, v in pairs(array) do
 				if v[key_name] ~= nil and v[key_name] == key_value then
+					return v
+				end
+			end
+		end
+		-- item not found
+		return nil
+	end,
+	-----------------------------------------------------------------------------------------------
+	-- Gets an item (based on a value in an array) from an array
+	--
+	-- @array			Array		The array to search
+	-- @key_name		String		The name of the key to use to compare values
+	-- @key_value		Object		The value of the key to search in the key_array
+	--
+	-- return			Object		Found item (nil if not found)
+	------------------------------------------------------------------------------------------------
+	GetItemFromArrayByKeyArrayValue = function(self, array, key_name, key_value)
+		if key_value ~= nil then
+			for k, v in pairs(array) do
+				if v[key_name] ~= nil and type(v[key_name]) == "table" and self:ListContainsKey(v[key_name], key_value) then
 					return v
 				end
 			end

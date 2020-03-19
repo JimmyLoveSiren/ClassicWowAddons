@@ -57,4 +57,19 @@ MTSL_LOGIC_QUEST = {
     GetQuestById = function(self, id)
         return MTSL_TOOLS:GetItemFromSortedListById(MTSL_DATA["quests"], id)
     end,
+
+    -----------------------------------------------------------------------------------------------
+    -- Gets a quest based on its id
+    --
+    -- @quest_id		Number		The id of the quest to search
+    --
+    -- return			Object		Found quest
+    ------------------------------------------------------------------------------------------------
+    GetQuestsByIds = function(self, ids)
+        local quests = {}
+        for _, i in pairs(ids) do
+            table.insert(quests,  MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["quests"], i))
+        end
+        return quests
+    end,
 }

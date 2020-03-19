@@ -20,7 +20,7 @@ local MTSL_TOOLTIP_SHOWN = 0
 GameTooltip:HookScript("OnTooltipSetItem", function(self)
     -- Only update the tooltip when needed
     if MTSLUI_SAVED_VARIABLES:GetEnhancedTooltipActive() == 1 and MTSL_TOOLTIP_SHOWN <= 0 then
-        -- Mark the tooltip as shown
+         -- Mark the tooltip as shown
         MTSL_TOOLTIP_SHOWN = 1
         -- Find out if this is the first or second call of OnTooltipSetItem().
         local name, link = GameTooltip:GetItem()
@@ -39,6 +39,7 @@ GameTooltip:HookScript("OnTooltipSetItem", function(self)
                 other_players = MTSL_LOGIC_PLAYER_NPC:GetOtherPlayersOnCurrentRealmSameFactionLearnedProfession(prof_name)
             end
             MTSL_TOOLS:SortArrayByProperty(other_players, "NAME")
+
             -- Only add if we have players to add
             if MTSL_TOOLS:CountItemsInArray(other_players) > 0 then
                 -- Get the skill from our data (convert itemid to a number instead of string) so we can check the min_skill
@@ -51,9 +52,9 @@ GameTooltip:HookScript("OnTooltipSetItem", function(self)
                         -- Check if learned or not
                         -- default color = learned (green)
                         local status_color = MTSLUI_FONTS.COLORS.AVAILABLE.YES
-                        if MTSL_TOOLS:ListContainsNumber(v["TRADESKILLS"][prof_name]["MISSING_SKILLS"], tonumber(skill.id)) == true then
+                        if MTSL_TOOLS:ListContainsNumber(tonumber(v["TRADESKILLS"][prof_name]["MISSING_SKILLS"]), tonumber(skill.id)) == true then
                             -- depending on his skill level, mark as learnable or not yet learnable
-                            if v["TRADESKILLS"][prof_name]["SKILL_LEVEL"] >= skill.min_skill then
+                            if tonumber(v["TRADESKILLS"][prof_name]["SKILL_LEVEL"]) >= tonumber(skill.min_skill) then
                                 status_color = MTSLUI_FONTS.COLORS.AVAILABLE.LEARNABLE
                             else
                                 status_color = MTSLUI_FONTS.COLORS.AVAILABLE.NO

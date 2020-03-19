@@ -1,142 +1,98 @@
-﻿## Interface: 11303
+﻿## Interface: 11304
 ## Title: Missing TradeSkills List
 ## Author: Thumbkin
 ## Notes: Shows missing skills & recipes for a profession and where to get them.
 ## SavedVariables: MTSL_PLAYERS, MTSLUI_PLAYER
-## Version: 1.13.34
+## Version: 1.13.38
 
 #
 # Load all global variables, saved variables & locale
 #
 
-Data\GlobalVariables.lua
+data\global_variables.lua
 
-Logic\SavedVariables.lua
+logic\saved_variables.lua
 
-UI\GlobalVariables.lua
-UI\Locales.lua
-UI\SavedVariables.lua
+ui\global_variables.lua
+ui\locales.lua
+ui\saved_variables.lua
 
 #
 # Load the data
 #
 
 # Shared data
-Data\Factions.lua
-Data\Holidays.lua
-Data\Npcs.lua
-Data\Objects.lua
-Data\Quests.lua
-Data\Continents.lua
-Data\Zones.lua
-Data\Specialisations.lua
-
-# Alchemy
-Data\Alchemy\Alchemy_Levels.lua
-Data\Alchemy\Alchemy_Skills.lua
-Data\Alchemy\Alchemy_Items.lua
-
-# Blacksmithing
-Data\Blacksmithing\Blacksmithing_Levels.lua
-Data\Blacksmithing\Blacksmithing_Skills.lua
-Data\Blacksmithing\Blacksmithing_Items.lua
-
-# Cooking
-Data\Cooking\Cooking_Levels.lua
-Data\Cooking\Cooking_Skills.lua
-Data\Cooking\Cooking_Items.lua
-
-# Enchanting
-Data\Enchanting\Enchanting_Levels.lua
-Data\Enchanting\Enchanting_Skills.lua
-Data\Enchanting\Enchanting_Items.lua
-
-# Engineering
-Data\Engineering\Engineering_Levels.lua
-Data\Engineering\Engineering_Skills.lua
-Data\Engineering\Engineering_Items.lua
-
-# First Aid
-Data\FirstAid\FirstAid_Levels.lua
-Data\FirstAid\FirstAid_Skills.lua
-Data\FirstAid\FirstAid_Items.lua
-
-# Leatherworking
-Data\Leatherworking\Leatherworking_Levels.lua
-Data\Leatherworking\Leatherworking_Skills.lua
-Data\Leatherworking\Leatherworking_Items.lua
-
-# Mining
-Data\Mining\Mining_Levels.lua
-Data\Mining\Mining_Skills.lua
-Data\Mining\Mining_Items.lua
-
-# Poisons
-Data\Poisons\Poisons_Levels.lua
-Data\Poisons\Poisons_Skills.lua
-Data\Poisons\Poisons_Items.lua
-
-# Tailoring
-Data\Tailoring\Tailoring_Levels.lua
-Data\Tailoring\Tailoring_Skills.lua
-Data\Tailoring\Tailoring_Items.lua
+data\continents.lua
+data\factions.lua
+data\holidays.lua
+data\items.lua
+data\levels.lua
+data\npcs.lua
+data\objects.lua
+data\profession_ranks.lua
+data\professions.lua
+data\quests.lua
+data\reputation_levels.lua
+data\skills.lua
+data\special_actions.lua
+data\specialisations.lua
+data\zones.lua
 
 #
 # Load the logic
 #
-Logic\Tools.lua
-Logic\FactionReputation.lua
-Logic\ItemObject.lua
-Logic\PlayerNpc.lua
-Logic\Profession.lua
-Logic\Quest.lua
-Logic\Skill.lua
-Logic\World.lua
+logic\tools.lua
+logic\faction_reputation.lua
+logic\item_object.lua
+logic\player_npc.lua
+logic\profession.lua
+logic\quest.lua
+logic\skill.lua
+logic\world.lua
 
 #
 # Load the UI
 #
 
 # Shared functions
-UI\Fonts.lua
-UI\Tools.lua
-UI\EventHandler.lua
+ui\fonts.lua
+ui\tools.lua
+ui\event_handler.lua
 
 # Shared Frames
-UI\Common\BaseFrame.lua
-UI\Common\HorizontalSlider.lua
-UI\Common\ListItem.lua
-UI\Common\ListFrame.lua
-UI\Common\PlayerListFrame.lua
-UI\Common\FilterFrame.lua
-UI\Common\NpcFilterFrame.lua
-UI\Common\NpcListFrame.lua
-UI\Common\NpcSkillListFrame.lua
-UI\Common\PlayerFilterFrame.lua
-UI\Common\ProfessionListFrame.lua
-UI\Common\ProgressBar.lua
-UI\Common\SkillDetailFrame.lua
-UI\Common\TitleFrame.lua
-UI\Common\VerticalSlider.lua
+ui\common\base_frame.lua
+ui\common\list_item.lua
+ui\common\list_frame.lua
+ui\common\filter_frame.lua
+ui\common\npc_filter_frame.lua
+ui\common\npc_list_frame.lua
+ui\common\npc_skill_list_frame.lua
+ui\common\player_list_frame.lua
+ui\common\player_filter_frame.lua
+ui\common\profession_list_frame.lua
+ui\common\progressbar.lua
+ui\common\skill_detail_frame.lua
+ui\common\title_frame.lua
+ui\common\vertical_slider.lua
 
 # Components for OptionsFrame
-UI\Options\ConfigFrame.lua
-UI\Options\SaveFrame.lua
-UI\Options\ResetFrame.lua
+ui\options\config_frame.lua
+ui\options\save_frame.lua
+ui\options\reset_frame.lua
 
 # MainFrames
-UI\MainFrames\AccountExplorerFrame.lua
-UI\MainFrames\DatabaseExplorerFrame.lua
-UI\MainFrames\NpcExplorerFrame.lua
-UI\MainFrames\OptionsMenuFrame.lua
-UI\MainFrames\ToggleButton.lua
-UI\MainFrames\MissingTradeSkillsFrame.lua
+ui\mainframes\account_explorer_frame.lua
+ui\mainframes\database_explorer_frame.lua
+ui\mainframes\npc_explorer_frame.lua
+ui\mainframes\options_menu_frame.lua
+ui\mainframes\toggle_button.lua
+ui\mainframes\missing_tradeskills_frame.lua
 
 # MinimapButton
-UI\MinimapButton.lua
+ui\minimap_button.lua
 
 # Tooltip
-UI\Tooltip.lua
+ui\tooltip.lua
 
 # Initialise the frames & start the addon
 MissingTradeSkillsList.lua

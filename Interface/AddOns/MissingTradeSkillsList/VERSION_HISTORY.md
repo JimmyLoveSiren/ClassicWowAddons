@@ -1,5 +1,45 @@
 ## Version History
 
+### v1.13.38 (Mar 19, 2020)
+
+* Updated the addon icon/logo to show all 10 supported tradeskills
+* Added levels to each "normal" zone in the filter frame
+* Added world drop recipes to be shown for a current zone if that zone's levels are within the drop range of the recipe
+* Fixed a bug with the enhanced tooltip
+* Fixed a bug with the filter frame
+* Fixed a bug with numbers shown in the progressbar in the MTLS window
+* Checked & verfified all Tailoring data
+
+### v1.13.37 (Mar 15, 2020)
+
+* Added support for classic wow version 1.13.4
+* Fixed bug where MTSL button was missing for Enchanting
+* Checked & verfified all Leatherworking data
+
+### v1.13.36 (Mar 9, 2020)
+
+* Reduced amout of files in the addon and renamed a lot of files too. Make sure to **delete** your current addon folder first before extracting new version!
+* Fixed bug where missing skills were no longer colored based on current skill in MTSL window
+* Added localisation for Taiwanese (Traditional Chinese) [Big thanks to dalanwoopy]
+* Checked & verfified all Engineering data
+* Optimised a lot of code and removed unused code
+* Checked & verified all phases of the skills
+* All skills are translated to their respective localisation
+
+### v1.13.35 (Feb 17, 2020)
+
+* Enabled option again to set patch level used in addon (1-6)
+  * Added option to filter to use current level (is set automaticly, based on buildnumber client)
+* Changed dragging of MinimapButton to RMB, to avoid moving it while clicking it with LMB
+* Added option to NPC explorer frame to show Specialisation Trainers
+* Checked & verified data for Enchanting
+* Dynamic filtering of skills in MTSL window
+  * When player knows a specialisation, all other specialisations and their skills are hidden
+  * When a player does not know any specialisation, all specialisations & skills are shown
+* Fixed bugs in the options menu
+  * The "Default" button will again reset the values correctly
+  * The "Save" button should again work correctly
+
 ### v1.13.34 (Feb 3, 2020)
 
 * Update skills know count number to now show the number for the current phase but also total number after all content is released
