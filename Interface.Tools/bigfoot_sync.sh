@@ -6,8 +6,8 @@ if [ ! -d "$1/AddOns" ]; then
 fi
 
 BIGFOOT_DIR="$1/AddOns"
-ADDONS_DIR=../Interface/AddOns
-POLICY_DIR=Policy
+ADDONS_DIR=Interface/AddOns
+POLICY_DIR=Interface.Tools/Policy
 
 cat "$POLICY_DIR/remove.txt" | while read ADDON; do
 	ADDON=`echo $ADDON | tr -d '\r\n'`
