@@ -52,7 +52,7 @@ GameTooltip:HookScript("OnTooltipSetItem", function(self)
                         -- Check if learned or not
                         -- default color = learned (green)
                         local status_color = MTSLUI_FONTS.COLORS.AVAILABLE.YES
-                        if MTSL_TOOLS:ListContainsNumber(tonumber(v["TRADESKILLS"][prof_name]["MISSING_SKILLS"]), tonumber(skill.id)) == true then
+                        if MTSL_TOOLS:ListContainsNumber(v["TRADESKILLS"][prof_name]["MISSING_SKILLS"], tonumber(skill.id)) == true then
                             -- depending on his skill level, mark as learnable or not yet learnable
                             if tonumber(v["TRADESKILLS"][prof_name]["SKILL_LEVEL"]) >= tonumber(skill.min_skill) then
                                 status_color = MTSLUI_FONTS.COLORS.AVAILABLE.LEARNABLE

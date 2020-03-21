@@ -63,6 +63,9 @@ MTSL_LOGIC_PLAYER_NPC = {
         -- Update faction & xp_level, just in case
         MTSL_CURRENT_PLAYER.XP_LEVEL = xp_level
         MTSL_CURRENT_PLAYER.FACTION = faction
+        -- Update guildname
+        local guildname, _, _, _ = GetGuildInfo("player")
+        MTSL_CURRENT_PLAYER.GUILD = guildname or ""
     end,
 
     ------------------------------------------------------------------------------------------------
@@ -508,7 +511,7 @@ MTSL_LOGIC_PLAYER_NPC = {
         if MTSL_CURRENT_PLAYER ~= nil and MTSL_CURRENT_PLAYER.TRADESKILLS ~= nil then
             for _, v in pairs(MTSL_CURRENT_PLAYER.TRADESKILLS) do
                 -- Check all specialisations if we have learned some
-                if v.SPELLIDS_SPECIALISATION ~= {} then
+                if v.SPELLIDS_SPECIALISATION ~= nil and v.SPELLIDS_SPECIALISATION ~= {} then
                     local new_spellids_specialisation = {}
                     for _, s in pairs(v.SPELLIDS_SPECIALISATION) do
                         if IsSpellKnown(s) then
@@ -678,5 +681,9 @@ MTSL_LOGIC_PLAYER_NPC = {
         end
 
         return amount
+    end,
+
+    GetCurrentPlayerIsInGuild = function (self)
+        return MTSL_CURRENT_PLAYER.GUILD  ~= ""
     end,
 }

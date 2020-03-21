@@ -3,7 +3,7 @@
 ## Author: Thumbkin
 ## Notes: Shows missing skills & recipes for a profession and where to get them.
 ## SavedVariables: MTSL_PLAYERS, MTSLUI_PLAYER
-## Version: 1.13.38
+## Version: 1.13.39
 
 #
 # Load all global variables, saved variables & locale

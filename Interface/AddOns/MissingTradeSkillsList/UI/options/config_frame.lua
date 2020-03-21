@@ -5,10 +5,9 @@
 ------------------------------------------------------------------
 
 MTSLOPTUI_CONFIG_FRAME = {
-    FRAME_WIDTH = 840,
-    FRAME_HEIGHT = 405,
+    FRAME_HEIGHT = 495,
     MARGIN_LEFT = 25,
-    MARGIN_RIGHT = 175,
+    MARGIN_RIGHT = 285,
     split_modes = {
         MTSL,
         ACCOUNT,
@@ -30,35 +29,42 @@ MTSLOPTUI_CONFIG_FRAME = {
     -- Initialises the titleframe
     ----------------------------------------------------------------------------------------
     Initialise = function (self, parent_frame)
+        self.FRAME_WIDTH = MTSLUI_OPTIONS_MENU_FRAME.FRAME_WIDTH
         self.ui_frame = MTSLUI_TOOLS:CreateBaseFrame("Frame", "MTSLOPTUI_ConfigFrame", parent_frame, nil, self.FRAME_WIDTH, self.FRAME_HEIGHT, false)
         -- below title frame
         self.ui_frame:SetPoint("TOPLEFT", parent_frame, "BOTTOMLEFT", 0, -5)
 
+        self.TOP_LABEL_ABOVE_DD = 23
+        self.MARGIN_RIGHT_CHECKBOX = 110
+
         local margin_top = -3
+        local margin_between_rows = 50
         self:InitialiseOptionsWelcomeMessage(margin_top)
-        margin_top = margin_top - 25
+        margin_top = margin_top - margin_between_rows
         self:InitialiseOptionsAutoShowMTSL(margin_top)
-        margin_top = margin_top - 40
+        margin_top = margin_top - margin_between_rows
         self:InitialiseOptionsMinimap(margin_top)
-        margin_top = margin_top - 40
+        margin_top = margin_top - margin_between_rows
         self:InitialiseOptionsMTSLPatchLevel(margin_top)
-        margin_top = margin_top - 40
+        margin_top = margin_top - margin_between_rows
         self:InitialiseOptionsTooltip(margin_top)
-        margin_top = margin_top - 30
+        margin_top = margin_top - margin_between_rows
+        self:InitialiseOptionsLinkToChat(margin_top)
+        margin_top = margin_top - margin_between_rows
         self:InitialiseOptionsMTSLFrameLocation(margin_top)
-        margin_top = margin_top - 50
+        margin_top = margin_top - margin_between_rows
         self:InitialiseOptionsUISplitOrientation(margin_top)
-        margin_top = margin_top - 50
+        margin_top = margin_top - margin_between_rows
         self:InitialiseOptionsUISplitScale(margin_top)
-        margin_top = margin_top - 50
+        margin_top = margin_top - margin_between_rows
         self:InitialiseOptionsFonts(margin_top)
     end,
 
     InitialiseOptionsWelcomeMessage = function(self, margin_top)
-        self.ui_frame.welcome_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "Display addon loaded message", self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+        self.ui_frame.welcome_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("addon loaded msg"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
 
         self.welcome_check = CreateFrame("CheckButton", "MTSLOPTUI_ConfigFrame_Welcome", self.ui_frame, "ChatConfigCheckButtonTemplate");
-        self.welcome_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + 110, margin_top + 5)
+        self.welcome_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + self.MARGIN_RIGHT_CHECKBOX, margin_top + 5)
         -- ignore the event for ticking checkbox
         self.welcome_check:SetScript("OnClick", function() end)
 
@@ -66,10 +72,10 @@ MTSLOPTUI_CONFIG_FRAME = {
     end,
 
     InitialiseOptionsAutoShowMTSL = function(self, margin_top)
-        self.ui_frame.autoshow_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "Auto show MTSL", self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+        self.ui_frame.autoshow_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("auto show mtsl"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
 
         self.autoshow_check = CreateFrame("CheckButton", "MTSLOPTUI_ConfigFrame_AutoShow", self.ui_frame, "ChatConfigCheckButtonTemplate");
-        self.autoshow_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + 110, margin_top + 5)
+        self.autoshow_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + self.MARGIN_RIGHT_CHECKBOX, margin_top + 5)
         -- ignore the event for ticking checkbox
         self.autoshow_check:SetScript("OnClick", function() end)
 
@@ -77,10 +83,10 @@ MTSLOPTUI_CONFIG_FRAME = {
     end,
 
     InitialiseOptionsMinimap = function(self, margin_top)
-        self.ui_frame.minimap_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "Minimap icon", self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+        self.ui_frame.minimap_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("minimap icon"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
 
         self.minimap_button_check = CreateFrame("CheckButton", "MTSLOPTUI_ConfigFrame_Minimap", self.ui_frame, "ChatConfigCheckButtonTemplate");
-        self.minimap_button_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + 110, margin_top + 5)
+        self.minimap_button_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + self.MARGIN_RIGHT_CHECKBOX, margin_top + 5)
         -- ignore the event for ticking checkbox
         self.minimap_button_check:SetScript("OnClick", function() end)
 
@@ -106,7 +112,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.minimap_shape_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.minimap_shape_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(MTSLUI_SAVED_VARIABLES:GetMinimapShape()))
 
-        self.ui_frame.minimap_shape_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.minimap_shape_drop_down, "Shape", 0, 20, "LABEL", "CENTER")
+        self.ui_frame.minimap_shape_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.minimap_shape_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("shape"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
 
         self.minimap_radiuses = {}
 
@@ -128,7 +134,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.minimap_radius_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.minimap_radius_drop_down, MTSLUI_SAVED_VARIABLES:GetMinimapButtonRadius() .. " px")
 
-        self.ui_frame.minimap_radius_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.minimap_radius_drop_down, "Radius", 0, 20, "LABEL", "CENTER")
+        self.ui_frame.minimap_radius_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.minimap_radius_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("radius"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
 
         self.ui_frame.minimap_reset_btn = MTSLUI_TOOLS:CreateBaseFrame("Button", "MTSLOPTUI_MINIMLAP_BTN_RESET", self.ui_frame, "UIPanelButtonTemplate", self.WIDTH_DD + 20, 26)
         self.ui_frame.minimap_reset_btn:SetPoint("TOPLEFT", self.ui_frame.minimap_radius_drop_down, "TOPRIGHT", -5, 0)
@@ -141,10 +147,10 @@ MTSLOPTUI_CONFIG_FRAME = {
     end,
 
     InitialiseOptionsTooltip = function(self, margin_top)
-        self.ui_frame.tooltip_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "Enhance tooltip", self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+        self.ui_frame.tooltip_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("enhance tooltip"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
 
         self.tooltip_check = CreateFrame("CheckButton", "MTSLOPTUI_ConfigFrame_TooltipEnhance", self.ui_frame, "ChatConfigCheckButtonTemplate");
-        self.tooltip_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + 110, margin_top + 5)
+        self.tooltip_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + self.MARGIN_RIGHT_CHECKBOX, margin_top + 5)
         -- ignore the event for ticking checkbox
         self.tooltip_check:SetScript("OnClick", function() end)
 
@@ -168,10 +174,42 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.tooltip_faction_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.tooltip_faction_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(MTSLUI_SAVED_VARIABLES:GetEnhancedTooltipFaction()))
 
-        self.ui_frame.tooltip_faction_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.tooltip_faction_drop_down, "Factions", 0, 20, "LABEL", "CENTER")
+        self.ui_frame.tooltip_faction_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.tooltip_faction_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("faction"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
+    end,
+
+    InitialiseOptionsLinkToChat = function(self, margin_top)
+        self.ui_frame.linktochat_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("link_to_chat"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+
+        self.linktochat_check = CreateFrame("CheckButton", "MTSLOPTUI_ConfigFrame_LinkToChat", self.ui_frame, "ChatConfigCheckButtonTemplate");
+        self.linktochat_check:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT + self.MARGIN_RIGHT_CHECKBOX, margin_top + 5)
+        -- ignore the event for ticking checkbox
+        self.linktochat_check:SetScript("OnClick", function() end)
+
+        self:ShowValueInCheckBox(self.linktochat_check, MTSLUI_SAVED_VARIABLES:GetChatLinkEnabled())
+
+        -- Available chat channels
+        self.linktochat_channels = {}
+
+        for _, c in pairs(MTSLUI_SAVED_VARIABLES.CHAT_CHANNELS) do
+            local new_chat_channel = {
+                ["name"] = MTSLUI_TOOLS:GetLocalisedLabel(c),
+                ["id"] = c,
+            }
+            table.insert(self.linktochat_channels, new_chat_channel)
+        end
+
+        self.ui_frame.linktochat_channel_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_linktochat", self.ui_frame, "UIDropDownMenuTemplate")
+        self.ui_frame.linktochat_channel_drop_down:SetPoint("TOPLEFT", self.linktochat_check, "TOPRIGHT", -5, 2)
+        self.ui_frame.linktochat_channel_drop_down.initialize = self.CreateDropDownChatChannel
+        UIDropDownMenu_SetWidth(self.ui_frame.linktochat_channel_drop_down, self.WIDTH_DD)
+        UIDropDownMenu_SetText(self.ui_frame.linktochat_channel_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(MTSLUI_SAVED_VARIABLES:GetChatLinkChannel()))
+
+        self.ui_frame.linktochat_channel_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.linktochat_channel_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("channel"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
     end,
 
     InitialiseOptionsMTSLPatchLevel = function (self, margin_top)
+        self.ui_frame.patch_level_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("data patch"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+
         self.patch_levels = {
             {
                 ["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current phase"),
@@ -193,8 +231,6 @@ MTSLOPTUI_CONFIG_FRAME = {
         self.patch_level_mtsl = MTSLUI_SAVED_VARIABLES:GetPatchLevelMTSL()
 
         -- drop downs split orientation
-        self.ui_frame.patch_level_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "Data for patch", self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
-
         self.ui_frame.patch_level_mtsl_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_PATCH_LEVEL_MTSL", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.patch_level_mtsl_drop_down:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT, margin_top + 7)
         self.ui_frame.patch_level_mtsl_drop_down.initialize = self.CreateDropDownPatchLevelMTSL
@@ -203,6 +239,8 @@ MTSLOPTUI_CONFIG_FRAME = {
     end,
 
     InitialiseOptionsMTSLFrameLocation = function (self, margin_top)
+        self.ui_frame.location_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("mtsl frame location"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+
         -- UI Split Orientation
         self.locations = {
             {
@@ -216,8 +254,6 @@ MTSLOPTUI_CONFIG_FRAME = {
         }
 
         -- drop downs split orientation
-        self.ui_frame.location_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "MTSL frame location", self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
-
         self.ui_frame.location_mtsl_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_ORIENTATION_MTSL", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.location_mtsl_drop_down:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.MARGIN_RIGHT, margin_top + 7)
         self.ui_frame.location_mtsl_drop_down.initialize = self.CreateDropDownLocationMTSL
@@ -226,6 +262,8 @@ MTSLOPTUI_CONFIG_FRAME = {
     end,
 
     InitialiseOptionsUISplitOrientation = function (self, margin_top)
+        self.ui_frame.orientation_mtsl_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("ui split orientation"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+
         -- UI Split Orientation
         self.orientations = {
             {
@@ -239,39 +277,41 @@ MTSLOPTUI_CONFIG_FRAME = {
         }
 
         -- drop downs split orientation
-        self.ui_frame.orientation_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "UI Split orientation", self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
-
+        -- MTSL
         self.ui_frame.orientation_mtsl_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_ORIENTATION_MTSL", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.orientation_mtsl_drop_down:SetPoint("TOPLEFT", self.ui_frame.location_mtsl_drop_down, "BOTTOMLEFT", 0, -18)
         self.ui_frame.orientation_mtsl_drop_down.initialize = self.CreateDropDownOrientationMTSL
         UIDropDownMenu_SetWidth(self.ui_frame.orientation_mtsl_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.orientation_mtsl_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("MTSL"))))
-        -- center text above the dropdown
-        self.ui_frame.orientation_mtsl_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_mtsl_drop_down, "MTSL", 0, 20, "LABEL", "CENTER")
 
+        self.ui_frame.location_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_mtsl_drop_down, "MTSL", 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
+
+        -- Account explorer
         self.ui_frame.orientation_account_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_ORIENTATION_ACC", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.orientation_account_drop_down:SetPoint("TOPLEFT", self.ui_frame.orientation_mtsl_drop_down, "TOPRIGHT", -20, 0)
         self.ui_frame.orientation_account_drop_down.initialize = self.CreateDropDownOrientationAccount
         UIDropDownMenu_SetWidth(self.ui_frame.orientation_account_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.orientation_account_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("ACCOUNT"))))
-        -- center text above the dropdown
-        self.ui_frame.orientation_account_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_account_drop_down, "Account Explorer", 0, 22, "LABEL", "CENTER")
 
+        self.ui_frame.location_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_account_drop_down, "Account explorer", 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
+
+        -- Database explorer
         self.ui_frame.orientation_database_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_ORIENTATION_DB", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.orientation_database_drop_down:SetPoint("TOPLEFT", self.ui_frame.orientation_account_drop_down, "TOPRIGHT", -20, 0)
         self.ui_frame.orientation_database_drop_down.initialize = self.CreateDropDownOrientationDatabase
         UIDropDownMenu_SetWidth(self.ui_frame.orientation_database_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.orientation_database_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("DATABASE"))))
-        -- center text above the dropdown
-        self.ui_frame.orientation_database_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_database_drop_down, "Database Explorer", 0, 22, "LABEL", "CENTER")
 
+        self.ui_frame.location_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_database_drop_down, "Database explorer", 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
+
+        -- NPC explorer
         self.ui_frame.orientation_npc_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_ORIENTATION_NPC", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.orientation_npc_drop_down:SetPoint("TOPLEFT", self.ui_frame.orientation_database_drop_down, "TOPRIGHT", -20, 0)
         self.ui_frame.orientation_npc_drop_down.initialize = self.CreateDropDownOrientationNpc
         UIDropDownMenu_SetWidth(self.ui_frame.orientation_npc_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.orientation_npc_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(string.lower(MTSLUI_SAVED_VARIABLES:GetSplitMode("NPC"))))
-        -- center text above the dropdown
-        self.ui_frame.orientation_npc_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_npc_drop_down, "NPC Explorer", 0, 22, "LABEL", "CENTER")
+
+        self.ui_frame.orientation_npc_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.orientation_npc_drop_down, "NPC Explorer", 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
     end,
 
     InitialiseOptionsUISplitScale = function (self, margin_top)
@@ -289,7 +329,7 @@ MTSLOPTUI_CONFIG_FRAME = {
             table.insert(self.scales, new_scale)
         end
 
-        self.ui_frame.scale_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "UI Scale", self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
+        self.ui_frame.scale_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame,  MTSLUI_TOOLS:GetLocalisedLabel("ui scale"), self.MARGIN_LEFT, margin_top, "LABEL", "TOPLEFT")
 
         self.ui_frame.scale_mtsl_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_SCALE_MTSL", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.scale_mtsl_drop_down:SetPoint("TOPLEFT", self.ui_frame.orientation_mtsl_drop_down, "BOTTOMLEFT", 0, -18)
@@ -297,7 +337,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.scale_mtsl_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.scale_mtsl_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("MTSL"))
         -- center text above the dropdown
-        self.ui_frame.scale_mtsl_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_mtsl_drop_down, "MTSL", 0, 22, "LABEL", "CENTER")
+        self.ui_frame.scale_mtsl_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_mtsl_drop_down, "MTSL", 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
 
         self.ui_frame.scale_account_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_SCALE_ACC", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.scale_account_drop_down:SetPoint("TOPLEFT", self.ui_frame.scale_mtsl_drop_down, "TOPRIGHT", -20, 0)
@@ -305,7 +345,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.scale_account_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.scale_account_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("ACCOUNT"))
         -- center text above the dropdown
-        self.ui_frame.scale_account_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_account_drop_down, "Account Explorer", 0, 22, "LABEL", "CENTER")
+        self.ui_frame.scale_account_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_account_drop_down, "Account Explorer", 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
 
         self.ui_frame.scale_database_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_SCALE_DB", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.scale_database_drop_down:SetPoint("TOPLEFT", self.ui_frame.scale_account_drop_down, "TOPRIGHT", -20, 0)
@@ -313,7 +353,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.scale_database_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.scale_database_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("DATABASE"))
         -- center text above the dropdown
-        self.ui_frame.scale_database_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_database_drop_down, "Database Explorer", 0, 22, "LABEL", "CENTER")
+        self.ui_frame.scale_database_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_database_drop_down, "Database Explorer", 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
 
         self.ui_frame.scale_npc_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_SCALE_NPC", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.scale_npc_drop_down:SetPoint("TOPLEFT", self.ui_frame.scale_database_drop_down, "TOPRIGHT", -20, 0)
@@ -329,7 +369,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.scale_optionsmenu_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.scale_optionsmenu_drop_down, MTSLUI_SAVED_VARIABLES:GetUIScaleAsText("OPTIONSMENU"))
         -- center text above the dropdown
-        self.ui_frame.scale_options_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_optionsmenu_drop_down, "Options menu", 0, 22, "LABEL", "CENTER")
+        self.ui_frame.scale_options_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.scale_optionsmenu_drop_down, "Options menu", 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
     end,
 
     InitialiseOptionsFonts = function (self, margin_top)
@@ -351,7 +391,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.font_type_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.font_type_drop_down, MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSLUI_FONTS.AVAILABLE_FONT_NAMES, "id", self.font_name).name)
         -- center text above the dropdown
-        self.ui_frame.font_type_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_type_drop_down, "Type", 0, 22, "LABEL", "CENTER")
+        self.ui_frame.font_type_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_type_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("type"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
 
         self.ui_frame.font_title_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_font_TITLE", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.font_title_drop_down:SetPoint("TOPLEFT", self.ui_frame.font_type_drop_down, "TOPRIGHT", -20, 0)
@@ -359,7 +399,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.font_title_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.font_title_drop_down, self.font_size.title)
         -- center text above the dropdown
-        self.ui_frame.font_title_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_title_drop_down, "Title", 0, 22, "LABEL", "CENTER")
+        self.ui_frame.font_title_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_title_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("title"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
 
         self.ui_frame.font_label_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_font_LABEL", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.font_label_drop_down:SetPoint("TOPLEFT", self.ui_frame.font_title_drop_down, "TOPRIGHT", -20, 0)
@@ -367,15 +407,14 @@ MTSLOPTUI_CONFIG_FRAME = {
         UIDropDownMenu_SetWidth(self.ui_frame.font_label_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.font_label_drop_down, self.font_size.label)
         -- center text above the dropdown
-        self.ui_frame.font_label_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_label_drop_down, "Label / List", 0, 22, "LABEL", "CENTER")
-
+        self.ui_frame.font_label_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_label_drop_down,MTSLUI_TOOLS:GetLocalisedLabel("label list"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
         self.ui_frame.font_text_drop_down = CreateFrame("Frame", "MTSLOPTUI_CONFIG_FRAME_DD_font_TEXT", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.font_text_drop_down:SetPoint("TOPLEFT", self.ui_frame.font_label_drop_down, "TOPRIGHT", -20, 0)
         self.ui_frame.font_text_drop_down.initialize = self.CreateDropDownSizeText
         UIDropDownMenu_SetWidth(self.ui_frame.font_text_drop_down, self.WIDTH_DD)
         UIDropDownMenu_SetText(self.ui_frame.font_text_drop_down, self.font_size.text)
         -- center text above the dropdown
-        self.ui_frame.font_options_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_text_drop_down, "Text", 0, 22, "LABEL", "CENTER")
+        self.ui_frame.font_options_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_text_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("text"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -394,6 +433,13 @@ MTSLOPTUI_CONFIG_FRAME = {
     ----------------------------------------------------------------------------------------------------------
     CreateDropDownTooltipFaction = function(self, level)
         MTSLUI_TOOLS:FillDropDown(MTSLOPTUI_CONFIG_FRAME.tooltip_factions, MTSLOPTUI_CONFIG_FRAME.ChangeTooltipFactionHandler)
+    end,
+
+    ----------------------------------------------------------------------------------------------------------
+    -- Intialises drop down for chat channels
+    ----------------------------------------------------------------------------------------------------------
+    CreateDropDownChatChannel = function(self, level)
+        MTSLUI_TOOLS:FillDropDown(MTSLOPTUI_CONFIG_FRAME.linktochat_channels, MTSLOPTUI_CONFIG_FRAME.ChangeChatChannelHandler)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -428,7 +474,6 @@ MTSLOPTUI_CONFIG_FRAME = {
     CreateDropDownOrientationNpc = function(self, level)
         MTSLUI_TOOLS:FillDropDown(MTSLOPTUI_CONFIG_FRAME.orientations, MTSLOPTUI_CONFIG_FRAME.ChangeOrientationNpcHandler)
     end,
-
 
     ----------------------------------------------------------------------------------------------------------
     -- Intialises drop down for UI scaling
@@ -497,7 +542,7 @@ MTSLOPTUI_CONFIG_FRAME = {
     end,
 
     ----------------------------------------------------------------------------------------------------------
-    -- Handles DropDown Change event after changing the patch level
+    -- Handles DropDown Change event after changing the faction for the tooltip
     ----------------------------------------------------------------------------------------------------------
     ChangeTooltipFactionHandler = function(value, text)
         MTSLOPTUI_CONFIG_FRAME:ChangeTooltipFaction(value, text)
@@ -506,6 +551,18 @@ MTSLOPTUI_CONFIG_FRAME = {
     ChangeTooltipFaction = function(self, value, text)
         self.tooltip_faction = value
         UIDropDownMenu_SetText(self.ui_frame.tooltip_faction_drop_down, text)
+    end,
+
+    ----------------------------------------------------------------------------------------------------------
+    -- Handles DropDown Change event after changing the chat channel to link item/spell to
+    ----------------------------------------------------------------------------------------------------------
+    ChangeChatChannelHandler = function(value, text)
+        MTSLOPTUI_CONFIG_FRAME:ChangeChatChannel(value, text)
+    end,
+
+    ChangeChatChannel = function(self, value, text)
+        self.linktochat_channel = value
+        UIDropDownMenu_SetText(self.ui_frame.linktochat_channel_drop_down, text)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -627,6 +684,9 @@ MTSLOPTUI_CONFIG_FRAME = {
         MTSLUI_SAVED_VARIABLES:SetEnhancedTooltipActive(self.tooltip_check:GetChecked())
         MTSLUI_SAVED_VARIABLES:SetEnhancedTooltipFaction(self.tooltip_faction)
 
+        MTSLUI_SAVED_VARIABLES:SetChatLinkEnabled(self.linktochat_check:GetChecked())
+        MTSLUI_SAVED_VARIABLES:SetChatLinkChannel(self.linktochat_channel)
+
         MTSLUI_SAVED_VARIABLES:SetPatchLevelMTSL(self.patch_level_mtsl)
 
         -- Update the UI filter frames
@@ -676,11 +736,16 @@ MTSLOPTUI_CONFIG_FRAME = {
         self.patch_level_mtsl = MTSLUI_SAVED_VARIABLES:GetPatchLevelMTSL()
         UIDropDownMenu_SetText(self.ui_frame.patch_level_mtsl_drop_down, MTSL_TOOLS:GetItemFromArrayByKeyValue(self.patch_levels, "id", self.patch_level_mtsl).name)
 
-        -- Tooltip
+        -- Enchanced Tooltip
         self:ShowValueInCheckBox(self.tooltip_check, MTSLUI_SAVED_VARIABLES:GetEnhancedTooltipActive())
 
         self.tooltip_faction = MTSLUI_SAVED_VARIABLES:GetEnhancedTooltipFaction()
         UIDropDownMenu_SetText(self.ui_frame.tooltip_faction_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(self.tooltip_faction))
+
+        -- Link to chat
+        self:ShowValueInCheckBox(self.linktochat_check, MTSLUI_SAVED_VARIABLES:GetChatLinkEnabled())
+        self.linktochat_channel = MTSLUI_SAVED_VARIABLES:GetChatLinkChannel()
+        UIDropDownMenu_SetText(self.ui_frame.linktochat_channel_drop_down, MTSLUI_TOOLS:GetLocalisedLabel(self.linktochat_channel))
 
         -- Location
         self.location_mtsl = MTSLUI_SAVED_VARIABLES:GetMTSLLocation()

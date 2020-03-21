@@ -39,6 +39,10 @@ MTSLUI_PLAYER = {
         SIZE_NORMAL,
         SIZE_LARGE,
     },
+    LINK_TO_CHAT = {
+        ACTIVE,
+        CHANNEL
+    }
 }
 
 MTSLUI_SAVED_VARIABLES = {
@@ -58,6 +62,10 @@ MTSLUI_SAVED_VARIABLES = {
     MIN_MINIMAP_RADIUS = -16,
     MAX_MINIMAP_RADIUS = 32,
     DEFAULT_MINIMAP_RADIUS = 0,
+    -- Default chat channel is say
+    DEFAULT_CHAT_CHANNEL = "SAY",
+    -- available chat channels
+    CHAT_CHANNELS = { "SAY", "PARTY", "GUILD" },
 
     -- Try and load the values from saved files
     Initialise = function(self)
@@ -107,6 +115,13 @@ MTSLUI_SAVED_VARIABLES = {
                 self:ResetEnhancedTooltip()
             else
                 self:ValidateEnhancedTooltip()
+            end
+
+            -- only reset the link to chat
+            if MTSLUI_PLAYER.LINK_TO_CHAT == nil or MTSLUI_PLAYER.LINK_TO_CHAT == {} then
+                self:ResetLinkToChat()
+            else
+                self:ValidateLinkToChat()
             end
 
             self:SetMTSLLocation(MTSLUI_PLAYER.MTSL_LOCATION)
@@ -219,6 +234,13 @@ MTSLUI_SAVED_VARIABLES = {
         MTSLUI_PLAYER.TOOLTIP.FACTIONS = "current character"
         MTSLUI_PLAYER.TOOLTIP.ACTIVE = 1
     end,
+
+    ResetLinkToChat = function (self)
+        MTSLUI_PLAYER.LINK_TO_CHAT = {}
+        MTSLUI_PLAYER.LINK_TO_CHAT.CHANNEL = self.DEFAULT_CHAT_CHANNEL
+        MTSLUI_PLAYER.LINK_TO_CHAT.ACTIVE = 1
+    end,
+
     ------------------------------------------------------------------------------------------------
     -- Load the saved splitmode from saved variable
     ------------------------------------------------------------------------------------------------
@@ -745,5 +767,55 @@ MTSLUI_SAVED_VARIABLES = {
         self:SetMinimapShape(MTSLUI_PLAYER.MINIMAP.SHAPE)
         self:SetMinimapButtonRadius(MTSLUI_PLAYER.MINIMAP.RADIUS)
         self:SetMinimapButtonAngle(MTSLUI_PLAYER.MINIMAP.ANGLE)
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Sets the flag to say if we enable linking of spells/recipes to chat or not
+    --
+    -- @link_to_chat        Number          Flag indicating to enble linking to chat or not (1 = yes, 0 = no)
+    ------------------------------------------------------------------------------------------------
+    SetChatLinkEnabled = function(self, link_to_chat)
+        MTSLUI_PLAYER.LINK_TO_CHAT.ACTIVE = 1
+        if link_to_chat == 0 or link_to_chat == false then
+            MTSLUI_PLAYER.LINK_TO_CHAT.ACTIVE = 0
+        end
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Gets the flag to say if we enable linking of spells/recipes to chat or not
+    --
+    -- return			Number          Flag indicating to enble linking to chat or not (1 = yes, 0 = no)
+    ------------------------------------------------------------------------------------------------
+    GetChatLinkEnabled = function(self)
+        return MTSLUI_PLAYER.LINK_TO_CHAT.ACTIVE
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Sets the channel to which we link the spell/item
+    --
+    -- @channel       String          The name of the channel
+    ------------------------------------------------------------------------------------------------
+    SetChatLinkChannel = function(self, channel)
+        MTSLUI_PLAYER.LINK_TO_CHAT.CHANNEL = self.DEFAULT_CHAT_CHANNEL
+        if MTSL_TOOLS:ListContainsKey(self.CHAT_CHANNELS, channel) then
+            MTSLUI_PLAYER.LINK_TO_CHAT.CHANNEL = channel
+        end
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Gets the channel to which we link the spell/item
+    --
+    -- return			String          The name of the channel
+    ------------------------------------------------------------------------------------------------
+    GetChatLinkChannel = function(self)
+        if MTSLUI_PLAYER.LINK_TO_CHAT.CHANNEL == nil then
+            MTSLUI_PLAYER.LINK_TO_CHAT.CHANNEL = self.DEFAULT_CHAT_CHANNEL
+        end
+        return MTSLUI_PLAYER.LINK_TO_CHAT.CHANNEL
+    end,
+
+    ValidateLinkToChat = function(self)
+        self:SetChatLinkEnabled(MTSLUI_PLAYER.LINK_TO_CHAT.ACTIVE)
+        self:SetChatLinkChannel(MTSLUI_PLAYER.LINK_TO_CHAT.CHANNEL)
     end,
 }

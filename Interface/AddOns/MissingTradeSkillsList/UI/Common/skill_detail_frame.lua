@@ -51,7 +51,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
     -- save the texts for the tooltips
     tooltip_skill_name,
     tooltip_source_name,
-    tooltip_alt_source_,name,
+    tooltip_alt_source_name,
 
     ----------------------------------------------------------------------------------------------------------
     -- Intialises the DetailsSelectedSkillFrame
@@ -119,6 +119,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.type.tooltip_frame_point_x = text_label_right - 5
         self.labels.type.tooltip_frame_point_y = text_label_top + 5
         self.labels.type.tooltip_frame:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.labels.type.tooltip_frame_point_x, self.labels.type.tooltip_frame_point_y)
+        self.labels.type.tooltip_frame:SetScript("OnMouseUp", function() event_class:LinkItemToChat() end)
         self.labels.type.tooltip_frame:SetScript("OnEnter", function() event_class:ToolTipShowSourceName() end)
         self.labels.type.tooltip_frame:SetScript("OnLeave", function() _G.GameTooltip:Hide() end)
         text_label_top = text_label_top - text_gap
@@ -155,6 +156,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.alt_type.tooltip_frame_point_x = text_label_right - 5
         self.labels.alt_type.tooltip_frame_point_y = text_label_top + 5
         self.labels.alt_type.tooltip_frame:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.labels.alt_type.tooltip_frame_point_x, self.labels.alt_type.tooltip_frame_point_y)
+        self.labels.alt_type.tooltip_frame:SetScript("OnMouseUp", function() event_class:LinkAlternativeItemToChat() end)
         self.labels.alt_type.tooltip_frame:SetScript("OnEnter", function() event_class:ToolTipShowAltSourceName() end)
         self.labels.alt_type.tooltip_frame:SetScript("OnLeave", function() _G.GameTooltip:Hide() end)
         text_label_top = text_label_top - text_gap
@@ -233,6 +235,26 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         end
     end,
 
+    LinkItemToChat = function(self)
+        if self.tooltip_source_name then self:LinkToChat(self.tooltip_source_name) end
+    end,
+
+    LinkAlternativeItemToChat = function(self)
+        if self.tooltip_alt_source_name then self:LinkToChat(self.tooltip_alt_source_name) end
+    end,
+
+    LinkToChat = function (self, item_name)
+        local _, link = GetItemInfo(item_name)
+        if link and MTSLUI_SAVED_VARIABLES:GetChatLinkEnabled()  == 1 then
+            local channel = MTSLUI_SAVED_VARIABLES:GetChatLinkChannel()
+            -- check if channel is guild and we are in guild, otherwise use say
+            if channel == "GUILD" and MTSL_LOGIC_PLAYER_NPC:GetCurrentPlayerIsInGuild() == false then channel = "SAY" end
+            -- Same but for party
+            if channel == "PARTY" and GetNumGroupMembers() <= 1 then channel = "SAY" end
+            SendChatMessage(link, channel)
+        end
+    end,
+
     ToolTipShowSkillName = function(self)
         self:ToolTipShow(self.labels.name.tooltip_frame, self.tooltip_skill_name)
     end,
@@ -243,6 +265,10 @@ MTSLUI_SKILL_DETAIL_FRAME = {
 
     ToolTipShowAltSourceName = function(self)
         self:ToolTipShow(self.labels.name.tooltip_frame, self.tooltip_alt_source_name)
+    end,
+
+    HideTooltipFrameShowSkillName = function(self)
+        self.tooltip_skill_name = nil
     end,
 
     HideTooltipFrameShowSourceName = function(self)
@@ -284,6 +310,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.alt_sources.title:Hide()
         self.labels.alt_sources.ui_frame:Hide()
         -- hide the tooltips
+        self:HideTooltipFrameShowSkillName()
         self:HideTooltipFrameShowSourceName()
         self:HideTooltipFrameShowAltSourceName()
     end,
@@ -315,20 +342,20 @@ MTSLUI_SKILL_DETAIL_FRAME = {
             self.labels.sources.ui_frame:Show()
 
             if skill.items ~= nil then
-            self:ShowDetailsOfSkillTypeItem(skill.items[1], profession_name, current_xp_level, 0, 0)
+                self:ShowDetailsOfSkillTypeItem(skill.items[1], profession_name, current_xp_level, 0, 0)
             elseif skill.trainers ~= nil then
-            self:ShowDetailsOfSkillTypeTrainer(skill.trainers)
+                self:ShowDetailsOfSkillTypeTrainer(skill.trainers)
             elseif skill.quests ~= nil then
-            self:ShowDetailsOfSkillTypeQuest(skill.quests, profession_name, current_xp_level, 0, 0)
+                self:ShowDetailsOfSkillTypeQuest(skill.quests, profession_name, current_xp_level, 0, 0)
             elseif skill.objects ~= nil then
-            self:ShowDetailsOfSkillTypeObject(skill.objects[1], 0, 0)
-            -- no sources (special action only)
+                self:ShowDetailsOfSkillTypeObject(skill.objects[1], 0, 0)
+                -- no sources (special action only)
             else
-            self.labels.type.value:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_TOOLS:GetLocalisedLabel("special action"))
-            self.labels.source.title:Hide()
+                self.labels.type.value:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_TOOLS:GetLocalisedLabel("special action"))
+                self.labels.source.title:Hide()
                 self.labels.source.value:Hide()
-            self.labels.sources.title:Hide()
-            self.labels.sources.ui_frame:Hide()
+                self.labels.sources.title:Hide()
+                self.labels.sources.ui_frame:Hide()
             end
             self.ui_frame:Show()
             -- Update the text for the tooltips
@@ -402,7 +429,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         if reputation ~= nil then
             local faction = MTSL_LOGIC_FACTION_REPUTATION:GetFactionNameById(reputation.faction_id)
             local level = MTSL_LOGIC_FACTION_REPUTATION:GetReputationLevelById(reputation.level_id)
-        -- TODO COMPARE CURRENT PLAYER HIS FACTION
+            -- TODO COMPARE CURRENT PLAYER HIS FACTION
             self.labels.requires_rep.value:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. faction .. " [" .. MTSLUI_TOOLS:GetLocalisedData(level) .. "]")
         else
             self.labels.requires_rep.value:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. "-")
@@ -422,7 +449,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
             -- global database so show neutral color
             if self.current_xp_level == nil or self.current_xp_level <= 0 then
                 self.labels.requires_spec.value:SetText(MTSLUI_FONTS.COLORS.AVAILABLE.ALL .. name_spec)
-            -- check if player knows the specialisation by using its spellid
+                -- check if player knows the specialisation by using its spellid
             elseif IsSpellKnown(specialisation) then
                 self.labels.requires_spec.value:SetText(MTSLUI_FONTS.COLORS.AVAILABLE.YES .. name_spec)
             else
@@ -461,11 +488,11 @@ MTSLUI_SKILL_DETAIL_FRAME = {
             -- add to current special action or overwrite "-"
             if text_special_action == "-" then
                 text_special_action = MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_TOOLS:GetLocalisedLabelSpecialAction(special_action)
-            -- dont overwrite current special action
+                -- dont overwrite current special action
             else
                 text_special_action = text_special_action .. ", " .. MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_TOOLS:GetLocalisedLabelSpecialAction(special_action)
             end
-        -- only update special action text if this is first time
+            -- only update special action text if this is first time
         elseif text_special_action == nil or text_special_action == "" then
             text_special_action = MTSLUI_FONTS.COLORS.TEXT.NORMAL .. "-"
         end
@@ -566,7 +593,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
                     self.labels.alt_sources.ui_frame:Hide()
                 end
             end
-        -- not available for our faction
+            -- not available for our faction
         else
             self:SetSourceType(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_TOOLS:GetLocalisedLabel("quest"), is_alternative_source, is_primary_type)
             self:ShowDetailsOfNpcs(quest, is_alternative_source)
@@ -686,7 +713,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
                             self:ShowDetailsOfNpcs(mobs, 0)
                         end
                         self.tooltip_source_name = "item:" .. item_id
-                    -- alternative/secundary source
+                        -- alternative/secundary source
                     else
                         -- also set the recipe as alternative source item
                         self:SetSourceType(MTSLUI_FONTS:GetTextColorByItemQuality(item.quality) .. MTSLUI_TOOLS:GetLocalisedData(item), 1, 0)

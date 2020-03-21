@@ -40,14 +40,14 @@ Minimap button & Enhanced tooltip
   * Orange = not learned but high enough skill to learn
   * Red = not learned and too low skill
 
-### Latest version (v1.13.38)
+### Latest version (v1.13.39)
 
-* Updated the addon icon/logo to show all 10 supported tradeskills
-* Added levels to each "normal" zone in the filter frame
-* Added world drop recipes to be shown for a current zone if that zone's levels are within the drop range of the recipe
 * Fixed a bug with the enhanced tooltip
-* Fixed a bug with the filter frame
-* Fixed a bug with numbers shown in the progressbar in the MTLS window
-* Checked & verfified all Tailoring data
+* Added ability to share a recipe in chat
+    * Click on the name of a recipe in the "Detailsframe" to link it to chat
+    * Added options to set the channel on which to share the recipe (Say, Party or Guild)
+    * If channel is set to "guild" but the player is not in a guild, "say" will be used
+    * If channel is set to "party" but the player is not in a party, "say" will be used
+* Added missing localisation for the options frame
    
 View full version history [here](http://mtsl.ddns.net/VERSION_HISTORY.html) or VERSION_HISTORY.md inside zip addon

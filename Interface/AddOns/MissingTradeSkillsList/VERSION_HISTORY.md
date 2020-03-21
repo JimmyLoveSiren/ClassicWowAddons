@@ -1,5 +1,15 @@
 ## Version History
 
+### v1.13.39 (Mar 20, 2020)
+
+* Fixed a bug with the enhanced tooltip
+* Added ability to share a recipe in chat
+    * Click on the name of a recipe in the "Detailsframe" to link it to chat
+    * Added options to set the channel on which to share the recipe (Say, Party or Guild)
+    * If channel is set to "guild" but the player is not in a guild, say channel will be used
+    * If channel is set to "party" but the player is not in a party, say channel will be used
+* Added missing localisation for all the labels on the options frame
+
 ### v1.13.38 (Mar 19, 2020)
 
 * Updated the addon icon/logo to show all 10 supported tradeskills
