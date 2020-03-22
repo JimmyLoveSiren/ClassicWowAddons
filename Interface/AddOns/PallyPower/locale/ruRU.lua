@@ -115,6 +115,16 @@ L["PP_RESET"] = "На случай, если вы все испортили"
 L["PP_SHOW"] = "Когда показывать PallyPower"
 L["RAID"] = "Рейд"
 L["RAID_DESC"] = "Настройки только для рейда"
+--[[Translation missing --]]
+L["REPORTCHANNEL"] = "Blessings Report Channel"
+--[[Translation missing --]]
+L["REPORTCHANNEL_DESC"] = [=[Set the desired chennel to broadcast the Bliessings Report to:
+
+|cffffd200[None]|r Selects channel based on group makeup. (Party/Raid)
+
+|cffffd200[Channel List]|r An auto populated channel list based on channels the player has joined. Default channels such as Trade, General, etc. are automatically filtered from the list.
+
+|cffffff00Note: If you change your Channel Order then you will need to reload your UI and verify that it is broadcasting to the correct channel.|r]=]
 L["RESET"] = "Сброс рамок"
 L["RESET_DESC"] = "Вернуть все рамки PallyPower в центр"
 L["RESIZEGRIP"] = "Левый клик и удерживание, для изменения размера. Правый клик сбрасывает размер до изначального."
@@ -128,6 +138,8 @@ L["SEALTRACKER"] = "Отслеживание Печати"
 L["SEALTRACKER_DESC"] = "Выбор Печати для отслеживания"
 L["SETTINGS"] = "Настройки"
 L["SETTINGS_DESC"] = "Изменение общих настроек"
+--[[Translation missing --]]
+L["SETTINGSBUFF"] = "What to buff with PallyPower"
 L["SHOWGLOBAL"] = "Показывать PallyPower"
 L["SHOWGLOBAL_DESC"] = "[Показать/Скрыть] PallyPower"
 L["SHOWPARTY"] = "Показывать в группе"

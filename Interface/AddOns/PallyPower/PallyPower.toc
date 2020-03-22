@@ -1,14 +1,14 @@
 ## Interface: 11304
 ## Author: Aznamir,Dyaxler
 ## Title: PallyPower Classic
-## Version: v1.1L-classic
+## Version: v1.1n-classic
 ## Notes: Raid/Party Paladin buffs.
 ## DefaultState: enabled
 ## Dependencies:
 ## OptionalDeps: Ace3
 ## X-Category: Paladin
 ## X-Embeds: Ace3, LibClassicDurations
-## SavedVariables: PallyPowerDB, PallyPower_Assignments, PallyPower_NormalAssignments, PallyPower_AuraAssignments, PallyPower_SavedPresets
+## SavedVariables: PallyPowerDB, PallyPower_Assignments, PallyPower_NormalAssignments, PallyPower_AuraAssignments, PallyPower_SavedPresets, PallyPower_ChanNames
 
 #@no-lib-strip@
 embeds.xml
