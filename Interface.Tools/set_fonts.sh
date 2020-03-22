@@ -1,5 +1,7 @@
 #!/bin/bash
-cd `git rev-parse --show-cdup`
+ROOT=`git rev-parse --show-cdup`
+[ $ROOT ] && cd $ROOT
+
 FONT="Fonts/${1:-fzcy}.ttf"
 FONT_DIR=../Fonts
 mkdir -p "$FONT_DIR"

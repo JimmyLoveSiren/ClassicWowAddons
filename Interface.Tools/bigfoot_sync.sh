@@ -1,5 +1,7 @@
 #!/bin/bash
-cd `git rev-parse --show-cdup`
+ROOT=`git rev-parse --show-cdup`
+[ $ROOT ] && cd $ROOT
+
 if [ ! -d "$1/AddOns" ]; then
 	echo "Usage: $0 BigFootInterfaceDirectory"
 	exit 1
