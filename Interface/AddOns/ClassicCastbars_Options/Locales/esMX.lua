@@ -43,20 +43,14 @@ L["NAMEPLATE"] = "Placa identificativa"
 L["PARTY"] = "Grupo"
 L["PLAYER"] = "Jugador"
 L["POSXY_TOOLTIP"] = "Ajuste los valores de desplazamiento XY para mover el marco."
-L["PUSHBACK"] = "Detectar retrocesos de lanzar"
-L["PUSHBACK_TOOLTIP"] = [=[Permite la detección de retroceso de lanzamiento y modificadores (es decir, Maldición de la lengua).
-Esta detección no es completamente precisa ya que ciertos hechizos y talentos dan la oportunidad de ignorar el retroceso.
-]=]
 L["REQUIRES_RESTART"] = "Deshabilitar este módulo de barra de lanzamiento requiere una recarga de su interfaz. Presione Aceptar para recargar la IU."
 L["RESET_ALL"] = "Restablecer"
-L["SHOW_CAST_INFO_ONLY"] = "Mostrar solo información de lanzamiento"
-L["SHOW_CAST_INFO_ONLY_TOOLTIP"] = [=[Habilita para ocultar los temporizadores de lanzamiento, pero aún muestra la información de lanzamiento.
-También puede establecer la altura de la barra de lanzamiento en cero y el borde en ninguno si solo desea mostrar el nombre del hechizo en lugar de la barra completa.]=]
 L["SHOW_TIMER"] = "Mostrar texto del temporizador"
 L["SHOW_TIMER_TOOLTIP"] = "Muestra una cuenta atrás del temporizador para el lanzamiento actual."
 L["STATUS_BG_COLOR"] = "Seleccionar Color de Fondo"
 L["STATUS_CHANNEL_COLOR"] = "Seleccionar Color de Llenar Canal"
 L["STATUS_COLOR"] = "Seleccionar Color de Llenar Lanzamiento"
+L["STATUS_FAILED_COLOR"] = "Seleccionar color de relleno de hechizos fallidos"
 L["TARGET"] = "Objetivo"
 L["TEST"] = "Alternar Probando"
 L["TEST_MODE_DRAG"] = "Modo de Prueba - Arrastre para Mover"
