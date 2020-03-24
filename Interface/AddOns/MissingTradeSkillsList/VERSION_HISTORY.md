@@ -1,10 +1,16 @@
 ## Version History
 
+### v1.13.40 (Mar 23, 2020)
+
+* Fixed wrong Russian translations on skills & items
+* Added ability to insert a recipe in the current chat message
+    * Shift + Click on the name of a recipe in the "Detailsframe" to insert it to current chat message
+    
 ### v1.13.39 (Mar 20, 2020)
 
 * Fixed a bug with the enhanced tooltip
 * Added ability to share a recipe in chat
-    * Click on the name of a recipe in the "Detailsframe" to link it to chat
+    * Click on the name of a recipe in the "Details" section of a spell/skill to link it to chat
     * Added options to set the channel on which to share the recipe (Say, Party or Guild)
     * If channel is set to "guild" but the player is not in a guild, say channel will be used
     * If channel is set to "party" but the player is not in a party, say channel will be used

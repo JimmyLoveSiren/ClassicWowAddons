@@ -21001,6 +21001,7 @@ MTSL_DATA["skills"] = {
                 ["Taiwanese"] = "龍鱗護手",
             },
             ["phase"] = 1,
+            ["specialisation"] = 10656,
             ["trainers"] = {
                 ["price"] = 9000,
                 ["sources"] = {
@@ -21008,7 +21009,6 @@ MTSL_DATA["skills"] = {
                     7867,
                 },
             },
-            ["specialisation"] = 10656,
         },
         {
             ["id"] = 10621,
@@ -21027,6 +21027,7 @@ MTSL_DATA["skills"] = {
                 ["Taiwanese"] = "狼頭之盔",
             },
             ["phase"] = 1,
+            ["specialisation"] = 10660,
             ["trainers"] = {
                 ["price"] = 9000,
                 ["sources"] = {
@@ -21034,7 +21035,6 @@ MTSL_DATA["skills"] = {
                     7871,
                 },
             },
-            ["specialisation"] = 10660,
         },
         {
             ["id"] = 10630,
@@ -21052,6 +21052,7 @@ MTSL_DATA["skills"] = {
                 ["Taiwanese"] = "深海護手",
             },
             ["phase"] = 1,
+            ["specialisation"] = 10658,
             ["trainers"] = {
                 ["price"] = 9000,
                 ["sources"] = {
@@ -21059,7 +21060,6 @@ MTSL_DATA["skills"] = {
                     7869,
                 },
             },
-            ["specialisation"] = 10658,
         },
         {
             ["id"] = 10632,

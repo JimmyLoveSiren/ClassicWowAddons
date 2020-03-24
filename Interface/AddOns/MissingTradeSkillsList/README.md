@@ -35,19 +35,13 @@ Minimap button & Enhanced tooltip
 * Integration with other addons (seperate addon installation needed)
   * TomTom: set waypoints to NPCs by clicking on their names
   * Skillet-Classic
-* Enhanced tooltip to show status of alts on same realm (or faction) for a recipe 
-  * Green = learned
-  * Orange = not learned but high enough skill to learn
-  * Red = not learned and too low skill
+* Enhanced tooltip to show status of alts on same realm (or faction) for a recipe
+* Link items to a channel (Say, Party or Guild) or add item to current chat message
 
-### Latest version (v1.13.39)
+### Latest version (v1.13.40)
 
-* Fixed a bug with the enhanced tooltip
-* Added ability to share a recipe in chat
-    * Click on the name of a recipe in the "Detailsframe" to link it to chat
-    * Added options to set the channel on which to share the recipe (Say, Party or Guild)
-    * If channel is set to "guild" but the player is not in a guild, "say" will be used
-    * If channel is set to "party" but the player is not in a party, "say" will be used
-* Added missing localisation for the options frame
+* Fixed wrong Russian translations on skills & items
+* Added ability to insert a recipe in the current chat message
+    * Shift + Click on the name of a recipe in the "Details" section of a spell/skill to insert it to current chat message
    
 View full version history [here](http://mtsl.ddns.net/VERSION_HISTORY.html) or VERSION_HISTORY.md inside zip addon

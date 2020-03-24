@@ -119,7 +119,13 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.type.tooltip_frame_point_x = text_label_right - 5
         self.labels.type.tooltip_frame_point_y = text_label_top + 5
         self.labels.type.tooltip_frame:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.labels.type.tooltip_frame_point_x, self.labels.type.tooltip_frame_point_y)
-        self.labels.type.tooltip_frame:SetScript("OnMouseUp", function() event_class:LinkItemToChat() end)
+        self.labels.type.tooltip_frame:SetScript("OnMouseUp", function()
+            if IsShiftKeyDown() then
+                event_class:InsertItemToChat()
+            else
+                event_class:LinkItemToChat()
+            end
+        end)
         self.labels.type.tooltip_frame:SetScript("OnEnter", function() event_class:ToolTipShowSourceName() end)
         self.labels.type.tooltip_frame:SetScript("OnLeave", function() _G.GameTooltip:Hide() end)
         text_label_top = text_label_top - text_gap
@@ -156,7 +162,13 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.alt_type.tooltip_frame_point_x = text_label_right - 5
         self.labels.alt_type.tooltip_frame_point_y = text_label_top + 5
         self.labels.alt_type.tooltip_frame:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.labels.alt_type.tooltip_frame_point_x, self.labels.alt_type.tooltip_frame_point_y)
-        self.labels.alt_type.tooltip_frame:SetScript("OnMouseUp", function() event_class:LinkAlternativeItemToChat() end)
+        self.labels.alt_type.tooltip_frame:SetScript("OnMouseUp", function()
+            if IsShiftKeyDown() then
+                event_class:InsertAlternativeItemToChat()
+            else
+                event_class:LinkAlternativeItemToChat()
+            end
+        end)
         self.labels.alt_type.tooltip_frame:SetScript("OnEnter", function() event_class:ToolTipShowAltSourceName() end)
         self.labels.alt_type.tooltip_frame:SetScript("OnLeave", function() _G.GameTooltip:Hide() end)
         text_label_top = text_label_top - text_gap
@@ -252,6 +264,21 @@ MTSLUI_SKILL_DETAIL_FRAME = {
             -- Same but for party
             if channel == "PARTY" and GetNumGroupMembers() <= 1 then channel = "SAY" end
             SendChatMessage(link, channel)
+        end
+    end,
+
+    InsertItemToChat = function(self)
+        if self.tooltip_source_name then self:InsertIntoChat(self.tooltip_source_name) end
+    end,
+
+    InsertAlternativeItemToChat = function(self)
+        if self.tooltip_alt_source_name then self:InsertIntoChat(self.tooltip_alt_source_name) end
+    end,
+
+    InsertIntoChat = function(self, item_name)
+        if ChatFrame1EditBox and ChatFrame1EditBox:IsVisible() then
+            local _, link = GetItemInfo(item_name)
+            ChatFrame1EditBox:Insert(link)
         end
     end,
 

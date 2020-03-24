@@ -265,6 +265,7 @@ MTSLUI_EVENT_HANDLER = {
     end,
 
 	---------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------
 	-- Initialise the handler and hook all events
 	---------------------------------------------------------------------------------------
 	Initialise = function (self)
@@ -277,6 +278,7 @@ MTSLUI_EVENT_HANDLER = {
                 self[event](self)
             end
 		end)
+
 		-- Event thrown when player has logged in
 		event_frame:RegisterEvent("PLAYER_LOGIN")
 		-- Events for crafts (= Enchanting)

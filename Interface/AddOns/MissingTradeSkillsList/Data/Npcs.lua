@@ -3644,6 +3644,33 @@ MTSL_DATA["npcs"] = {
         ["zone_id"] = 11,
     },
     {
+        ["id"] = 2683,
+        ["location"] = {
+            ["x"] = "-",
+            ["y"] = "-",
+        },
+        ["name"] = {
+            ["Chinese"] = "纳姆杜",
+            ["English"] = "Namdo Bizzfizzle",
+            ["French"] = "Namdo Bizzfizzle",
+            ["German"] = "Namdo Bizzfizzle",
+            ["Korean"] = "남도 비즈피즐",
+            ["Mexican"] = "Namdo Silvabín",
+            ["Portuguese"] = "Nando Deuxabu",
+            ["Russian"] = "Намдо Вклвыкл",
+            ["Spanish"] = "Namdo Silvabín",
+            ["Taiwanese"] = "納姆杜",
+        },
+        ["phase"] = 1,
+        ["reacts"] = "Alliance",
+        ["xp_level"] = {
+            ["is_elite"] = 0,
+            ["max"] = 24,
+            ["min"] = 24,
+        },
+        ["zone_id"] = 721,
+    },
+    {
         ["id"] = 2684,
         ["location"] = {
             ["x"] = "47.30",
