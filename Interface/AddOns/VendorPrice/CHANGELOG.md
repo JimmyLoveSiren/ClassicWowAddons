@@ -1,7 +1,6 @@
 # Vendor Price
 
-## [1.3.1](https://github.com/ketho-wow/VendorPrice/tree/1.3.1) (2020-02-20)
-[Full Changelog](https://github.com/ketho-wow/VendorPrice/compare/1.3.0...1.3.1)
+## [1.3.4](https://github.com/ketho-wow/VendorPrice/tree/1.3.4) (2020-03-26)
+[Full Changelog](https://github.com/ketho-wow/VendorPrice/compare/1.3.3...1.3.4)
 
-- Support undocked chat windows in Chatter/Prat  
-- Added bigwigs packager action  
+- Proper 1.13.4 release  
