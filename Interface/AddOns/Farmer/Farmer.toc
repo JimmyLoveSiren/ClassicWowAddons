@@ -1,6 +1,6 @@
-## Interface: 11303
+## Interface: 11304
 ## Title: Farmer
-## Version: 1.1.5
+## Version: 1.2
 ## Author: syndenbock
 ## Notes: Shows information on all the stuff you loot
 ## Notes-deDe: Zeigt Infos über all das Zeug das du lootest
@@ -15,10 +15,20 @@ localizations/Chinese_simplified.lua
 
 Core.lua
 
-main/Utils.lua
+core/Events.lua
+core/Slashcommands.lua
+core/Yell.lua
+core/Utils.lua
+
+detectors/Items.lua
+detectors/Reputation.lua
+detectors/Money.lua
+detectors/Skills.lua
+
 main/Print.lua
 main/FarmerOptions.lua
 
+modules/Autoloot.lua
 modules/Items.lua
 modules/Fishing.lua
 modules/Money.lua

@@ -1,11 +1,11 @@
 local addonName, addon = ...;
 
-local SYMBOL_MULT = '×'; -- looks weird, but maybe will be used some day
+local SYMBOL_MULT = '×';
 
 local widgetFlags = {
   mail = false,
-  bank = false,
-  bagUpdate = false,
+  guildbank = false,
+  voidstorage = false,
 };
 
 local function setTrueScale (frame, scale)
@@ -14,13 +14,14 @@ local function setTrueScale (frame, scale)
 end
 
 local font = CreateFont('farmerFont');
-local farmerFrame;
+local farmerFrame = CreateFrame('ScrollingMessageFrame', 'farmerFrame', UIParent);
 
-farmerFrame = CreateFrame('ScrollingMessageFrame', 'farmerFrame', UIParent);
 farmerFrame:SetWidth(GetScreenWidth() / 2);
 farmerFrame:SetHeight(GetScreenHeight() / 2);
+
  -- farmerFrame:SetFrameStrata('DIALOG');
-farmerFrame:SetFrameStrata('FULLSCREEN_DIALOG');
+-- farmerFrame:SetFrameStrata('FULLSCREEN_DIALOG');
+farmerFrame:SetFrameStrata('TOOLTIP');
 farmerFrame:SetFrameLevel(2);
 farmerFrame:SetFading(true);
 -- farmerFrame:SetTimeVisible(2);
@@ -47,21 +48,44 @@ addon:on('MAIL_CLOSED', function ()
   widgetFlags.mail = false;
 end);
 
-addon:on('BANKFRAME_OPENED', function ()
-  widgetFlags.bank = true;
-end);
+if (addon:isClassic() == false) then
+  addon:on('GUILDBANKFRAME_OPENED', function ()
+    widgetFlags.guildbank = true;
+  end);
 
-addon:on('BANKFRAME_CLOSED', function ()
-  widgetFlags.bank = false;
-end);
+  addon:on('GUILDBANKFRAME_CLOSED', function ()
+    widgetFlags.guildbank = false;
+  end);
+
+  addon:on('VOID_STORAGE_OPEN', function ()
+    widgetFlags.voidstorage = true;
+  end);
+
+  addon:on('VOID_STORAGE_CLOSE', function ()
+    widgetFlags.voidstorage = false;
+  end);
+end
 
 local function checkHideOptions ()
-  if (widgetFlags.bank == true) then
-    return false;
+  if (widgetFlags.guildbank == true or
+      widgetFlags.voidstorage == true) then
+    --return false;
   end
 
   if (farmerOptions.hideAtMailbox == true and
       widgetFlags.mail == true) then
+    return false;
+  end
+
+  if (farmerOptions.hideOnExpeditions == true and
+      IslandsPartyPoseFrame and
+      IslandsPartyPoseFrame:IsShown() == true) then
+    return false;
+  end
+
+  if (farmerOptions.hideInArena == true and
+      IsActiveBattlefieldArena and
+      IsActiveBattlefieldArena() == true) then
     return false;
   end
 
@@ -83,7 +107,7 @@ local function printItem (texture, name, count, text, colors, options)
   local message;
 
   if (options.minimumCount == nil or count > options.minimumCount) then
-    itemCount = 'x' .. count;
+    itemCount = 'x' .. addon:formatNumber(count);
   end
 
   if (farmerOptions.itemNames == true or options.forceName == true) then
@@ -99,24 +123,27 @@ local function printItem (texture, name, count, text, colors, options)
   printMessage(icon .. ' ' .. message, colors);
 end
 
+local function getFormattedItemCount (id, includeBank)
+  return addon:formatNumber(GetItemCount(id, includeBank));
+end
+
 local function printStackableItemTotal (id, texture, name, count, colors)
-  local totalCount = GetItemCount(id, true);
+  local totalCount = getFormattedItemCount(id, true);
   local text = addon:stringJoin({'(', totalCount, ')'}, '');
 
   printItem(texture, name, count, text, colors);
 end
 
 local function printStackableItemBags (id, texture, name, count, colors)
-  local bagCount = GetItemCount(id, false);
-  local totalCount = GetItemCount(id, true);
+  local bagCount = getFormattedItemCount(id, false);
   local text = addon:stringJoin({'(', bagCount, ')'}, '');
 
   printItem(texture, name, count, text, colors);
 end
 
 local function printStackableItemTotalAndBags (id, texture, name, count, colors)
-  local bagCount = GetItemCount(id, false);
-  local totalCount = GetItemCount(id, true);
+  local bagCount = getFormattedItemCount(id, false);
+  local totalCount = getFormattedItemCount(id, true);
   local text = addon:stringJoin({'(', bagCount, '/', totalCount, ')'}, '');
 
   printItem(texture, name, count, text, colors);
