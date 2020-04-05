@@ -21,6 +21,7 @@ namespace.addon = addon
 ClassicCastbars = addon -- global ref for ClassicCastbars_Options
 
 -- upvalues for speed
+local strsplit = _G.string.split
 local gsub = _G.string.gsub
 local strfind = _G.string.find
 local pairs = _G.pairs
@@ -35,6 +36,8 @@ local abs = _G.math.abs
 local next = _G.next
 local floor = _G.math.floor
 local GetUnitSpeed = _G.GetUnitSpeed
+local IsFalling = _G.IsFalling
+local UnitIsFriend = _G.UnitIsFriend
 local CastingInfo = _G.CastingInfo
 local ChannelInfo = _G.ChannelInfo
 local castTimeIncreases = namespace.castTimeIncreases
@@ -84,14 +87,16 @@ function addon:CheckCastModifier(unitID, cast)
 
     -- Buffs
     local libCD = LibStub and LibStub("LibClassicDurations", true)
-    local libCDEnemyBuffs = libCD and libCD.enableEnemyBuffTracking
+    if libCD and not libCD.enableEnemyBuffTracking then
+        libCD.enableEnemyBuffTracking = true
+    end
     for i = 1, 32 do
         local name
-        if not libCDEnemyBuffs then
+        if not libCD then
             name = UnitAura(unitID, i, "HELPFUL")
         else
             -- if LibClassicDurations happens to be loaded by some other addon, use it to get enemy buff data
-            name = libCD.UnitAuraWithBuffs(unitID, i, "HELPFUL")
+            name = libCD.UnitAuraDirect(unitID, i, "HELPFUL")
         end
         if not name then break end -- no more buffs
 
@@ -121,6 +126,8 @@ function addon:CheckCastModifier(unitID, cast)
 end
 
 function addon:StartCast(unitGUID, unitID)
+    if not unitGUID then return end
+
     local cast = activeTimers[unitGUID]
     if not cast then return end
 
@@ -162,7 +169,7 @@ function addon:StopAllCasts(unitGUID, noFadeOut)
 end
 
 -- Store or refresh new cast data for unit, and start castbar(s)
-function addon:StoreCast(unitGUID, unitName, spellName, spellID, iconTexturePath, castTime, isPlayer, isChanneled)
+function addon:StoreCast(unitGUID, spellName, spellID, iconTexturePath, castTime, isPlayer, isChanneled)
     local currTime = GetTime()
 
     if not activeTimers[unitGUID] then
@@ -179,7 +186,13 @@ function addon:StoreCast(unitGUID, unitName, spellName, spellID, iconTexturePath
     cast.unitGUID = unitGUID
     cast.timeStart = currTime
     cast.isPlayer = isPlayer
-    cast.isUninterruptible = uninterruptibleList[spellName] or not isPlayer and npcCastUninterruptibleCache[unitName .. spellName]
+    cast.isUninterruptible = uninterruptibleList[spellName]
+    if not cast.isUninterruptible and not isPlayer then
+        local _, _, _, _, _, npcID = strsplit("-", unitGUID)
+        if npcID then
+            cast.isUninterruptible = npcCastUninterruptibleCache[npcID .. spellName]
+        end
+    end
 
     -- just nil previous values to avoid overhead of wiping table
     cast.origIsUninterruptibleValue = nil
@@ -194,6 +207,7 @@ function addon:StoreCast(unitGUID, unitName, spellName, spellID, iconTexturePath
     cast.isInterrupted = nil
     cast.isCastComplete = nil
     cast.isFailed = nil
+    cast.isUnknownState = nil
 
     self:StartAllCasts(unitGUID)
 end
@@ -353,10 +367,16 @@ function addon:PLAYER_LOGIN()
         ClassicCastbarsDB.party.position = nil
     elseif ClassicCastbarsDB.version == "12" then
         ClassicCastbarsDB.player = nil
+    elseif ClassicCastbarsDB.version == "18" or ClassicCastbarsDB.version == "19" then
+        ClassicCastbarsDB.npcCastUninterruptibleCache = nil
     end
 
     -- Copy any settings from defaults if they don't exist in current profile
-    self.db = CopyDefaults(namespace.defaultConfig, ClassicCastbarsDB)
+    if ClassicCastbarsCharDB and ClassicCastbarsCharDB.usePerCharacterSettings then
+        self.db = CopyDefaults(namespace.defaultConfig, ClassicCastbarsCharDB)
+    else
+        self.db = CopyDefaults(namespace.defaultConfig, ClassicCastbarsDB)
+    end
     self.db.version = namespace.defaultConfig.version
 
     -- Reset certain stuff on game locale switched
@@ -364,7 +384,7 @@ function addon:PLAYER_LOGIN()
         self.db.locale = GetLocale()
         self.db.target.castFont = _G.STANDARD_TEXT_FONT -- Font here only works for certain locales
         self.db.nameplate.castFont = _G.STANDARD_TEXT_FONT
-        self.db.npcCastUninterruptibleCache = {} -- NPC names are locale dependent
+        self.db.npcCastUninterruptibleCache = {} -- Spell names are locale dependent
     end
 
     -- config is not needed anymore if options are not loaded
@@ -411,6 +431,10 @@ function addon:PLAYER_TARGET_CHANGED()
 end
 
 function addon:NAME_PLATE_UNIT_ADDED(namePlateUnitToken)
+    local isFriendly = UnitIsFriend("player", namePlateUnitToken)
+    if not self.db.nameplate.showForFriendly and isFriendly then return end
+    if not self.db.nameplate.showForEnemy and not isFriendly then return end
+
     local unitGUID = UnitGUID(namePlateUnitToken)
     activeGUIDs[namePlateUnitToken] = unitGUID
 
@@ -463,7 +487,7 @@ local ARCANE_MISSILE = GetSpellInfo(7268)
 local BLESSING_OF_PROTECTION = GetSpellInfo(1022)
 
 function addon:COMBAT_LOG_EVENT_UNFILTERED()
-    local _, eventType, _, srcGUID, srcName, srcFlags, _, dstGUID, dstName, dstFlags, _, _, spellName, _, missType = CombatLogGetCurrentEventInfo()
+    local _, eventType, _, srcGUID, srcName, srcFlags, _, dstGUID, _, dstFlags, _, _, spellName, _, missType = CombatLogGetCurrentEventInfo()
 
     if eventType == "SPELL_CAST_START" then
         local spellID = castedSpells[spellName]
@@ -501,7 +525,7 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED()
         end
 
         -- Note: using return here will make the next function (StoreCast) reuse the current stack frame which is slightly more performant
-        return self:StoreCast(srcGUID, srcName, spellName, spellID, icon, castTime, isSrcPlayer)
+        return self:StoreCast(srcGUID, spellName, spellID, icon, castTime, isSrcPlayer)
     elseif eventType == "SPELL_CAST_SUCCESS" then
         local channelCast = channeledSpells[spellName]
         local spellID = castedSpells[spellName]
@@ -543,12 +567,13 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED()
         -- Channeled spells are started on SPELL_CAST_SUCCESS instead of stopped.
         -- Also there's no castTime returned from GetSpellInfo for channeled spells so we need to get it from our own list
         if channelCast then
-            -- Arcane Missiles triggers this event for every tick so ignore after first tick has been detected
-            if (spellName == ARCANE_MISSILES or spellName == ARCANE_MISSILE) and activeTimers[srcGUID] then
-                if activeTimers[srcGUID].spellName == ARCANE_MISSILES or activeTimers[srcGUID].spellName == ARCANE_MISSILE then return end
+            local cast = activeTimers[srcGUID]
+            if cast and (spellName == ARCANE_MISSILES or spellName == ARCANE_MISSILE) then
+                -- Arcane Missiles triggers this event for every tick so ignore after first tick has been detected
+                if cast.spellName == ARCANE_MISSILES or cast.spellName == ARCANE_MISSILE then return end
             end
 
-            return self:StoreCast(srcGUID, srcName, spellName, spellID, GetSpellTexture(spellID), channelCast, isSrcPlayer, true)
+            return self:StoreCast(srcGUID, spellName, spellID, GetSpellTexture(spellID), channelCast, isSrcPlayer, true)
         else
             -- non-channeled spell, finish it.
             -- We also check the expiration timer in OnUpdate script just incase this event doesn't trigger when i.e unit is no longer in range.
@@ -568,7 +593,7 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED()
     elseif eventType == "SPELL_AURA_REMOVED" then
         -- Channeled spells has no proper event for channel stop,
         -- so check if aura is gone instead since most channels has an aura effect.
-        if channeledSpells[spellName] and srcGUID == dstGUID then
+        if srcGUID == dstGUID and channeledSpells[spellName] then
             return self:DeleteCast(srcGUID, nil, nil, true)
         end
     elseif eventType == "SPELL_CAST_FAILED" then
@@ -612,10 +637,13 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED()
         if missType == "IMMUNE" and playerInterrupts[spellName] then
             local cast = activeTimers[dstGUID]
             if not cast then return end
-            if npcCastUninterruptibleCache[dstName .. cast.spellName] then return end -- already added
 
             if bit_band(dstFlags, COMBATLOG_OBJECT_CONTROL_PLAYER) <= 0 then -- dest unit is not a player
                 if bit_band(srcFlags, COMBATLOG_OBJECT_CONTROL_PLAYER) > 0 then -- source unit is player
+                    local _, _, _, _, _, npcID = strsplit("-", dstGUID)
+                    if not npcID or npcID == "12457" then return end -- Blackwing Spellbinder
+                    if npcCastUninterruptibleCache[npcID .. cast.spellName] then return end -- already added
+
                     -- Check for bubble immunity
                     local libCD = LibStub and LibStub("LibClassicDurations", true)
                     if libCD and libCD.buffCache then
@@ -630,7 +658,7 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED()
                         end
                     end
 
-                    npcCastUninterruptibleCache[dstName .. cast.spellName] = true
+                    npcCastUninterruptibleCache[npcID .. cast.spellName] = true
                 end
             end
         end
@@ -647,13 +675,13 @@ addon:SetScript("OnUpdate", function(self, elapsed)
     refresh = refresh - elapsed
     if refresh < 0 then
         if next(activeGUIDs) then
-            for unitID, unitGUID in pairs(activeGUIDs) do
+            for unitID, unitGUID in next, activeGUIDs do
                 if unitID ~= "focus" then
                     local cast = activeTimers[unitGUID]
                     -- Only stop cast for players since some mobs runs while casting, also because
                     -- of lag we have to only stop it if the cast has been active for atleast 0.25 sec
                     if cast and cast.isPlayer and currTime - cast.timeStart > 0.25 then
-                        if not castStopBlacklist[cast.spellName] and GetUnitSpeed(unitID) ~= 0 then
+                        if not castStopBlacklist[cast.spellName] and (GetUnitSpeed(unitID) ~= 0 or IsFalling(unitID)) then
                             local castAlmostFinishied = ((currTime - cast.timeStart) > cast.maxValue - 0.1)
                             -- due to lag its possible that the cast is successfuly casted but still shows interrupted
                             -- unless we ignore the last few miliseconds here
@@ -672,7 +700,7 @@ addon:SetScript("OnUpdate", function(self, elapsed)
     end
 
     -- Update all shown castbars in a single OnUpdate call
-    for unit, castbar in pairs(activeFrames) do
+    for unit, castbar in next, activeFrames do
         local cast = castbar._data
         if cast then
             local castTime = cast.endTime - currTime
@@ -687,12 +715,12 @@ addon:SetScript("OnUpdate", function(self, elapsed)
                 castbar:SetMinMaxValues(0, maxValue)
                 castbar:SetValue(value)
                 castbar.Timer:SetFormattedText("%.1f", castTime)
-                local sparkPosition = (value / maxValue) * castbar:GetWidth()
+                local sparkPosition = (value / maxValue) * (castbar.currWidth or castbar:GetWidth())
                 castbar.Spark:SetPoint("CENTER", castbar, "LEFT", sparkPosition, 0)
             else
                 -- slightly adjust color of the castbar when its not 100% sure if the cast is casted or failed
                 -- (gotta put it here to run before fadeout anim)
-                if not cast.isCastComplete and not cast.isInterrupted and not cast.isFailed then
+                if not cast.isUnknownState and not cast.isCastComplete and not cast.isInterrupted and not cast.isFailed then
                     castbar.Spark:SetAlpha(0)
                     if not cast.isChanneled then
                         local c = self.db[self:GetUnitType(unit)].statusColor
@@ -702,6 +730,7 @@ addon:SetScript("OnUpdate", function(self, elapsed)
                     else
                         castbar:SetValue(0)
                     end
+                    cast.isUnknownState = true
                 end
 
                 -- Delete cast incase stop event wasn't detected in CLEU

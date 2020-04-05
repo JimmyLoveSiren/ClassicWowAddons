@@ -77,9 +77,11 @@ function MTSLUI_NPC_EXPLORER_FRAME:CreateCompontentFrames()
     self.skill_list_frame.ui_frame:SetPoint("BOTTOMLEFT", self.npc_list_frame.ui_frame, "BOTTOMRIGHT", 0, 0)
     -- Copy & init the skill detail frame
     self.skill_detail_frame = MTSL_TOOLS:CopyObject(MTSLUI_SKILL_DETAIL_FRAME)
-    self.skill_detail_frame:Initialise(self.skill_list_frame.ui_frame, "MTSLNPCUI_SKILL_DETAIL_FRAME")
     -- adjust the height to make it fit the height of skill_list_frame
-    self.skill_detail_frame.ui_frame:SetHeight(self.skill_list_frame.ui_frame:GetHeight())
+    -- adjust the height of the alternative source panel
+    self.skill_detail_frame.FRAME_HEIGHT = self.skill_list_frame.ui_frame:GetHeight()
+    self.skill_detail_frame.FRAME_ALT_SOURCES_HEIGHT = 112
+    self.skill_detail_frame:Initialise(self.skill_list_frame.ui_frame, "MTSLNPCUI_SKILL_DETAIL_FRAME")
     self.skill_detail_frame.ui_frame:SetPoint("BOTTOMLEFT", self.skill_list_frame.ui_frame, "BOTTOMRIGHT", 0, 0)
 end
 
@@ -94,9 +96,8 @@ end
 -- Refresh the ui of the addon
 ----------------------------------------------------------------------------------------------------------
 function MTSLUI_NPC_EXPLORER_FRAME:RefreshUI()
-    -- auto select the first npc
-    self.npc_list_frame:UpdateList()
-    self.npc_list_frame:HandleSelectedListItem(1)
+    -- Reset the filters
+    self.npc_list_filter_frame:ResetFilters()
 end
 
 ----------------------------------------------------------------------------------------------------------

@@ -52,6 +52,7 @@ function MTSLUI_DATABASE_EXPLORER_FRAME:Initialise()
     self.player_list_frame:EnableShowSkillLevelNeeded()
 
     -- select the first profession
+    self.profession_list_frame:ChangeNoPlayer()
     self.profession_list_frame:HandleSelectedListItem(1)
 end
 
@@ -96,15 +97,18 @@ function MTSLUI_DATABASE_EXPLORER_FRAME:LinkFrames()
     self.profession_list_frame:SetFilterFrame(self.skill_list_filter_frame)
     self.profession_list_frame:SetListFrame(self.skill_list_frame)
     self.skill_list_filter_frame:SetListFrame(self.skill_list_frame)
+    -- reset the filters so the default values are passed to the slill_list_frame
     self.skill_list_frame:SetDetailSelectedItemFrame(self.skill_detail_frame)
     self.skill_list_frame:SetPlayerListFrame(self.player_list_frame)
     self.player_filter_frame:SetListFrame(self.player_list_frame)
 end
 
-    ----------------------------------------------------------------------------------------------------------
-    -- Refresh the ui of the addon
-    ----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+-- Refresh the ui of the addon
+----------------------------------------------------------------------------------------------------------
 function MTSLUI_DATABASE_EXPLORER_FRAME:RefreshUI()
+    -- Reset the filters
+    self.skill_list_filter_frame:ResetFilters()
     -- auto select the first profession
     self.profession_list_frame:HandleSelectedListItem(1)
     -- update the filter player frame for possible realms

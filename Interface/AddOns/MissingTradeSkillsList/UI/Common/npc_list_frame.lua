@@ -37,7 +37,9 @@ MTSLUI_NPC_LIST_FRAME = {
         ARGENT_DAWN = "Interface\\TargetingFrame\\inv_jewelry_talisman_07",
         TIMBERMAW_HOLD = "Interface\\TargetingFrame\\inv_misc_horn_01",
     },
-
+    -- array holding the current filter values
+    filter_values = {},
+    
     ----------------------------------------------------------------------------------------------------------
     -- Intialises the NpcsListFrame
     --
@@ -66,11 +68,6 @@ MTSLUI_NPC_LIST_FRAME = {
             -- add button to list
             table.insert(self.LIST_BUTTONS, npc_button)
         end
-        -- reset the filters
-        self.current_faction = "any"
-        self.current_profession_name = "any"
-        self.current_source_type = "any source"
-        self.current_rank = 0
 
         -- make copy of all NPCs so we can "enrich" the data first, to optimize filtering after
         self.available_npcs = MTSL_TOOLS:CopyObject(MTSL_DATA["npcs"])
@@ -80,8 +77,6 @@ MTSLUI_NPC_LIST_FRAME = {
 
         self.shown_npcs = {}
         self.amount_shown_npcs = 0
-
-        self:UpdateList()
     end,
 
     AddSkillToNpc = function(self, npc_id, npc, faction, profession, source_type, rank, skill)
@@ -124,7 +119,7 @@ MTSLUI_NPC_LIST_FRAME = {
             local skills_levels = MTSL_LOGIC_PROFESSION:GetAllSkillsAndLevelsForProfession(p)
             for _, sl in pairs(skills_levels) do
                 -- add trainer to each npc
-                if sl.trainers ~= nil then
+                if sl.trainers then
                     for _, npc_id in pairs(sl.trainers.sources) do
                         -- specific faction or Alliance/Horde/neutral/Hostile
                         local faction = npcs[npc_id]["reacts"]
@@ -141,12 +136,12 @@ MTSLUI_NPC_LIST_FRAME = {
                     end
                 end
                 -- questgiver
-                if sl.quests ~= nil then
+                if sl.quests then
                     -- loop each quest
                     for _, quest_id in pairs(sl.quests) do
                         local quest = MTSL_LOGIC_QUEST:GetQuestById(quest_id)
                         -- Each questgiver
-                        if quest ~= nil and quest.npcs ~= nil then
+                        if quest and quest.npcs then
                             for _, npc_id in pairs(quest.npcs) do
                                 -- specific faction or Alliance/Horde/neutral/Hostile
                                 local faction = npcs[npc_id]["reacts"]
@@ -163,62 +158,68 @@ MTSLUI_NPC_LIST_FRAME = {
                     end
                 end
                 -- Get the item if any
-                if sl.item ~= nil then
-                    local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(sl.item, p)
-                    -- Vendors
-                    if item ~= nil and item.vendors ~= nil then
-                        -- Vendors
-                        for _, npc_id in pairs(item.vendors.sources) do
-                            -- specific faction or Alliance/Horde/neutral/Hostile
-                            local faction = npcs[npc_id]["reacts"]
-                            if sl.reputation ~= nil then
-                                faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], sl.reputation.faction_id)["name"]["English"]
-                            end
-                            -- item specific if needed
-                            if item.reputation ~= nil then
-                                faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], item.reputation.faction_id)["name"]["English"]
-                            end
-                            self:AddSkillToNpc(npc_id, npcs[npc_id], faction, p, "vendor", 0, sl)
-                        end
-                    end
-                    -- Dropmob
-                    if item ~= nil and item.drops ~= nil and item.drops.sources ~= nil then
-                        -- Vendors
-                        for _, npc_id in pairs(item.drops.sources) do
-                            -- specific faction or Alliance/Horde/neutral/Hostile
-                            local faction = npcs[npc_id]["reacts"]
-                            if sl.reputation ~= nil then
-                                faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], sl.reputation.faction_id)["name"]["English"]
-                            end
-                            -- item specific if needed
-                            if item.reputation ~= nil then
-                                faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], item.reputation.faction_id)["name"]["English"]
-                            end
-                            self:AddSkillToNpc(npc_id, npcs[npc_id], faction, p, "mob", 0, sl)
-                        end
-                    end
-                    -- questgiver
-                    if item ~= nil and item.quests ~= nil then
-                        -- loop each quest
-                        for _, quest_id in pairs(item.quests) do
-                            local quest = MTSL_LOGIC_QUEST:GetQuestById(quest_id)
-                            -- Each questgiver
-                            if quest ~= nil and quest.npcs ~= nil then
-                                for _, npc_id in pairs(quest.npcs) do
+                if sl.items then
+                    -- loop each item
+                    for _, item_id in pairs(sl.items) do
+                        local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(item_id, p)
+                        -- only check for substatus if we have an item
+                        if item then
+                            -- Vendors
+                            if item.vendors then
+                                -- Vendors
+                                for _, npc_id in pairs(item.vendors.sources) do
                                     -- specific faction or Alliance/Horde/neutral/Hostile
                                     local faction = npcs[npc_id]["reacts"]
-                                    if sl.reputation ~= nil then
+                                    if sl.reputation then
                                         faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], sl.reputation.faction_id)["name"]["English"]
                                     end
                                     -- item specific if needed
-                                    if item.reputation ~= nil then
+                                    if item.reputation then
                                         faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], item.reputation.faction_id)["name"]["English"]
                                     end
-                                    -- quest specific if needed
-                                    if quest.reputation ~= nil then
-                                        faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], quest.reputation.faction_id)["name"]["English"]
+                                    self:AddSkillToNpc(npc_id, npcs[npc_id], faction, p, "vendor", 0, sl)
+                                end
+                            end
+                            -- Dropmob
+                            if item.drops and item.drops.sources then
+                                -- Vendors
+                                for _, npc_id in pairs(item.drops.sources) do
+                                    -- specific faction or Alliance/Horde/neutral/Hostile
+                                    local faction = npcs[npc_id]["reacts"]
+                                    if sl.reputation then
+                                        faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], sl.reputation.faction_id)["name"]["English"]
                                     end
-                                    self:AddSkillToNpc(npc_id, npcs[npc_id], faction, p, "questgiver", 0, sl)
+                                    -- item specific if needed
+                                    if item.reputation then
+                                        faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], item.reputation.faction_id)["name"]["English"]
+                                    end
+                                    self:AddSkillToNpc(npc_id, npcs[npc_id], faction, p, "mob", 0, sl)
+                                end
+                            end
+                            -- questgiver
+                            if item.quests then
+                                -- loop each quest
+                                for _, quest_id in pairs(item.quests) do
+                                    local quest = MTSL_LOGIC_QUEST:GetQuestById(quest_id)
+                                    -- Each questgiver
+                                    if quest and quest.npcs then
+                                        for _, npc_id in pairs(quest.npcs) do
+                                            -- specific faction or Alliance/Horde/neutral/Hostile
+                                            local faction = npcs[npc_id]["reacts"]
+                                            if sl.reputation then
+                                                faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], sl.reputation.faction_id)["name"]["English"]
+                                            end
+                                            -- item specific if needed
+                                            if item.reputation then
+                                                faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], item.reputation.faction_id)["name"]["English"]
+                                            end
+                                            -- quest specific if needed
+                                            if quest.reputation then
+                                                faction = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["factions"], quest.reputation.faction_id)["name"]["English"]
+                                            end
+                                            self:AddSkillToNpc(npc_id, npcs[npc_id], faction, p, "questgiver", 0, sl)
+                                        end
+                                    end
                                 end
                             end
                         end
@@ -265,21 +266,20 @@ MTSLUI_NPC_LIST_FRAME = {
         -- Loop each available npc
         for _, npc in pairs(self.available_npcs) do
             -- Check name
-            local available = self:IsNpcAvailableForName(npc, search_name_npc)
-            -- if still available, check faction
-            if available == true then
-                -- Check if have more then 1 faction (can max be 2 & second faction is always Neutral)
-                if string.find(self.current_faction, '_') ~= nil then
-                    available = self:IsNpcAvailable(npc, string.sub(self.current_faction, 2), self.current_profession_name, self.current_source_type, self.current_rank) or self:IsNpcAvailable(npc, "Neutral", self.current_profession_name, self.current_source_type, self.current_rank)
-                else
-                    available = self:IsNpcAvailable(npc, self.current_faction, self.current_profession_name, self.current_source_type, self.current_rank)
-                end
-            end
+            local available = self:IsNpcAvailableForName(npc)
             -- if still available, check zone
             if available == true then
-                available = self:IsNpcAvailableInZone(npc, self.current_zone)
+                available = self:IsNpcAvailableInZone(npc)
             end
-
+            -- if still available, check rest
+            if available == true then
+                -- Check if have more then 1 faction (can max be 2 & second faction is always Neutral)
+                if self.filter_values["faction"] and string.find(self.filter_values["faction"], '_') then
+                    available = self:IsNpcAvailable(npc, string.sub(self.filter_values["faction"], 2)) or self:IsNpcAvailable(npc, "Neutral")
+                else
+                    available = self:IsNpcAvailable(npc, self.filter_values["faction"])
+                end
+            end
             -- if passed all filters add to list
             if available == true then
                 table.insert(filtered_npcs, npc)
@@ -289,11 +289,11 @@ MTSLUI_NPC_LIST_FRAME = {
         return filtered_npcs
     end,
 
-    IsNpcAvailableForName = function(self, npc, search_name_npc)
+    IsNpcAvailableForName = function(self, npc)
         local available = true
-        if search_name_npc ~= nil and search_name_npc ~= "" then
+        if self.filter_values["npc_name"] and self.filter_values["npc_name"] ~= "" then
             local name = string.lower(MTSLUI_TOOLS:GetLocalisedData(npc))
-            local contains = string.lower(search_name_npc)
+            local contains = string.lower(self.filter_values["npc_name"])
             local start_index, _ = string.find(name, contains)
             -- if we dont have a start index, the name does not contain the pattern
             if start_index == nil then
@@ -304,22 +304,22 @@ MTSLUI_NPC_LIST_FRAME = {
         return available
     end,
 
-    IsNpcAvailable = function(self, npc, faction, profession_name, current_source_type, current_rank)
+    IsNpcAvailable = function(self, npc)
         -- loop each faction untill we find  the first skill that is available that meets the criteria
         for fk, fv in pairs(npc["enhanced"]) do
             -- Faction is ok
-            if faction == "any" or fk == faction then
+            if self.filter_values["faction"] == "any" or fk == self.filter_values["faction"] then
                 -- Check profesions
                 for pk, pv in pairs(fv) do
                     -- Profession is ok
-                    if profession_name == "any" or pk == profession_name then
+                    if self.filter_values["profession"] == "any" or pk == self.filter_values["profession"] then
                         -- Check source type
                         for stk, stv in pairs(pv) do
                             -- Source type is ok
-                            if current_source_type == "any source" or stk == current_source_type then
+                            if self.filter_values["source"] == "any source" or stk == self.filter_values["source"] then
                                 -- Check rank, only if source_type is trainer and rank > 0
-                                if current_source_type ~= "trainer" or (current_source_type == "trainer" and current_rank <= 0) or
-                                    (current_source_type == "trainer" and current_rank > 0 and stv["rank_" .. current_rank] ~= nil) then
+                                if self.filter_values["source"] ~= "trainer" or (self.filter_values["source"] == "trainer" and self.filter_values["rank"] <= 0) or
+                                    (self.filter_values["source"] == "trainer" and self.filter_values["rank"] > 0 and stv["rank_" .. self.filter_values["rank"]]) then
                                     -- we found a skill so return that NPC is available
                                     return true
                                 end
@@ -333,30 +333,9 @@ MTSLUI_NPC_LIST_FRAME = {
         return false
     end,
 
-    IsNpcInvolvedInProfession = function(self, npc, profession_name)
-        local available = true
-        if profession_name ~= nil and profession_name ~= "any" then
-            available = MTSL_TOOLS:ListContainsKeyIngoreCasingAndSpaces(npc.professions, profession_name)
-        end
-
-        return available
-    end,
-
-    IsNpcAvailableAsSourceType = function (self, npc, source_type, rank)
-        local available = true
-        if source_type ~= nil and source_type ~= "any source" then
-            available = MTSL_TOOLS:ListContainsKeyIngoreCasingAndSpaces(npc.source_types, source_type)
-            -- if trainer and rank is not any, check it too
-            if source_type == "trainer" and rank ~= nil and rank > 0 then
-                available = MTSL_TOOLS:ListContainsKeyIngoreCasingAndSpaces(npc.ranks, rank)
-            end
-        end
-        return available
-    end,
-
     IsNpcAvailableInZone = function (self, npc, zone_id)
         local available = true
-        if zone_id ~= nil and zone_id ~= 0 and npc.zone_id ~= zone_id then
+        if self.filter_values["zone"] and self.filter_values["zone"] ~= 0 and npc.zone_id ~= self.filter_values["zone"] then
             available = false
         end
         return available
@@ -451,10 +430,10 @@ MTSLUI_NPC_LIST_FRAME = {
                     -- cant select item so deselect details
                     self.skill_list_frame:UpdateList(self.available_npc_skills[selected_npc.id])
                 else
-                    self.skill_list_frame:NoSkillsToShow()
-               end
+                    if self.skill_list_frame then self.skill_list_frame:NoSkillsToShow() end
+                end
             else
-                self.skill_list_frame:NoSkillsToShow()
+                if self.skill_list_frame then self.skill_list_frame:NoSkillsToShow() end
             end
         end
     end,
@@ -552,71 +531,11 @@ MTSLUI_NPC_LIST_FRAME = {
     ----------------------------------------------------------------------------------------------------------
     -- Change the name of npc searched for
     ----------------------------------------------------------------------------------------------------------
-    ChangeSearchNameNpc = function(self, new_search_name_npc)
-        -- Only change if new one
-        if self.search_name_npc ~= new_search_name_npc then
-            self.search_name_npc = new_search_name_npc
-            self:RefreshList()
-        end
+    ChangeFilters = function(self, filters)
+        self.filter_values = filters
+        self:RefreshList()
     end,
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the phase of contents shown in the list
-    ----------------------------------------------------------------------------------------------------------
-    ChangeFaction = function(self, new_faction_id)
-        -- Only change if new one
-        if self.current_faction ~= new_faction_id then
-            self.current_faction = new_faction_id
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the profession to be used in the list
-    ----------------------------------------------------------------------------------------------------------
-    ChangeProfession = function(self, profession_name, list_skills)
-        -- Only change if new one
-        if self.current_profession_name ~= profession_name then
-            self.current_profession_name = profession_name
-            self:UpdateList(list_skills)
-            -- Auto select first skill of the profession
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the source and rank for skills shown
-    ----------------------------------------------------------------------------------------------------------
-    ChangeSourceAndRank = function(self, new_source, new_rank)
-        -- Only change if new one
-        if self.current_source_type ~= new_source or self.new_rank ~= new_rank then
-            self.current_source_type = new_source
-            self.current_rank = new_rank
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the specialisation of contents shown in the list
-    ----------------------------------------------------------------------------------------------------------
-    ChangeRank = function(self, new_rank)
-        -- Only change if new one
-        if self.current_rank ~= new_rank then
-            self.current_rank = new_rank
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the zone of contents shown in the list
-    ----------------------------------------------------------------------------------------------------------
-    ChangeZone = function(self, new_zone)
-        -- Only change if new one
-        if self.current_zone ~= new_zone then
-            self.current_zone = new_zone
-            self:RefreshList()
-        end
-    end,
-
+    
     ----------------------------------------------------------------------------------------------------------
     -- Refresh the contents of the list after changing zone
     ----------------------------------------------------------------------------------------------------------
@@ -634,9 +553,7 @@ MTSLUI_NPC_LIST_FRAME = {
     ResizeToVerticalMode = function(self)
         -- adjust max items shown
         self.MAX_ITEMS_SHOWN_CURRENTLY = self.MAX_ITEMS_SHOWN_VERTICAL
-
         self.FRAME_HEIGHT = self.FRAME_HEIGHT_VERTICAL
-
         self:RefreshUI()
     end,
 
@@ -644,9 +561,7 @@ MTSLUI_NPC_LIST_FRAME = {
     ResizeToHorizontalMode = function(self)
         -- adjust max items shown
         self.MAX_ITEMS_SHOWN_CURRENTLY = self.MAX_ITEMS_SHOWN_HORIZONTAL
-
         self.FRAME_HEIGHT = self.FRAME_HEIGHT_HORIZONTAL
-
         self:RefreshUI()
     end,
 

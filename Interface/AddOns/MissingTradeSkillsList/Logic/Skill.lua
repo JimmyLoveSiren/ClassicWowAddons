@@ -16,55 +16,6 @@ MTSL_LOGIC_SKILL = {
         return tonumber(skill.phase) <= tonumber(max_phase)
     end,
 
-    VerifyPhasesForAllSkills = function(self)
-        for k, v in pairs(MTSL_DATA["skills"]) do
-            for _, skill in pairs(v) do
-                local min_current_phase = skill.phase
-                if min_current_phase == nil then min_current_phase = MTSL_DATA.MIN_PATCH_LEVEL end
-                local max_current_phase = min_current_phase
-
-                if skill.trainers then
-                    local trainers = MTSL_LOGIC_PLAYER_NPC:GetNpcsByIds(skill.trainers.sources)
-                    for _, t in pairs(trainers) do
-                        if t.phase ~= nil and t.phase > max_current_phase then
-                            max_current_phase = t.phase
-                        end
-                    end
-                end
-
-                if skill.quests then
-                    local quests = MTSL_LOGIC_QUEST:GetQuestsByIds(skill.quests)
-                    for _, q in pairs(quests) do
-                        if q.phase ~= nil and q.phase > max_current_phase then
-                            max_current_phase = q.phase
-                        end
-                    end
-                end
-
-                if skill.items then
-                    local skill_item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.items[1], k)
-                    if skill_item ~= nil and skill_item.phase ~= nil and skill_item.phase  > max_current_phase then
-                        max_current_phase = skill_item.phase
-                    end
-                    -- TODO, check vendors & drops & objects
-                end
-
-                if skill.objects then
-                    local objects = MTSL_LOGIC_ITEM_OBJECT:GetObjectsByIds(skill.objects)
-                    for _, o in pairs(objects) do
-                        if o.phase ~= nil and o.phase > max_current_phase then
-                            max_current_phase = o.phase
-                        end
-                    end
-                end
-            end
-
-            if tonumber(min_current_phase) < tonumber(max_current_phase) then
-                print(k .. " " .. v.name.English .. " " .. min_current_phase .. "-" .. max_current_phase)
-            end
-        end
-    end,
-
     ----------------------------------------------------------------------------------------
     -- Checks if a skill is available in a certain zone
     --
@@ -85,15 +36,15 @@ MTSL_LOGIC_SKILL = {
                 at_least_one_source = self:HasAtleastOneNpcInZoneById(npcs, zone_id)
             end
             -- keep going if still no valid source found
-            if not at_least_one_source and skill.quests ~= nil then
+            if not at_least_one_source and skill.quests then
                 at_least_one_source = self:HasAtleastOneObtainableQuestInZone(skill.quests, profession_name, zone_id)
             end
             -- keep going if still no valid source found
-            if not at_least_one_source and skill.objects ~= nil then
+            if not at_least_one_source and skill.objects then
                 at_least_one_source = self:HasAtleastOneObtainableObjectInZone(skill.objects, zone_id)
             end
             -- keep going if still no valid source found
-            if not at_least_one_source and skill.items ~= nill then
+            if not at_least_one_source and skill.items then
                 at_least_one_source = self:HasAtleastOneObtainableItemInZone(skill.items, profession_name, zone_id)
             end
             available = at_least_one_source
@@ -129,17 +80,17 @@ MTSL_LOGIC_SKILL = {
         -- Quest has many sources (npcs, objects or items)
         -- check npcs
         local is_obtainable = false
-        if quest ~= nil then
-            if quest.npcs ~= nil then
+        if quest then
+            if quest.npcs then
                 local npcs = MTSL_LOGIC_PLAYER_NPC:GetNpcsByIds(quest.npcs)
                 is_obtainable = self:HasAtleastOneNpcInZoneById(npcs, zone_id)
             end
             -- Check objects
-            if not is_obtainable and quest.objects ~= nil then
+            if not is_obtainable and quest.objects then
                 is_obtainable = self:HasAtleastOneObtainableObjectInZone(quest.objects, zone_id)
             end
             -- check items
-            if not is_obtainable and quest.items ~= nil then
+            if not is_obtainable and quest.items then
                 is_obtainable = self:HasAtleastOneObtainableItemInZone(quest.items, tradeskill_name, zone_id)
             end
         end
@@ -176,7 +127,7 @@ MTSL_LOGIC_SKILL = {
         while item_ids[i] and is_obtainable == false do
             local skill_item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(item_ids[i], profession_name)
             if skill_item then
-                -- item has many sources (drops, quests, vendors)
+                -- item has many sources (drops, quests, vendors, object)
                 -- check quests
                 if skill_item.quests then
                     is_obtainable = self:HasAtleastOneObtainableQuestInZone(skill_item.quests, profession_name, zone_id)
@@ -207,6 +158,10 @@ MTSL_LOGIC_SKILL = {
                         local mobs = MTSL_LOGIC_PLAYER_NPC:GetMobsByIds(skill_item.drops.sources)
                         is_obtainable = self:HasAtleastOneNpcInZoneById(mobs, zone_id)
                     end
+                end
+                -- check objects
+                if not is_obtainable and skill_item.objects then
+                    is_obtainable = self:HasAtleastOneObtainableObjectInZone(skill_item.objects, zone_id)
                 end
             end
             i = i + 1
@@ -263,39 +218,43 @@ MTSL_LOGIC_SKILL = {
         if skill == nil then
             skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["levels"][profession_name], "id", skill_id)
         end
-        if skill ~= nil then
+        if skill then
             -- try types on skill itself
-            if skill.trainers ~= nil then
+            if skill.trainers then
                 table.insert(source_types, "trainer")
             end
-            if skill.quests ~= nil then
+            if skill.quests then
                 table.insert(source_types, "quest")
             end
             -- if learned from item, determine the source types based on the item source
-            if skill.items ~= nil then
+            if skill.items then
                 local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.items[1], profession_name)
-                if item ~= nil then
-                    if item.vendors ~= nil then
+                if item then
+                    if item.vendors then
                         table.insert(source_types, "vendor")
                     end
-                    if item.quests ~= nil then
+                    if item.quests then
                         table.insert(source_types, "quest")
                     end
-                    if item.drops ~= nil then
+                    if item.drops then
                         table.insert(source_types, "drop")
                     end
                     -- if only obtainable during holiday event
-                    if item.holiday ~= nil then
+                    if item.holiday then
                         table.insert(source_types, "holiday")
+                    end
+                    -- object
+                    if item.objects then
+                        table.insert(source_types, "object")
                     end
                 end
             end
             -- if we learned from object
-            if skill.objects ~= nil then
+            if skill.objects then
                 table.insert(source_types, "object")
             end
             -- if only obtainable during holiday event
-            if skill.holiday ~= nil then
+            if skill.holiday then
                 table.insert(source_types, "holiday")
             end
         end
@@ -333,9 +292,9 @@ MTSL_LOGIC_SKILL = {
             skill = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["levels"][profession_name], "id", skill_id)
         end
         -- if we find the skill of the profession, search for factions
-        if skill ~= nil then
+        if skill then
             -- loop trainers
-            if skill.trainers ~= nil then
+            if skill.trainers then
                 local trainers = MTSL_LOGIC_PLAYER_NPC:GetNpcsIgnoreFactionByIds(skill.trainers.sources)
                 for _, t in pairs(trainers) do
                     self:AddFactionForDataToArray(factions, t)
@@ -348,11 +307,11 @@ MTSL_LOGIC_SKILL = {
             -- try reputation/reacts on skill itself
             self:AddFactionForDataToArray(factions, skill)
             -- if learned from item, add the factions based on the item source
-            if skill.items ~= nil then
+            if skill.items then
                 local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.items[1], profession_name)
-                if item ~= nil then
+                if item then
                     self:AddFactionForDataToArray(factions, item)
-                    if item.vendors ~= nil then
+                    if item.vendors then
                         local vendors = MTSL_LOGIC_PLAYER_NPC:GetNpcsIgnoreFactionByIds(item.vendors.sources)
                         -- loop all the vendors
                         for _, v in pairs(vendors) do
@@ -369,16 +328,16 @@ MTSL_LOGIC_SKILL = {
                         -- loop all quests
                         for _, v in pairs(item.quests) do
                             local quest = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["quests"], v)
-                            if quest ~= nil then
+                            if quest then
                                 self:AddFactionForDataToArray(factions, quest)
                                 -- loop all the NPC/questgivers
-                                if quest.npcs ~= nil then
+                                if quest.npcs then
                                     local npcs = MTSL_LOGIC_PLAYER_NPC:GetNpcsIgnoreFactionByIds(quest.npcs)
                                     -- loop all the vendors
                                     for _, n in pairs(npcs) do
                                         self:AddFactionForDataToArray(factions, n)
                                     end
-                                -- no questgivers so assume alliance and horde can get it
+                                    -- no questgivers so assume alliance and horde can get it
                                 else
                                     table.insert(factions, MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName("Alliance"))
                                     table.insert(factions, MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName("Horde"))
@@ -389,14 +348,14 @@ MTSL_LOGIC_SKILL = {
                 end
             end
             -- if we learned from object
-            if skill.quests ~= nil then
+            if skill.quests then
                 -- loop all quests
                 for _, v in pairs(skill.quests) do
                     local quest = MTSL_TOOLS:GetItemFromUnsortedListById(MTSL_DATA["quests"], v)
-                    if quest ~= nil then
+                    if quest then
                         self:AddFactionForDataToArray(factions, quest)
                         -- loop all the NPC/questgivers
-                        if quest.npcs ~= nil then
+                        if quest.npcs then
                             local npcs = MTSL_LOGIC_PLAYER_NPC:GetNpcsIgnoreFactionByIds(quest.npcs)
                             -- loop all the vendors
                             for _, n in pairs(npcs) do
@@ -416,10 +375,10 @@ MTSL_LOGIC_SKILL = {
     end,
 
     AddFactionForDataToArray = function (self, array, data)
-        if data.reputation ~= nil then
+        if data.reputation then
             table.insert(array, tonumber(data.reputation.faction_id))
         end
-        if data.reacts ~= nil then
+        if data.reacts then
             table.insert(array, tonumber(MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName(data.reacts)))
         end
     end,
@@ -435,9 +394,8 @@ MTSL_LOGIC_SKILL = {
     -----------------------------------------------------------------------------------------
     IsAvailableForFaction = function(self, skill_id, profession_name, faction_id)
         local factions = self:GetFactionsForSkillForProfessionById(skill_id, profession_name)
+        -- add alliance and horde if we did not find any
         if MTSL_TOOLS:CountItemsInArray(factions) <= 0 then
-            -- add alliance and horde for now
-            -- print(profession_name .. " skill " .. skill_id .. " has " .. MTSL_TOOLS:CountItemsInArray(factions) .. " available factions")
             table.insert(factions, MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName("Alliance"))
             table.insert(factions, MTSL_LOGIC_FACTION_REPUTATION:GetFactionIdByName("Horde"))
         end
@@ -456,11 +414,11 @@ MTSL_LOGIC_SKILL = {
     IsObtainableFromNpcById = function(self, profession_name, skill, npc_id)
         local obtainable = false
         -- Check if npc_id is contained in list of trainers if there are
-        if skill.trainers ~= nil and MTSL_TOOLS:ListContainsNumber(skill.trainers.sources, npc_id) then
+        if skill.trainers and MTSL_TOOLS:ListContainsNumber(skill.trainers.sources, npc_id) then
             obtainable = true
         end
         -- Check if questgiver
-        if obtainable == false and skill.quests ~= nil then
+        if not obtainable and skill.quests then
             -- loop each quest
             for _, v in pairs(skill.quests) do
                 local quest = MTSL_LOGIC_QUEST:GetQuestById(v)
@@ -470,20 +428,20 @@ MTSL_LOGIC_SKILL = {
             end
         end
         -- check if learned from item
-        if obtainable == false and skill.items ~= nil then
+        if not obtainable and skill.item then
             local item = MTSL_LOGIC_ITEM_OBJECT:GetItemForProfessionById(skill.items[1], profession_name)
-            if item ~= nil then
+            if item then
                 -- npc can be a mob that drops it or vendor
-                if item ~= nil and ((item.drops ~= nil and item.drops.sources ~= nil and MTSL_TOOLS:ListContainsNumber(item.drops.sources, npc_id))
-                        or (item.vendors ~= nil and MTSL_TOOLS:ListContainsNumber(item.vendors.sources, npc_id))) then
+                if ((item.drops and item.drops.sources and MTSL_TOOLS:ListContainsNumber(item.drops.sources, npc_id))
+                        or (item.vendors and MTSL_TOOLS:ListContainsNumber(item.vendors.sources, npc_id))) then
                     obtainable = true
                 end
             end
             -- or questgiver
-            if obtainable == false and item ~= nil and item.quests ~= nil then
+            if not obtainable and item and item.quests then
                 for _, v in pairs(item.quests) do
                     local quest = MTSL_LOGIC_QUEST:GetQuestById(v)
-                    if quest ~= nil and quest.npcs ~= nil and MTSL_TOOLS:ListContainsNumber(quest.npcs, npc_id) then
+                    if quest and quest.npcs and MTSL_TOOLS:ListContainsNumber(quest.npcs, npc_id) then
                         obtainable = true
                     end
                 end

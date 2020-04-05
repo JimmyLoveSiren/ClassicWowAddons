@@ -2,6 +2,7 @@ local addonName, addon = ...;
 
 local L = addon.L;
 local currentVersion = 0100000;
+local tocVersion = GetAddOnMetadata(addonName, 'version');
 
 local ADDON_ICON_ID = 3334;
 
@@ -435,7 +436,7 @@ addon:on('PLAYER_LOGIN', function (name)
   if (farmerOptions.version == nil) then
     print(L['You seem to have used an old Version of Farmer\nCheck out all the new features in the options!'])
   elseif (farmerOptions.version < currentVersion) then
-    local version = GetAddOnMetadata(addonName, 'version')
+    local version = tocVersion
     local text = 'Farmer can now display skill levelups!'
 
     print(text)
@@ -507,6 +508,10 @@ addon:slash('gold', function (param)
     print(L['Money lost this session: '] .. text)
   end
 end)
+
+addon:slash('version', function ()
+  print(addonName .. ' version ' .. tocVersion);
+end);
 
 addon:slash('default', function ()
   InterfaceOptionsFrame_Show()

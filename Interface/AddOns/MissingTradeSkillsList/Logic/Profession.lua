@@ -113,9 +113,6 @@ MTSL_LOGIC_PROFESSION = {
                     if MTSL_LOGIC_SKILL:IsSkillAvailableInPhase(v, max_phase) and
                             MTSL_LOGIC_SKILL:IsSkillAvailableInZone(v, profession_name, zone_id) then
                         table.insert(profession_skills, v)
-                    else
-                        print(MTSL_LOGIC_SKILL:IsSkillAvailableInPhase(v, max_phase))
-                        print(MTSL_LOGIC_SKILL:IsSkillAvailableInZone(v, profession_name, zone_id))
                     end
                 end
             end
@@ -305,22 +302,20 @@ MTSL_LOGIC_PROFESSION = {
     ------------------------------------------------------------------------------------------------
     GetProfessionNameBySkill = function(self, skill)
         local profession_name = ""
-        local p = 1
         -- loop each profession until we find it
-        while profession_name == "" and MTSL_DATA["professions"][p] ~= nil do
+        for k, v in pairs(MTSL_DATA["professions"]) do
             -- loop each skill for this profession and compare to skill we seek
-            local skills = self:GetAllSkillsAndLevelsForProfession(MTSL_DATA["professions"][p]["name"]["English"])
+            local skills = self:GetAllSkillsAndLevelsForProfession(k)
             local s = 1
-            while profession_name == "" and skills[s] ~= nil do
-                if skills[s] == skill then
-                    profession_name = MTSL_DATA["professions"][p]["name"]["English"]
+            while profession_name == "" and skills[s] do
+                if skills[s].id == skill.id then
+                    profession_name = k
                 end
                 -- next skill
                 s = s + 1
             end
-            -- next profession
-            p = p + 1
         end
+
         return profession_name
     end,
 

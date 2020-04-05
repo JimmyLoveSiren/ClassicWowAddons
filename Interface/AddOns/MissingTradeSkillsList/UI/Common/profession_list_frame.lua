@@ -21,12 +21,10 @@ MTSLUI_PROFESSION_LIST_FRAME = {
     -- @parent_frame		Frame		The parent frame
     ----------------------------------------------------------------------------------------------------------
     Initialise = function(self, parent_frame, frame_name)
-        self.shown_professions = {}
-        for k, _ in pairs(MTSL_DATA["professions"]) do
-            table.insert(self.shown_professions, k)
-        end
         -- container frame (no scroll
         self.ui_frame = MTSLUI_TOOLS:CreateBaseFrame("Frame", "", parent_frame, nil, self.FRAME_WIDTH, self.FRAME_HEIGHT, false)
+        -- default database wide
+        self:ChangeNoPlayer()
         -- Create the background frames for the buttons
         self.PROF_BGS = {}
         -- Create the buttons
@@ -62,9 +60,6 @@ MTSLUI_PROFESSION_LIST_FRAME = {
 
             i = i + 1
         end
-        self.selected_index = nil
-        -- Default database wide
-        self.current_player = nil
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -111,6 +106,20 @@ MTSLUI_PROFESSION_LIST_FRAME = {
         self.list_item_frame.profession_name = nil
         local professions_to_show = MTSL_LOGIC_PLAYER_NPC:GetKnownProfessionsForPlayer(player_realm, player_name)
         self:UpdateProfessions(professions_to_show)
+    end,
+
+    ChangeNoPlayer = function(self)
+        self.shown_professions = {}
+        for k, _ in pairs(MTSL_DATA["professions"]) do
+            table.insert(self.shown_professions, k)
+        end
+        self.current_player = nil
+        -- remove current selected profession, to force update later
+        self.selected_index = nil
+        if self.list_item_frame then
+            self.list_item_frame.profession_name = nil
+            self:UpdateProfessions(self.shown_professions)
+        end
     end,
 
     ----------------------------------------------------------------------------------------------------------

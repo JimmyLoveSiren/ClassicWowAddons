@@ -34,6 +34,8 @@ MTSLUI_LIST_FRAME = {
     current_zone = 0,
     -- list of missing skills
     missing_skills = {},
+    -- list of filters used
+    bfilter_values = {},
 
     ----------------------------------------------------------------------------------------------------------
     -- Intialises the MissingSkillsListFrame
@@ -63,20 +65,13 @@ MTSLUI_LIST_FRAME = {
         end
 
         self.profession_name = ""
-        -- default all zones
-        self.current_zone = 0
         -- default sort by name
         self.current_sort = 1
-        -- default select current phase
-        self.current_phase = MTSL_DATA.CURRENT_PATCH_LEVEL
         -- Default database wide
         self:UpdatePlayerLevels(0, 0)
         self.profession_skills = {}
         self.shown_skills = {}
         self.amount_shown_skills = 0
-        self.current_specialisation = 0
-        self.search_name_skill = ""
-        self.current_source = "any source"
         self.player_list_frame = nil
     end,
 
@@ -113,7 +108,10 @@ MTSLUI_LIST_FRAME = {
     UpdateList = function (self, missing_skills)
         self.profession_skills = missing_skills
 
-        self.shown_skills = MTSL_LOGIC_PROFESSION:FilterListOfSkills(self.profession_skills, self.profession_name, self.search_name_skill, self.current_source, self.current_specialisation, self.current_phase, self.current_zone, self.current_faction_id)
+        self.shown_skills = MTSL_LOGIC_PROFESSION:FilterListOfSkills(self.profession_skills, self.profession_name,
+                self.filter_values["skill_name"], self.filter_values["source"], self.filter_values["specialisation"],
+                self.filter_values["phase"], self.filter_values["zone"], self.filter_values["faction"])
+
         self.amount_shown_skills = MTSL_TOOLS:CountItemsInArray(self.shown_skills)
 
         -- sort the list
@@ -211,18 +209,14 @@ MTSLUI_LIST_FRAME = {
                         self.player_list_frame:ChangeProfessionSkill(self.profession_name, selected_skill)
                     end
                 else
-                    self.detail_item_frame:ShowNoSkillSelected()
+                    if self.detail_item_frame then self.detail_item_frame:ShowNoSkillSelected() end
                     -- if we have a player list frame added, trigger update there as well
-                    if self.player_list_frame ~= nil then
-                        self.player_list_frame:NoPlayersToShow()
-                    end
+                    if self.player_list_frame ~= nil then self.player_list_frame:NoPlayersToShow() end
                 end
             else
-                self.detail_item_frame:ShowNoSkillSelected()
+                if self.detail_item_frame then self.detail_item_frame:ShowNoSkillSelected() end
                 -- if we have a player list frame added, trigger update there as well
-                if self.player_list_frame ~= nil then
-                    self.player_list_frame:NoPlayersToShow()
-                end
+                if self.player_list_frame ~= nil then self.player_list_frame:NoPlayersToShow() end
             end
         end
     end,
@@ -312,7 +306,7 @@ MTSLUI_LIST_FRAME = {
 
     ----------------------------------------------------------------------------------------------------------
     -- To see if we have a skill selected or not
-    ----------------------------------------------------------------------------------------------------------
+    ------------------------------------------------------------     ----------------------------------------------
     HasSkillSelected = function(self)
         return self.selected_list_item_id ~= nil
     end,
@@ -351,78 +345,12 @@ MTSLUI_LIST_FRAME = {
     end,
 
     ----------------------------------------------------------------------------------------------------------
-    -- Change the name of skills searched for
-    ----------------------------------------------------------------------------------------------------------
-    ChangeSearchNameSkill = function(self, new_search_name_skill)
-        -- Only change if new one
-        if self.search_name_skill ~= new_search_name_skill then
-            self.search_name_skill = new_search_name_skill
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
     -- Change the sort order of the list with shown skills
     ----------------------------------------------------------------------------------------------------------
     ChangeSort = function(self, new_sort)
         -- Only change if new one
         if self.current_sort ~= new_sort then
             self.current_sort = new_sort
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the source for skills shown
-    ----------------------------------------------------------------------------------------------------------
-    ChangeSource = function(self, new_source)
-        -- Only change if new one
-        if self.current_source ~= new_source then
-            self.current_source = new_source
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the specialisation of contents shown in the list
-    ----------------------------------------------------------------------------------------------------------
-    ChangeSpecialisation = function(self, new_specialisation)
-        -- Only change if new one
-        if self.current_specialisation ~= new_specialisation then
-            self.current_specialisation = new_specialisation
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the zone of contents shown in the list
-    ----------------------------------------------------------------------------------------------------------
-    ChangeZone = function(self, new_zone)
-        -- Only change if new one
-        if self.current_zone ~= new_zone then
-            self.current_zone = new_zone
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the phase of contents shown in the list
-    ----------------------------------------------------------------------------------------------------------
-    ChangeFaction = function(self, new_faction_id)
-        -- Only change if new one
-        if self.current_faction_id ~= new_faction_id then
-            self.current_faction_id = new_faction_id
-            self:RefreshList()
-        end
-    end,
-
-    ----------------------------------------------------------------------------------------------------------
-    -- Change the phase of contents shown in the list
-    ----------------------------------------------------------------------------------------------------------
-    ChangePhase = function(self, new_phase)
-        -- Only change if new one
-        if self.current_phase ~= new_phase then
-            self.current_phase = new_phase
             self:RefreshList()
         end
     end,
@@ -438,6 +366,11 @@ MTSLUI_LIST_FRAME = {
             -- Auto select first skill of the profession
             self:RefreshList()
         end
+    end,
+
+    ChangeFilters = function(self, filters)
+        self.filter_values = filters
+        self:RefreshList()
     end,
 
     ----------------------------------------------------------------------------------------------------------

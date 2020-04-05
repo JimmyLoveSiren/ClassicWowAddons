@@ -1,10 +1,17 @@
-tag fb9fcd752a213ff70b1118395a4b09cf7bc44956 Release-1-16
+tag 64a023c0c9906252af3b2cab7eb3682301e5e57d Release-1-18
 Author:	Stefan Pedersen <sp@ceptu.com>
-Date:	Sun Jan 12 21:08:48 2020 +0100
+Date:	Sat Apr 4 00:04:22 2020 +0200
 
-commit 069b51e7981569a5b4b499119557cd5a9e7bd6dd
+commit f76e6a092b9157d24942a03253ab667abc93288b
 Author: Stefan Pedersen <sp@ceptu.com>
-Date:   Sun Jan 12 16:47:18 2020 +0100
+Date:   Sat Apr 4 00:04:08 2020 +0200
 
-    Version 1.16 - Add support for always showing mana ticks, even at full mana. Also handle "run drinking" by generally increasing robustness towards spikey mana regen.
+    Release version 1.18.
+
+commit 72ae16aede1bcbfb5b0dcb9313bcd6facfd3ef21
+Author: Stefan Pedersen <sp@ceptu.com>
+Date:   Sat Apr 4 00:03:24 2020 +0200
+
+    Split the FiveSecondRule.lua into separate files for handling the StatusBar and the TickBar. Refactor and clean up across the board.
+    Also disable the addon for warriors.
 

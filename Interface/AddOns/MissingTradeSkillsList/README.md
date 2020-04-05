@@ -36,12 +36,14 @@ Minimap button & Enhanced tooltip
   * TomTom: set waypoints to NPCs by clicking on their names
   * Skillet-Classic
 * Enhanced tooltip to show status of alts on same realm (or faction) for a recipe
-* Link items to a channel (Say, Party or Guild) or add item to current chat message
+* Link items to a channel (Say, Guild, Party, Raid or "Auto") or add item to current chat message
 
-### Latest version (v1.13.40)
+### Latest version (v1.13.42)
 
-* Fixed wrong Russian translations on skills & items
-* Added ability to insert a recipe in the current chat message
-    * Shift + Click on the name of a recipe in the "Details" section of a spell/skill to insert it to current chat message
+* Fixed bug where not all skills obtained from object were shown when filtering on that source type
+* Fixed bug where TRAINER_UPDATE event did not correctly update the MTLS window
+* Fixed bugs in NPC explorer frame
+* Fixed translations for profession name "Tailoring" for Spanish and Mexican Spanish, they got swapped around
+* Improved some coding with filter frame
    
 View full version history [here](http://mtsl.ddns.net/VERSION_HISTORY.html) or VERSION_HISTORY.md inside zip addon

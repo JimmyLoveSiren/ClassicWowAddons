@@ -19,6 +19,8 @@ MTSLUI_MISSING_TRADESKILLS_FRAME.previous_profession_name = ""
 ----------------------------------------------------------------------------------------------------------
 function MTSLUI_MISSING_TRADESKILLS_FRAME:Hide()
     self.ui_frame:Hide()
+    -- reset the filters
+    self:ResetFilters()
     -- deselect any button from the list
     self.skill_list_frame:DeselectCurrentSkillButton()
     self.previous_amount_missing = ""
@@ -122,6 +124,8 @@ end
 function MTSLUI_MISSING_TRADESKILLS_FRAME:RefreshUI (force)
     -- only refresh if this window is visible
     if self:IsShown() or force == 1 then
+        -- reset the filters when refresh of ui is forced
+        if force == 1 then self:ResetFilters() end
         -- Get the list of skills which are found by the filters
         local list_skills = MTSL_LOGIC_PLAYER_NPC:GetMissingSkillsForProfessionCurrentPlayer(self.current_profession_name)
         -- Refresh the UI frame showing the list of skill

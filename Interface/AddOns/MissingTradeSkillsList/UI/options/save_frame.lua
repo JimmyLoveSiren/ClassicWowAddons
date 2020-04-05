@@ -34,6 +34,9 @@ MTSLOPTUI_SAVE_FRAME = {
         self.reset_btn:SetText(MTSLUI_TOOLS:GetLocalisedLabel("default"))
         self.reset_btn:SetScript("OnClick", function ()
             MTSLOPTUI_CONFIG_FRAME:Reset()
+            MTSLUI_FONTS:Initialise()
+            ReloadUI()
+            MTSLUI_OPTIONS_MENU_FRAME:Show()
         end)
         -- Cancel button
         left = left + self.BUTTON_WIDTH

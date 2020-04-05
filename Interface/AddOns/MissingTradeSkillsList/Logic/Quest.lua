@@ -28,8 +28,6 @@ MTSL_LOGIC_QUEST = {
                         if npc ~= nil then
                             if npc.reacts == "Neutral" or npc.reacts == MTSL_CURRENT_PLAYER.FACTION then
                                 return quest
-                            else
-                                print(npc.name["English"] .. " (" .. npc.reacts ..") does not react to " .. MTSL_CURRENT_PLAYER.FACTION)
                             end
                         end
                     end

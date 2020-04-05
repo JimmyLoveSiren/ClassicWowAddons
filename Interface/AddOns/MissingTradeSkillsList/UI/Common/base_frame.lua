@@ -11,6 +11,7 @@ MTSLUI_BASE_FRAME = {
     ----------------------------------------------------------------------------------------------------------
     Hide = function (self)
         self.ui_frame:Hide()
+        self:ResetFilters()
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -31,6 +32,14 @@ MTSLUI_BASE_FRAME = {
         else
             self:Show()
         end
+    end,
+
+    ----------------------------------------------------------------------------------------------------------
+    -- Reset the filters in the filter frame if the baseframe has one
+    ----------------------------------------------------------------------------------------------------------
+    ResetFilters = function(self)
+        if self.skill_list_filter_frame then self.skill_list_filter_frame:ResetFilters() end
+        if self.skill_list_frame and self.skill_list_frame.ResetFilters then self.skill_list_frame:ResetFilters() end
     end,
 
     ----------------------------------------------------------------------------------------------------------

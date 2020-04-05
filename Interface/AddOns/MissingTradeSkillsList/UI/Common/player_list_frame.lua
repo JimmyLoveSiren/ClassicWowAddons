@@ -65,7 +65,16 @@ MTSLUI_PLAYER_LIST_FRAME = {
         -- default sort by name
         self.current_sort = 1
         -- save players because they cant change during addon
-        self.players = MTSL_TOOLS:CopyObject(MTSL_PLAYERS)
+        self.players = {}
+        for realm, players_on_realm in pairs(MTSL_PLAYERS) do
+            for playername, player in pairs(players_on_realm) do
+                -- Copy each player that has at least 1 tradeskill learned
+                if MTSL_TOOLS:CountItemsInNamedArray(player["TRADESKILLS"]) > 0  then
+                    if self.players[realm] == nil then self.players[realm] = {} end
+                    self.players[realm][playername] = MTSL_TOOLS:CopyObject(player)
+                end
+            end
+        end
         self.shown_players = {}
         self.amount_shown_players = 0
         self.show_skill_level = false
@@ -104,7 +113,7 @@ MTSLUI_PLAYER_LIST_FRAME = {
             -- add players of eaach realms
             for _, v in pairs(self.players) do
                 for _, p in pairs(v) do
-                    -- only add if he knows the professsion if we fiulter on it
+                    -- only add if he knows the professsion if we filter on it or knows at least 1 without a filter
                     if MTSL_LOGIC_PLAYER_NPC:HasLearnedProfession(p.NAME, p.REALM, self.profession_name) then
                         table.insert(filtered_players, p)
                     end
@@ -135,7 +144,6 @@ MTSLUI_PLAYER_LIST_FRAME = {
 
     ----------------------------------------------------------------------------------------------------------
     -- Updates the playerbuttons of MissingPlayersListFrame
-    -- TODO CHECK
     ----------------------------------------------------------------------------------------------------------
     UpdateButtons = function (self)
         local amount_to_show = self.amount_shown_players
@@ -274,7 +282,7 @@ MTSLUI_PLAYER_LIST_FRAME = {
         self.selected_button_index = nil
         -- pass it trough to the detail frame
         if self.profession_list_frame ~= nil then
-            self.profession_list_frame:ShowNoPlayerSelected()
+            self.profession_list_frame:ShowNoProfessions()
         end
     end,
 

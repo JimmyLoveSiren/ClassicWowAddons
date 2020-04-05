@@ -1,5 +1,36 @@
 ## Version History
 
+### v1.13.42 (Mar 30, 2020)
+
+* Fixed bug where not all skills obtained from object were shown when filtering on that source type
+* Fixed bug where TRAINER_UPDATE event did not correctly update the MTLS window
+* Fixed bugs in the NPC explorer frame
+* Fixed translations for profession name "Tailoring" for Spanish and Mexican Spanish, they got swapped around
+* Improved coding on filter frame
+
+### v1.13.41 (Mar 27, 2020)
+
+* Fixed wrong Russian translations on skills & items
+* Fixed bug where waypoints could not be created from a secondary source
+* Fixed bug where recipes obtained from an object could not be linked to chat or have their tooltip shown
+* Fixed wrong zone numbers for Ashenvale, added zone numbers to "Current zone" label as well 
+* Fixed bug with filter frame
+  * Filters should now work correctly again
+  * When opening another frame or changing profession, all filters are now reset to their default values
+  * It might appear filtering is not working, but this is due to lag/caching of frames ingame, reopen the window a few times and it should work
+* Limited the options for font setting to valid fonts only for your locale so text will nog longer be displayed with ????  
+* Account explorer no longer shows characters who haven't learned any profession  
+* Added coloring to show if player has the required reputation with faction or not (if one is needed)
+* Changed how to insert an item to chat from Shift + Left click to Right click
+* Changed the channels for linking items:
+  * Added "RAID" as a possible channel to link an item too, if not in raid "SAY" will be used
+  * Added Option "Auto" to set channel for all linking (Now default value, instead of "SAY")
+    * When using "Auto", you select the channel when you click the item
+      * Left click = SAY
+      * Ctrl Click = Guild
+      * Shift click = Party
+      * Alt click = Raid
+      
 ### v1.13.40 (Mar 23, 2020)
 
 * Fixed wrong Russian translations on skills & items

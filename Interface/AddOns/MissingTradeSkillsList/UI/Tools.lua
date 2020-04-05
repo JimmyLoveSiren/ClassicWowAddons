@@ -253,7 +253,7 @@ MTSLUI_TOOLS = {
 	SetAddonLocale = function(self)
 		local locale = GetLocale()
 		if MTSLUI_LOCALES[locale] == nil then
-			print(MTSLUI_FONTS.COLORS.TEXT.ERROR .. "MTSL does not support your locale " .. GetLocale() .. "!")
+			print(MTSLUI_FONTS.COLORS.TEXT.ERROR .. "MTSL: Your locale " .. locale .. " is not supported!")
 			return false
 		end
 		MTSLUI_CURRENT_LANGUAGE = MTSLUI_LOCALES[locale]

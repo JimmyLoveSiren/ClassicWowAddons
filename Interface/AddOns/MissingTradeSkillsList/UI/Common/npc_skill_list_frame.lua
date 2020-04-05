@@ -180,7 +180,7 @@ MTSLUI_NPC_SKILL_LIST_FRAME = {
                 self:SelectCurrentSkillButton()
                 -- Show the information of the selected npc
                 local selected_skill = self.skills_of_npc[self.selected_list_item_index]
-                if selected_skill ~= nil and self.detail_item_frame ~= nil then
+                if selected_skill then
                     local profession_name = MTSL_LOGIC_PROFESSION:GetProfessionNameBySkill(selected_skill)
                     self.selected_list_item_id = selected_skill.id
                     -- cant select item so deselect details

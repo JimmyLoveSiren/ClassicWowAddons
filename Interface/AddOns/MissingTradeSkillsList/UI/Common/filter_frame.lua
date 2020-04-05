@@ -12,8 +12,7 @@ MTSLUI_FILTER_FRAME = {
     FRAME_WIDTH_HORIZONTAL = 515,
     -- height of the frame
     FRAME_HEIGHT = 110,
-    -- keeps track of current phase used for filtering
-    current_phase,
+    -- all available phases
     phases= {},
     -- all contintents
     continents = {},
@@ -21,13 +20,6 @@ MTSLUI_FILTER_FRAME = {
     zones_in_continent = {},
     -- all zones for the current continent
     current_available_zones = {},
-    current_continent_id,
-    current_zone_id,
-    -- current specialisation for profession
-    current_profession,
-    current_spec_id,
-    -- source type to show
-    current_source_id,
     -- widths of the drops downs according to layout
     VERTICAL_WIDTH_DD = 173, -- (+/- half of the width of frame)
     HORIZONTAL_WIDTH_DD = 238,
@@ -36,6 +28,18 @@ MTSLUI_FILTER_FRAME = {
     HORIZONTAL_WIDTH_TF = 398,
     -- Filtering active (flag indicating if changing drop downs has effect, default on)
     filtering_active = 1,
+    -- currently used profession for filtering
+    current_profession,
+    -- array holding the values of the current filters
+    filter_values = {
+        skill_name,
+        source,
+        phase,
+        faction,
+        specialisation,
+        continent,
+        zone,
+    },
 
     ----------------------------------------------------------------------------------------------------------
     -- Intialises the MissingSkillsListFrame
@@ -58,6 +62,7 @@ MTSLUI_FILTER_FRAME = {
         self.drop_down_names = { "_DD_SOURCES", "_DD_PHASES", "_DD_FACTIONS", "_DD_SPECS", "_DD_CONTS", "_DD_ZONES" }
         -- add it to global vars to access later on
         _G[filter_frame_name] = self
+        self:ResetFilters()
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -104,7 +109,6 @@ MTSLUI_FILTER_FRAME = {
         self.ui_frame.source_drop_down:SetPoint("TOPLEFT", self.ui_frame.search_box, "BOTTOMLEFT", -15, -2)
         self.ui_frame.source_drop_down.filter_frame_name = self.filter_frame_name
         self.ui_frame.source_drop_down.initialize = self.CreateDropDownSources
-        UIDropDownMenu_SetText(self.ui_frame.source_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any source"))
         -- default select the "current" phase
         self.current_phase = MTSL_DATA.CURRENT_PATCH_LEVEL
         -- create a filter for content phase
@@ -113,7 +117,6 @@ MTSLUI_FILTER_FRAME = {
         self.ui_frame.phase_drop_down:SetPoint("TOPLEFT", self.ui_frame.source_drop_down, "TOPRIGHT", -31, 0)
         self.ui_frame.phase_drop_down.filter_frame_name = self.filter_frame_name
         self.ui_frame.phase_drop_down.initialize = self.CreateDropDownPhases
-        UIDropDownMenu_SetText(self.ui_frame.phase_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("current phase") .. " (" .. MTSL_DATA.CURRENT_PATCH_LEVEL .. ")")
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -133,7 +136,6 @@ MTSLUI_FILTER_FRAME = {
         self.ui_frame.specialisation_drop_down:SetPoint("TOPLEFT", self.ui_frame.faction_drop_down, "TOPRIGHT", -31, 0)
         self.ui_frame.specialisation_drop_down.filter_frame_name = self.filter_frame_name
         self.ui_frame.specialisation_drop_down.initialize = self.CreateDropDownSpecialisations
-        UIDropDownMenu_SetText(self.ui_frame.specialisation_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any specialisation"))
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -147,35 +149,48 @@ MTSLUI_FILTER_FRAME = {
         self.ui_frame.continent_drop_down:SetPoint("TOPLEFT", self.ui_frame.faction_drop_down, "BOTTOMLEFT", 0, 2)
         self.ui_frame.continent_drop_down.filter_frame_name = self.filter_frame_name
         self.ui_frame.continent_drop_down.initialize = self.CreateDropDownContinents
-        UIDropDownMenu_SetText(self.ui_frame.continent_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any zone"))
         -- default contintent "any" so no need for sub zone to show
         self.ui_frame.zone_drop_down = CreateFrame("Frame", self.filter_frame_name .. "_DD_ZONES", self.ui_frame, "UIDropDownMenuTemplate")
         self.ui_frame.zone_drop_down:SetPoint("TOPLEFT", self.ui_frame.continent_drop_down, "TOPRIGHT", -31, 0)
         self.ui_frame.zone_drop_down.filter_frame_name = self.filter_frame_name
         self.ui_frame.zone_drop_down.initialize = self.CreateDropDownZones
-        UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
+    end,
+
+    -- Initialise the filters to default values
+    InitFilters = function (self)
+        self.filter_values = {
+            skill_name = "",
+            profession,
+            source = "any source",
+            phase = MTSL_DATA.CURRENT_PATCH_LEVEL,
+            faction = 0,
+            specialisation = 0,
+            continent = 0,
+            zone = 0,
+        }
     end,
 
     ----------------------------------------------------------------------------------------------------------
     -- Reset the filters to default value (when parent window is hidden/closed)
     ----------------------------------------------------------------------------------------------------------
     ResetFilters = function(self)
+        self:InitFilters()
         -- reset name to search
         self.ui_frame.search_box:SetText("")
         self.ui_frame.search_box:ClearFocus()
         -- reset source type
-        self.current_source_id = "any source"
         UIDropDownMenu_SetText(self.ui_frame.source_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any source"))
-        -- reset phase to current
-        self.current_phase = MTSL_DATA.CURRENT_PATCH_LEVEL
+        -- reset phase
         UIDropDownMenu_SetText(self.ui_frame.phase_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("current") .. " (" .. MTSL_DATA.CURRENT_PATCH_LEVEL .. ")")
+        -- reset faction
+        UIDropDownMenu_SetText(self.ui_frame.faction_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any faction"))
         -- reset specialisation
-        self.current_spec_id = 0
         UIDropDownMenu_SetText(self.ui_frame.specialisation_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any specialisation"))
         -- reset contintent & zone
-        self.current_continent_id = 0
         UIDropDownMenu_SetText(self.ui_frame.continent_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any zone"))
         UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
+        -- set the current filters to the listframe
+        if self.list_frame then self.list_frame:ChangeFilters(self.filter_values) end
     end,
 
     -- Limit the filter for phase to current only
@@ -229,6 +244,8 @@ MTSLUI_FILTER_FRAME = {
     ----------------------------------------------------------------------------------------------------------
     SetListFrame = function(self, list_frame)
         self.list_frame = list_frame
+        -- set the current filters to the listframe
+        self.list_frame:ChangeFilters(self.filter_values)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -249,13 +266,7 @@ MTSLUI_FILTER_FRAME = {
         self.phases[1]["id"] = new_phase
         -- update text in dropdown itself if not any is picked
         if UIDropDownMenu_GetText(self.ui_frame.phase_drop_down) ~= MTSLUI_TOOLS:GetLocalisedLabel("any phase") then
-            UIDropDownMenu_SetText(self.ui_frame.phase_drop_down, self.phases[1]["name"])
-            self.current_phase = new_phase
-            -- Trigger Refresh
-            -- Apply filter if we may
-            if self:IsFilteringEnabled() then
-                self.list_frame:ChangePhase(self.current_phase)
-            end
+            self:ChangePhaseHandler(new_phase, self.phases[1]["name"])
         end
     end,
 
@@ -264,7 +275,11 @@ MTSLUI_FILTER_FRAME = {
         local new_zone = MTSL_LOGIC_WORLD:GetZoneByName(new_zone_name)
         -- only update if we actually found a zone
         if new_zone ~= nil then
-            self.continents[2]["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current zone") .. " (" .. new_zone_name .. ")"
+            self.continents[2]["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current zone") .. " (" .. new_zone_name
+            if new_zone.levels then
+                self.continents[2]["name"] = self.continents[2]["name"] .. ", " .. new_zone.levels.min .. "-" .. new_zone.levels.max
+            end
+            self.continents[2]["name"] = self.continents[2]["name"] .. ")"
             self.continents[2]["id"] = (-1 * new_zone.id)
             -- update text in dropdown itself if current is picked
             if self.current_continent_id == nil and UIDropDownMenu_GetText(self.ui_frame.continent_drop_down) ~= MTSLUI_TOOLS:GetLocalisedLabel("any zone") then
@@ -297,7 +312,6 @@ MTSLUI_FILTER_FRAME = {
             table.insert(self.phases, new_phase)
             patch_level = patch_level + 1
         end
-        self.current_phase = MTSL_DATA.CURRENT_PATCH_LEVEL
     end,
 
     BuildSources = function(self)
@@ -310,8 +324,6 @@ MTSLUI_FILTER_FRAME = {
             }
             table.insert(self.sources, new_source)
         end
-        -- auto select "any" as source
-        self.current_source_id = "any source"
     end,
 
     BuildFactions = function(self)
@@ -347,10 +359,6 @@ MTSLUI_FILTER_FRAME = {
         for _, r in pairs(rep_factions) do
             table.insert(self.factions, r)
         end
-        -- auto select "any" as current faction
-        if self.current_faction_id == nil  then
-            self.current_faction_id = 0
-        end
     end,
 
     BuildSpecialisations = function(self)
@@ -380,10 +388,6 @@ MTSLUI_FILTER_FRAME = {
                 table.insert(self.specialisations, new_specialisation)
             end
         end
-        -- auto select "any specialisation"
-        if self.current_spec_id == nil  then
-            self.current_spec_id = 0
-        end
     end,
 
     BuildContinents = function(self)
@@ -399,10 +403,14 @@ MTSLUI_FILTER_FRAME = {
         local current_zone = MTSL_LOGIC_WORLD:GetZoneByName(current_zone_name)
         if current_zone ~= nil then
             local zone_filter = {
-                ["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current zone") .. " (" .. current_zone_name .. ")",
+                ["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current zone") .. " (" .. current_zone_name,
                 -- make id negative for filter later on
                 ["id"] = (-1 * current_zone.id),
             }
+            if current_zone.levels then
+                zone_filter["name"] = zone_filter["name"] .. ", " .. current_zone.levels.min .. "-" .. current_zone.levels.max
+            end
+            zone_filter["name"] = zone_filter["name"] .. ")"
             table.insert(self.continents, zone_filter)
         end
         -- add each type of "continent
@@ -412,10 +420,6 @@ MTSLUI_FILTER_FRAME = {
                 ["id"] = v.id,
             }
             table.insert(self.continents, new_continent)
-        end
-        -- auto select "any" as continent
-        if self.current_continent_id == nil  then
-            self.current_continent_id = 0
         end
     end,
 
@@ -449,19 +453,7 @@ MTSLUI_FILTER_FRAME = {
     end,
 
     ChangeSourceHandler = function(self, value, text)
-        -- Only trigger update if we change to a different continent
-        if value ~= nil and value ~= self.current_source_id then
-            self:ChangeSource(value, text)
-        end
-    end,
-
-    ChangeSource = function(self, id, text)
-        self.current_source_id = id
-        UIDropDownMenu_SetText(self.ui_frame.source_drop_down, text)
-        -- Apply filter if we may
-        if self:IsFilteringEnabled() then
-            self.list_frame:ChangeSource(id)
-        end
+        self:ChangeFilter("source", value, self.ui_frame.source_drop_down, text)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -472,19 +464,7 @@ MTSLUI_FILTER_FRAME = {
     end,
 
     ChangeFactionHandler = function(self, value, text)
-        -- Only trigger update if we change to a different continent
-        if value ~= nil and value ~= self.current_faction_id then
-            self:ChangeFaction(value, text)
-        end
-    end,
-
-    ChangeFaction = function(self, id, text)
-        self.current_faction_id = id
-        UIDropDownMenu_SetText(self.ui_frame.faction_drop_down, text)
-        -- Apply filter if we may
-        if self:IsFilteringEnabled() then
-            self.list_frame:ChangeFaction(id)
-        end
+        self:ChangeFilter("faction", value, self.ui_frame.faction_drop_down, text)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -495,19 +475,7 @@ MTSLUI_FILTER_FRAME = {
     end,
 
     ChangeSpecialisationHandler = function(self, value, text)
-        -- Only trigger update if we change to a different continent
-        if value ~= nil and value ~= self.current_spec_id then
-            self:ChangeSpecialisation(value, text)
-        end
-    end,
-
-    ChangeSpecialisation = function(self, id, text)
-        self.current_spec_id = id
-        UIDropDownMenu_SetText(self.ui_frame.specialisation_drop_down, text)
-        -- Apply filter if we may
-        if self:IsFilteringEnabled() then
-            self.list_frame:ChangeSpecialisation(id)
-        end
+        self:ChangeFilter("specialisation", value, self.ui_frame.specialisation_drop_down, text)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -528,36 +496,34 @@ MTSLUI_FILTER_FRAME = {
     end,
 
     ChangeContinent = function(self, id, text)
-        -- do not set continent id if id < 0 or we choose "Any"
-        if id > 0 then
-            self.current_continent_id = id
-            -- selected current zone so trigger changezone
-        else
-            self.current_continent_id = nil
-            -- revert negative id to positive
-            self.current_zone_id = math.abs(id)
-            self.list_frame:ChangeZone(self.current_zone_id)
-        end
-
         UIDropDownMenu_SetText(self.ui_frame.continent_drop_down, text)
-
-        -- Update the drop down with available zones for this continent
-        self.current_available_zones = self.zones_in_continent[id]
-        if self.current_available_zones == nil then
+        -- do not set continent id if id < 0 or we choose "Any"
+        if id <= 0 then
+            self.filter_values["continent"] = nil
+            -- revert negative id to positive
+            self.filter_values["zone"] = math.abs(id)
             self.current_available_zones = {}
-        end
-        MTSLUI_TOOLS:FillDropDown(self.current_available_zones, self.ChangeZoneHandler, self.ui_frame.zone_drop_down.filter_frame_name)
-        -- auto select first zone in the continent if possible
-        if id > 0 then
-            local key, zone = next(self.current_available_zones)
-            UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, zone.name)
-            -- Apply filter if we may
-            if self:IsFilteringEnabled() then
-                self.list_frame:ChangeZone(zone.id)
-            end
-        else
+            MTSLUI_TOOLS:FillDropDown(self.current_available_zones, self.ChangeZoneHandler, self.filter_frame_name)
             UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
+        else
+            -- Update the drop down with available zones for this continent
+            self.current_available_zones = self.zones_in_continent[id]
+            if self.current_available_zones == nil then
+                self.current_available_zones = {}
+            end
+            MTSLUI_TOOLS:FillDropDown(self.current_available_zones, self.ChangeZoneHandler, self.filter_frame_name)
+            -- auto select first zone in the continent if possible
+            self.filter_values["continent"] = id
+            local key, zone = next(self.current_available_zones)
+            if zone then
+                UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, zone.name)
+                self.filter_values["zone"] = zone.id
+            else
+                UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
+            end
         end
+
+        self:UpdateFilters()
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -567,23 +533,8 @@ MTSLUI_FILTER_FRAME = {
         MTSLUI_TOOLS:FillDropDown(_G[self.filter_frame_name].current_available_zones, _G[self.filter_frame_name].ChangeZoneHandler, self.filter_frame_name)
     end,
 
-    ----------------------------------------------------------------------------------------------------------
-    -- Handles DropDown Change event after changing the zone
-    ----------------------------------------------------------------------------------------------------------
     ChangeZoneHandler = function(self, value, text)
-        -- Only trigger update if we change to a different zone
-        if value ~= nil and value ~= self.current_zone_id then
-            self:ChangeZone(value, text)
-        end
-    end,
-
-    ChangeZone = function(self, id, text)
-        self.current_zone_id = id
-        UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, text)
-        -- Apply filter if we may
-        if self:IsFilteringEnabled() then
-            self.list_frame:ChangeZone(id)
-        end
+        self:ChangeFilter("zone", value, self.ui_frame.zone_drop_down, text)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -593,22 +544,18 @@ MTSLUI_FILTER_FRAME = {
         MTSLUI_TOOLS:FillDropDown(_G[self.filter_frame_name].phases, _G[self.filter_frame_name].ChangePhaseHandler, self.filter_frame_name)
     end,
 
-    ----------------------------------------------------------------------------------------------------------
-    -- Handles DropDown Change event after changing the phases
-    ----------------------------------------------------------------------------------------------------------
     ChangePhaseHandler = function(self, value, text)
-        -- Only trigger update if we change to a different phase
-        if value ~= nil and value ~= self.current_phase then
-            self:ChangePhase(value, text)
-        end
+        self:ChangeFilter("phase", value, self.ui_frame.phase_drop_down, text)
     end,
 
-    ChangePhase = function(self, id, text)
-        self.current_phase = id
-        UIDropDownMenu_SetText(self.ui_frame.phase_drop_down, text)
-        -- Apply filter if we may
-        if self:IsFilteringEnabled() then
-            self.list_frame:ChangePhase(self.current_phase)
+    ----------------------------------------------------------------------------------------------------------
+    -- Handles the change of a filter
+    ----------------------------------------------------------------------------------------------------------
+    ChangeFilter = function(self, name_filter, value_filter, dropdown_filter, dropdown_text)
+        if value_filter and value_filter ~= self.filter_values[name_filter] then
+            self.filter_values[name_filter] = value_filter
+            UIDropDownMenu_SetText(dropdown_filter, dropdown_text)
+            self:UpdateFilters()
         end
     end,
 
@@ -658,27 +605,38 @@ MTSLUI_FILTER_FRAME = {
     -- Disable the filtering
     ----------------------------------------------------------------------------------------------------------
     GetCurrentZone = function (self)
-        return self.current_zone_id
+        return self.filter_values["zone"]
     end,
 
     ----------------------------------------------------------------------------------------------------------
     -- GetCurrentPhase
     ----------------------------------------------------------------------------------------------------------
     GetCurrentPhase = function(self)
-        return self.current_phase
+        return self.filter_values["phase"]
     end,
 
     ----------------------------------------------------------------------------------------------------------
     -- Change Profession so update specialisations
     ----------------------------------------------------------------------------------------------------------
     ChangeProfession = function(self, profession_name)
-        self.current_profession = profession_name
-        self.current_spec_id = 0
-        UIDropDownMenu_SetText(self.ui_frame.specialisation_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any specialisation"))
-        -- Update the list of specialisations for the current profession
-        self:BuildSpecialisations()
-        self:CreateDropDownSpecialisations()
-        self.list_frame:ChangeSpecialisation(self.current_spec_id)
+        -- Only change if new one
+        if self.current_profession ~= profession_name then
+            self.current_profession = profession_name
+            self:ResetFilters()
+            -- Update the list of specialisations for the current profession
+            self:BuildSpecialisations()
+            self:CreateDropDownSpecialisations()
+            self:UpdateFilters()
+        end
+    end,
+
+    ----------------------------------------------------------------------------------------------------------
+    -- Pass the updated filters to list_frame only if allowed
+    ----------------------------------------------------------------------------------------------------------
+    UpdateFilters = function(self)
+        if self:IsFilteringEnabled() then
+            self.list_frame:ChangeFilters(self.filter_values)
+        end
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -686,7 +644,9 @@ MTSLUI_FILTER_FRAME = {
     ----------------------------------------------------------------------------------------------------------
     SearchRecipes = function(self)
         -- remove focus field
+        local name_recipe = self.ui_frame.search_box:GetText()
+        self.filter_values["skill_name"] = name_recipe
         self.ui_frame.search_box:ClearFocus()
-        self.list_frame:ChangeSearchNameSkill(self.ui_frame.search_box:GetText())
+        self:UpdateFilters()
     end,
 }

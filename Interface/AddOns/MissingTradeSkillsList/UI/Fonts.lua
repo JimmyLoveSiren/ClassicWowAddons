@@ -55,38 +55,7 @@ MTSLUI_FONTS = {
 		LABEL,
 		TITLE,
 	},
-	-- list of all fonts that can be used in addon
-	AVAILABLE_FONT_NAMES =  {
-		{
-			["name"] = "2002",
-			["id"] = "2002.ttf",
-		},
-		{
-			["name"] = "Arial Narrow",
-			["id"] = "ARIALN.ttf",
-		},
-		{
-			["name"] = "Arkai",
-			["id"] = "ARKai_T.ttf",
-		},
-		{
-			["name"] = "Friz Quadrata",
-			["id"] = "FRIZQT__.ttf",
-		},
-		{
-			["name"] = "Friz Quadrata (Cyrilic)",
-			["id"] = "FRIZQT___CYR.ttf",
-		},
-		{
-			["name"] = "Morpheus",
-			["id"] = "morpheus.ttf",
-		},
-		{
-			["name"] = "Skurri",
-			["id"] = "skurri.ttf",
-		},
-	},
-	AVAILABLE_FONT_SIZES =  {
+	AVAILABLE_FONT_SIZES = {
 		{
 			["name"] = "8",
 			["id"] = 8,
@@ -161,5 +130,80 @@ MTSLUI_FONTS = {
 		end
 		-- default return common quality
 		return self.COLORS.ITEM_QUALITY.COMMON
+	end,
+
+	-------------------------------------------------------------------------
+	-- Returns the list of available fonts for your locale
+	--
+	-- returns			Array	The list of fonts
+	--------------------------------------------------------------------------
+	GetAvailableFonts = function(self)
+		local available_fonts = {}
+		if MTSLUI_CURRENT_LANGUAGE == "Russian" then
+			available_fonts = {
+				{
+					["name"] = "2002",
+					["id"] = "2002.ttf",
+				},
+				{
+					["name"] = "Arial Narrow",
+					["id"] = "ARIALN.ttf",
+				},
+				{
+					["name"] = "Arkai",
+					["id"] = "ARKai_T.ttf",
+				},
+				{
+					["name"] = "Friz Quadrata (Cyrilic)",
+					["id"] = "FRIZQT___CYR.ttf",
+				},
+			}
+			-- Chinese so only Arkai
+		elseif MTSLUI_CURRENT_LANGUAGE == "Chinese" then
+			available_fonts = {
+				{
+					["name"] = "Arkai",
+					["id"] = "ARKai_T.ttf",
+				},
+			}
+			-- Korean, so only 2002
+		elseif MTSLUI_CURRENT_LANGUAGE == "Korean" then
+			available_fonts = {
+				{
+					["name"] = "2002",
+					["id"] = "2002.ttf",
+				},
+			}
+		-- all other locales
+		else
+			available_fonts = {
+				{
+					["name"] = "2002",
+					["id"] = "2002.ttf",
+				},
+				{
+					["name"] = "Arial Narrow",
+					["id"] = "ARIALN.ttf",
+				},
+				{
+					["name"] = "Arkai",
+					["id"] = "ARKai_T.ttf",
+				},
+				{
+					["name"] = "Friz Quadrata",
+					["id"] = "FRIZQT__.ttf",
+				},
+				{
+					["name"] = "Morpheus",
+					["id"] = "morpheus.ttf",
+				},
+				{
+					["name"] = "Skurri",
+					["id"] = "skurri.ttf",
+				},
+			}
+		end
+
+		return available_fonts
 	end,
 }

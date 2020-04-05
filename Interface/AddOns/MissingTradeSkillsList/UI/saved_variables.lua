@@ -63,9 +63,9 @@ MTSLUI_SAVED_VARIABLES = {
     MAX_MINIMAP_RADIUS = 32,
     DEFAULT_MINIMAP_RADIUS = 0,
     -- Default chat channel is say
-    DEFAULT_CHAT_CHANNEL = "SAY",
+    DEFAULT_CHAT_CHANNEL = "AUTO",
     -- available chat channels
-    CHAT_CHANNELS = { "SAY", "PARTY", "GUILD" },
+    CHAT_CHANNELS = { "AUTO", "SAY", "GUILD", "PARTY", "RAID" },
 
     -- Try and load the values from saved files
     Initialise = function(self)
@@ -144,6 +144,7 @@ MTSLUI_SAVED_VARIABLES = {
         self:ResetSplitModes()
         self:ResetUIScales()
         self:ResetFont()
+        self:ResetLinkToChat()
     end,
 
     ------------------------------------------------------------------------------------------------
@@ -410,7 +411,7 @@ MTSLUI_SAVED_VARIABLES = {
     GetUIScaleAsText = function(self, name)
         -- return the scale if not nil
         if MTSLUI_PLAYER.UI_SCALE[name] ~= nil then
-            return (100*MTSLUI_PLAYER.UI_SCALE[name]) .. " %"
+            return (100 * MTSLUI_PLAYER.UI_SCALE[name]) .. " %"
         end
         -- return default if not found
         return (100 * self.DEFAULT_UI_SCALE) .. " %"
@@ -455,7 +456,7 @@ MTSLUI_SAVED_VARIABLES = {
     -- @ui_scale        Number      The number of the scale (must be => MIN_UI_SCALE and <= MAX_UI_SCALE)
     ------------------------------------------------------------------------------------------------
     IsValidFontType = function(self, font_name)
-        return font_name ~= nil and font_name == "FRIZQT___CYR.ttf" or MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSLUI_FONTS.AVAILABLE_FONT_NAMES, "id", font_name) ~= nil
+        return MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSLUI_FONTS:GetAvailableFonts(), "id", font_name) ~= nil
     end,
 
     ------------------------------------------------------------------------------------------------

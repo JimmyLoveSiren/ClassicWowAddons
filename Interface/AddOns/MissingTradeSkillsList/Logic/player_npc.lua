@@ -325,8 +325,10 @@ MTSL_LOGIC_PLAYER_NPC = {
         local player = self:GetPlayerOnRealm(player_name, realm_name)
 
         -- Check if player exits
-        if player ~= nil then
-            if profession_name == "" or (player.TRADESKILLS[profession_name] ~= nil and player.TRADESKILLS[profession_name] ~= 0) then
+        if player then
+            -- Check if player has leared at least one profession, if none is specified
+            if profession_name == "" or profession_name == nil or
+                    (player.TRADESKILLS[profession_name] and player.TRADESKILLS[profession_name] ~= 0) then
                 return true
             end
         end
@@ -686,4 +688,13 @@ MTSL_LOGIC_PLAYER_NPC = {
     GetCurrentPlayerIsInGuild = function (self)
         return MTSL_CURRENT_PLAYER.GUILD  ~= ""
     end,
+
+    GetCurrentPlayerIsInParty = function (self)
+        return GetNumGroupMembers() > 1
+    end,
+
+    GetCurrentPlayerIsInRaid = function (self)
+        return UnitInRaid("player") ~= nil
+    end,
+
 }

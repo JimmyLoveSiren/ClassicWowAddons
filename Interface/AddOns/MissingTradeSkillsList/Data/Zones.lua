@@ -631,7 +631,7 @@ MTSL_DATA["zones"] = {
         },
         ["levels"] = {
             ["min"] = 1,
-            ["max"] = 1,
+            ["max"] = 10,
         }
     },
     {

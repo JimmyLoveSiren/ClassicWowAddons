@@ -190,15 +190,15 @@ MTSLUI_EVENT_HANDLER = {
 		-- only possible react if we have a craft or tradeskill open
 		if self.ui_craft_open > 0 or self.ui_trade_open > 0 then
 			-- Check if we have a trainer window open
-			if ClassTrainerFrame and ClassTrainerFrame:IsVisible() and ClassTrainerFrame.selectedService ~= nil then
-				-- get the name of the profession for the current opened trainer
-				local opened_trainer = GetTrainerServiceSkillLine(ClassTrainerFrame.selectedService)
-				local localised_profession_name = MTSLUI_LOCALES_PROFESSIONS[MTSLUI_CURRENT_LANGUAGE][opened_trainer]
+			if ClassTrainerFrame and ClassTrainerFrame:IsVisible() and ClassTrainerFrame.selectedService then
+				-- get the name of the profession for the current opened trainer (This is always localised name)
+				local localised_name = GetTrainerServiceSkillLine(ClassTrainerFrame.selectedService)
+				local profession_name = MTSL_LOGIC_PROFESSION:GetEnglishProfessionNameFromLocalisedName(localised_name)
 				-- only update if current profession is the opened MTSL one
 				-- both can be open at same time, but only refresh if its the active one as well
-				if self.ui_craft_open > 0 and MTSLUI_MISSING_TRADESKILLS_FRAME:GetCurrentProfessionName() == localised_profession_name then
+				if self.ui_craft_open > 0 and MTSLUI_MISSING_TRADESKILLS_FRAME:GetCurrentProfessionName() == profession_name then
 					self:CRAFT_UPDATE()
-				elseif self.ui_trade_open > 0 and MTSLUI_MISSING_TRADESKILLS_FRAME:GetCurrentProfessionName() == localised_profession_name then
+				elseif self.ui_trade_open > 0 and MTSLUI_MISSING_TRADESKILLS_FRAME:GetCurrentProfessionName() == profession_name then
 					self:TRADE_SKILL_UPDATE()
 				end
 			end
@@ -234,9 +234,7 @@ MTSLUI_EVENT_HANDLER = {
 	---------------------------------------------------------------------------------------
     SLASH_COMMAND = function (self, msg)
 		-- remove case sensitive options by setting all passed text to lowercase
-		if msg ~= nil then
-			msg = string.lower(msg)
-		end
+		if msg then msg = string.lower(msg) end
 		if msg == "acc" or msg == "account" then
 			-- only execute if not yet shown
 			if not MTSLUI_ACCOUNT_EXPLORER_FRAME:IsShown() then
@@ -254,8 +252,6 @@ MTSLUI_EVENT_HANDLER = {
 			MTSLUI_NPC_EXPLORER_FRAME:RefreshUI()
 		elseif msg == "about" then
             MTSLUI_TOOLS:PrintAboutMessage()
-		elseif msg == "skills" then
-			MTSL_LOGIC_SKILL:VerifyPhasesForAllSkills()
 		elseif msg == nil or msg == "" or msg == "options" or msg == "config" then
 			MTSLUI_OPTIONS_MENU_FRAME:Show()
 		-- Not a known parameter or "help"

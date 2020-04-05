@@ -33,6 +33,16 @@ MTSLUI_NPC_FILTER_FRAME = {
     WIDTH_TF = 335, --268,
     -- Filtering active (flag indicating if changing drop downs has effect, default on)
     filtering_active = 1,
+    -- array holding the values of the current filters
+    filter_values = {
+        npc_name,
+        faction,
+        profession,
+        source,
+        rank,
+        continent,
+        zone,
+    },
 
     ----------------------------------------------------------------------------------------------------------
     -- Intialises the MissingSkillsListFrame
@@ -145,28 +155,39 @@ MTSLUI_NPC_FILTER_FRAME = {
         UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
     end,
 
+    -- Initialise the filters to default values
+    InitFilters = function (self)
+        self.filter_values = {
+            npc_name = "",
+            faction = "any",
+            profession = "any",
+            source = "any source",
+            rank = -1,
+            continent = 0,
+            zone = 0,
+        }
+    end,
+
     ----------------------------------------------------------------------------------------------------------
     -- Reset the filters to default value (when parent window is hidden/closed)
     ----------------------------------------------------------------------------------------------------------
     ResetFilters = function(self)
+        self:InitFilters()
         -- reset name to search
         self.ui_frame.search_box:SetText("")
         self.ui_frame.search_box:ClearFocus()
         -- reset profession
-        self.current_prof_name = "any"
         UIDropDownMenu_SetText(self.ui_frame.profession_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any profession"))
         -- reset faction
-        self.current_faction = "any"
         UIDropDownMenu_SetText(self.ui_frame.faction_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any faction"))
         -- reset type
-        self.current_source_type = "any source"
-        self.current_rank = nil
         UIDropDownMenu_SetText(self.ui_frame.source_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any source"))
         UIDropDownMenu_SetText(self.ui_frame.rank_drop_down, "")
         -- reset contintent & zone
-        self.current_continent_id = 0
         UIDropDownMenu_SetText(self.ui_frame.continent_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any zone"))
         UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
+        -- set the current filters to the listframe
+        if self.list_frame then self.list_frame:ChangeFilters(self.filter_values) end
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -174,6 +195,8 @@ MTSLUI_NPC_FILTER_FRAME = {
     ----------------------------------------------------------------------------------------------------------
     SetListFrame = function(self, list_frame)
         self.list_frame = list_frame
+        -- set the current filters to the listframe
+        self.list_frame:ChangeFilters(self.filter_values)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -193,7 +216,11 @@ MTSLUI_NPC_FILTER_FRAME = {
         local new_zone = MTSL_LOGIC_WORLD:GetZoneByName(new_zone_name)
         -- only update if we actually found a zone
         if new_zone ~= nil then
-            self.continents[2]["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current zone") .. " (" .. new_zone_name .. ")"
+            self.continents[2]["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current zone") .. " (" .. new_zone_name
+            if new_zone.levels then
+                self.continents[2]["name"] = self.continents[2]["name"] .. ", " .. new_zone.levels.min .. "-" .. new_zone.levels.max
+            end
+            self.continents[2]["name"] = self.continents[2]["name"] .. ")"
             self.continents[2]["id"] = (-1 * new_zone.id)
             -- update text in dropdown itself if current is picked
             if self.current_continent_id == nil and UIDropDownMenu_GetText(self.ui_frame.continent_drop_down) ~= MTSLUI_TOOLS:GetLocalisedLabel("any zone") then
@@ -216,7 +243,7 @@ MTSLUI_NPC_FILTER_FRAME = {
         for _, v in pairs(MTSL_DATA["profession_ranks"]) do
             local new_rank = {
                 ["name"] = MTSLUI_TOOLS:GetLocalisedData(v),
-                ["id"] = v.rank
+                ["id"] = v.id
             }
             table.insert(self.ranks, new_rank)
         end
@@ -225,7 +252,6 @@ MTSLUI_NPC_FILTER_FRAME = {
             ["id"] = 5,
         }
         table.insert(self.ranks, new_rank)
-        self.current_rank = 0
     end,
 
     BuildSources = function(self)
@@ -237,10 +263,6 @@ MTSLUI_NPC_FILTER_FRAME = {
                 ["id"] = v,
             }
             table.insert(self.sources, new_source)
-        end
-        -- auto select "any" as source
-        if self.current_source_type == nil  then
-            self.current_source_type = "any source"
         end
     end,
 
@@ -297,10 +319,6 @@ MTSLUI_NPC_FILTER_FRAME = {
         for _, r in pairs(rep_factions) do
             table.insert(self.factions, r)
         end
-        -- auto select "any" as current faction
-        if self.current_faction == nil  then
-            self.current_faction = "any"
-        end
     end,
 
     BuildProfessions = function(self)
@@ -310,17 +328,21 @@ MTSLUI_NPC_FILTER_FRAME = {
                 ["id"] = "any",
             },
         }
+        -- seperate list first to have em sorted
+        local profs = {}
         -- add each profession
         for k, v in pairs(MTSL_DATA["professions"]) do
            local new_profession = {
                 ["name"] = v["name"][MTSLUI_CURRENT_LANGUAGE],
                 ["id"] = k,
             }
-            table.insert(self.professions, new_profession)
+            table.insert(profs, new_profession)
         end
-        -- auto select "any profession"
-        if self.current_prof_name == nil  then
-            self.current_prof_name = "any"
+
+        MTSL_TOOLS:SortArrayByProperty(profs, "name")
+        -- Add them sorted
+        for _, p in pairs(profs) do
+            table.insert(self.professions, p)
         end
     end,
 
@@ -337,23 +359,23 @@ MTSLUI_NPC_FILTER_FRAME = {
         local current_zone = MTSL_LOGIC_WORLD:GetZoneByName(current_zone_name)
         if current_zone ~= nil then
             local zone_filter = {
-                ["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current zone") .. " (" .. current_zone_name .. ")",
+                ["name"] = MTSLUI_TOOLS:GetLocalisedLabel("current zone") .. " (" .. current_zone_name,
                 -- make id negative for filter later on
                 ["id"] = (-1 * current_zone.id),
             }
+            if current_zone.levels then
+                zone_filter["name"] = zone_filter["name"] .. ", " .. current_zone.levels.min .. "-" .. current_zone.levels.max
+            end
+            zone_filter["name"] = zone_filter["name"] .. ")"
             table.insert(self.continents, zone_filter)
         end
         -- add each type of "continent
-        for _, v in pairs(MTSL_DATA["continents"]) do
+        for k, v in pairs(MTSL_DATA["continents"]) do
             local new_continent = {
                 ["name"] = MTSLUI_TOOLS:GetLocalisedData(v),
                 ["id"] = v.id,
             }
             table.insert(self.continents, new_continent)
-        end
-        -- auto select "any" as continent
-        if self.current_continent_id == nil  then
-            self.current_continent_id = 0
         end
     end,
 
@@ -362,13 +384,16 @@ MTSLUI_NPC_FILTER_FRAME = {
         self.zones_in_continent = {}
 
         -- add each zone of current "continent unless its "Any" or "Current location"
-        for _, c in pairs(MTSL_DATA["continents"]) do
+        for k, c in pairs(MTSL_DATA["continents"]) do
             self.zones_in_continent[c.id] = {}
-            for _, z in pairs(MTSL_LOGIC_WORLD:GetZonesInContinentById(c.id)) do
+            for l, z in pairs(MTSL_LOGIC_WORLD:GetZonesInContinentById(c.id)) do
                 local new_zone = {
                     ["name"] = MTSLUI_TOOLS:GetLocalisedData(z),
                     ["id"] = z.id,
                 }
+                if z.levels then
+                    new_zone["name"] = new_zone["name"] .. " (" .. z.levels.min .. "-" .. z.levels.max .. ")"
+                end
                 table.insert(self.zones_in_continent[c.id], new_zone)
             end
             -- sort alfabethical
@@ -385,29 +410,30 @@ MTSLUI_NPC_FILTER_FRAME = {
 
     ChangeSourceHandler = function(self, value, text)
         -- Only trigger update if we change to a different continent
-        if value ~= nil and value ~= self.current_source_type then
-            self:ChangeSource(value, text)
-        end
+        self:ChangeSource(value, text)
     end,
 
     ChangeSource = function(self, id, text)
-        self.current_source_type = id
-        UIDropDownMenu_SetText(self.ui_frame.source_drop_down, text)
-        -- if changed to trainer, update that dropdown
-        self.current_available_ranks = {}
-        if self.current_source_type == "trainer" then
-            self.current_available_ranks = self.ranks
-        end
-        MTSLUI_TOOLS:FillDropDown(self.current_available_ranks, self.ChangeRankHandler, self.ui_frame.rank_drop_down.filter_frame_name)
+        if id and id ~= self.filter_values["source"] then
+            self.filter_values["source"] = id
+            UIDropDownMenu_SetText(self.ui_frame.source_drop_down, text)
+            -- if changed to trainer, update that dropdown
+            self.current_available_ranks = {}
+            if id == "trainer" then
+                self.current_available_ranks = self.ranks
+            end
+            MTSLUI_TOOLS:FillDropDown(self.current_available_ranks, self.ChangeRankHandler, self.ui_frame.rank_drop_down.filter_frame_name)
 
-        if self.current_source_type == "trainer" then
-            self.current_rank = 0
-            UIDropDownMenu_SetText(self.ui_frame.rank_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any rank"))
-        else
-            self.current_rank = -1
-            UIDropDownMenu_SetText(self.ui_frame.rank_drop_down, "")
+            if id == "trainer" then
+                self.filter_values["rank"] = 0
+                UIDropDownMenu_SetText(self.ui_frame.rank_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any rank"))
+            else
+                self.filter_values["rank"] = -1
+                UIDropDownMenu_SetText(self.ui_frame.rank_drop_down, "")
+            end
+
+            self:UpdateFilters()
         end
-        self.list_frame:ChangeSourceAndRank(self.current_source_type, self.current_rank)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -418,16 +444,7 @@ MTSLUI_NPC_FILTER_FRAME = {
     end,
 
     ChangeFactionHandler = function(self, value, text)
-        -- Only trigger update if we change to a different continent
-        if value ~= nil and value ~= self.current_faction then
-            self:ChangeFaction(value, text)
-        end
-    end,
-
-    ChangeFaction = function(self, id, text)
-        self.current_faction = id
-        UIDropDownMenu_SetText(self.ui_frame.faction_drop_down, text)
-        self.list_frame:ChangeFaction(id)
+        self:ChangeFilter("faction", value, self.ui_frame.faction_drop_down, text)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -438,16 +455,7 @@ MTSLUI_NPC_FILTER_FRAME = {
     end,
 
     ChangeProfessionHandler = function(self, value, text)
-        -- Only trigger update if we change to a different continent
-        if value ~= nil and value ~= self.current_prof_name then
-            self:ChangeProfession(value, text)
-        end
-    end,
-
-    ChangeProfession = function(self, id, text)
-        self.current_prof_name = id
-        UIDropDownMenu_SetText(self.ui_frame.profession_drop_down, text)
-        self.list_frame:ChangeProfession(id)
+        self:ChangeFilter("profession", value, self.ui_frame.profession_drop_down, text)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -461,39 +469,39 @@ MTSLUI_NPC_FILTER_FRAME = {
     -- Handles DropDown Change event after changing the continent
     ----------------------------------------------------------------------------------------------------------
     ChangeContinentHandler = function(self, value, text)
-        -- Only trigger update if we change to a different continent
-        if value ~= nil and value ~= self.current_continent_id then
-            self:ChangeContinent(value, text)
-        end
+        self:ChangeContinent(value, text)
     end,
 
     ChangeContinent = function(self, id, text)
-        -- do not set continent id if id < 0 or we choose "Any"
-        if id > 0 then
-            self.current_continent_id = id
-            -- selected current zone so trigger changezone
-        else
-            self.current_continent_id = nil
-            -- revert negative id to positive
-            self.current_zone_id = math.abs(id)
-            self.list_frame:ChangeZone(self.current_zone_id)
-        end
+        if id and id ~= self.filter_values["continent"] then
+            UIDropDownMenu_SetText(self.ui_frame.continent_drop_down, text)
+            -- do not set continent id if id < 0 or we choose "Any"
+            if id <= 0 then
+                self.filter_values["continent"] = nil
+                -- revert negative id to positive
+                self.filter_values["zone"] = math.abs(id)
+                self.current_available_zones = {}
+                MTSLUI_TOOLS:FillDropDown(self.current_available_zones, self.ChangeZoneHandler, self.filter_frame_name)
+                UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
+            else
+                -- Update the drop down with available zones for this continent
+                self.current_available_zones = self.zones_in_continent[id]
+                if self.current_available_zones == nil then
+                    self.current_available_zones = {}
+                end
+                MTSLUI_TOOLS:FillDropDown(self.current_available_zones, self.ChangeZoneHandler, self.filter_frame_name)
+                -- auto select first zone in the continent if possible
+                self.filter_values["continent"] = id
+                local key, zone = next(self.current_available_zones)
+                if zone then
+                    UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, zone.name)
+                    self.filter_values["zone"] = zone.id
+                else
+                    UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
+                end
+            end
 
-        UIDropDownMenu_SetText(self.ui_frame.continent_drop_down, text)
-
-        -- Update the drop down with available zones for this continent
-        self.current_available_zones = self.zones_in_continent[id]
-        if self.current_available_zones == nil then
-            self.current_available_zones = {}
-        end
-        MTSLUI_TOOLS:FillDropDown(self.current_available_zones, self.ChangeZoneHandler, self.ui_frame.zone_drop_down.filter_frame_name)
-        -- auto select first zone in the continent if possible
-        if id > 0 then
-            local _, zone = next(self.current_available_zones)
-            UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, zone.name)
-            self.list_frame:ChangeZone(zone.id)
-        else
-            UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, "")
+            self:UpdateFilters()
         end
     end,
 
@@ -508,16 +516,7 @@ MTSLUI_NPC_FILTER_FRAME = {
     -- Handles DropDown Change event after changing the zone
     ----------------------------------------------------------------------------------------------------------
     ChangeZoneHandler = function(self, value, text)
-        -- Only trigger update if we change to a different zone
-        if value ~= nil and value ~= self.current_zone_id then
-            self:ChangeZone(value, text)
-        end
-    end,
-
-    ChangeZone = function(self, id, text)
-        self.current_zone_id = id
-        UIDropDownMenu_SetText(self.ui_frame.zone_drop_down, text)
-        self.list_frame:ChangeZone(id)
+        self:ChangeFilter("zone", value, self.ui_frame.zone_drop_down, text)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -531,16 +530,25 @@ MTSLUI_NPC_FILTER_FRAME = {
     -- Handles DropDown Change event after changing the rank
     ----------------------------------------------------------------------------------------------------------
     ChangeRankHandler = function(self, value, text)
-        -- Only trigger update if we change to a different rank
-        if value ~= nil and value ~= self.current_rank then
-            self:ChangeRank(value, text)
+        self:ChangeFilter("rank", value, self.ui_frame.rank_drop_down, text)
+    end,
+
+    ----------------------------------------------------------------------------------------------------------
+    -- Handles the change of a filter
+    ----------------------------------------------------------------------------------------------------------
+    ChangeFilter = function(self, name_filter, value_filter, dropdown_filter, dropdown_text)
+        if value_filter and value_filter ~= self.filter_values[name_filter] then
+            self.filter_values[name_filter] = value_filter
+            UIDropDownMenu_SetText(dropdown_filter, dropdown_text)
+            self:UpdateFilters()
         end
     end,
 
-    ChangeRank = function(self, id, text)
-        self.current_rank = id
-        UIDropDownMenu_SetText(self.ui_frame.rank_drop_down, text)
-        self.list_frame:ChangeRank(self.current_rank)
+    ----------------------------------------------------------------------------------------------------------
+    -- Pass the updated filters to list_frame only if allowed
+    ----------------------------------------------------------------------------------------------------------
+    UpdateFilters = function(self)
+        self.list_frame:ChangeFilters(self.filter_values)
     end,
 
     ----------------------------------------------------------------------------------------------------------
@@ -569,7 +577,9 @@ MTSLUI_NPC_FILTER_FRAME = {
     ----------------------------------------------------------------------------------------------------------
     SearchNpcsByName = function(self)
         -- remove focus field
+        local name_npc = self.ui_frame.search_box:GetText()
+        self.filter_values["npc_name"] = name_npc
         self.ui_frame.search_box:ClearFocus()
-        self.list_frame:ChangeSearchNameNpc(self.ui_frame.search_box:GetText())
+        self:UpdateFilters()
     end,
 }

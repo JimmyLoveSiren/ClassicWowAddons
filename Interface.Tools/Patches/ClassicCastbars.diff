@@ -1,13 +1,13 @@
 diff --git a/Interface/AddOns/ClassicCastbars/core/Data.lua b/Interface/AddOns/ClassicCastbars/core/Data.lua
-index 0179dea..a976b3f 100644
+index 78f08893..b9a44600 100644
 --- a/Interface/AddOns/ClassicCastbars/core/Data.lua
 +++ b/Interface/AddOns/ClassicCastbars/core/Data.lua
-@@ -1452,7 +1452,7 @@ namespace.defaultConfig = {
-     locale = GetLocale(),
+@@ -1798,7 +1798,7 @@ namespace.defaultConfig = {
+     usePerCharacterSettings = false,
  
      nameplate = {
 -        enabled = true,
 +        enabled = false,
+         showForFriendly = true,
+         showForEnemy = true,
          width = 106,
-         height = 11,
-         iconSize = 13,

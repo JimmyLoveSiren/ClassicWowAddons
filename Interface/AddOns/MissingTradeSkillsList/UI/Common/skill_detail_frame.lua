@@ -41,11 +41,12 @@ MTSLUI_SKILL_DETAIL_FRAME = {
     -- height of the frame
     FRAME_HEIGHT = 440,
     -- height of the primary sources frame
-    FRAME_SOURCES_HEIGHT = 305,
+    FRAME_SOURCES_HEIGHT = 260,
+    FRAME_SOURCES_HEIGHT_WITH_SECONDARY = 140,
     -- shows up to 17 sources
     MAX_SOURCES_SHOWN_PRIMARY = 16,
     -- height of the frame with alternative source
-    FRAME_ALT_SOURCES_HEIGHT = 135,
+    FRAME_ALT_SOURCES_HEIGHT = 105,
     -- shows up to 7 alternative sources
     MAX_SOURCES_SHOWN_SECONDARY = 6,
     -- save the texts for the tooltips
@@ -119,11 +120,13 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.type.tooltip_frame_point_x = text_label_right - 5
         self.labels.type.tooltip_frame_point_y = text_label_top + 5
         self.labels.type.tooltip_frame:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.labels.type.tooltip_frame_point_x, self.labels.type.tooltip_frame_point_y)
-        self.labels.type.tooltip_frame:SetScript("OnMouseUp", function()
-            if IsShiftKeyDown() then
-                event_class:InsertItemToChat()
+        self.labels.type.tooltip_frame:SetScript("OnMouseUp", function(self, button)
+            -- Left mouse button
+            if button == "LeftButton" then
+                event_class:LinkItemToChat(IsAltKeyDown(), IsControlKeyDown(), IsShiftKeyDown())
+            -- Right mouse button, so insert
             else
-                event_class:LinkItemToChat()
+                event_class:InsertItemToChat()
             end
         end)
         self.labels.type.tooltip_frame:SetScript("OnEnter", function() event_class:ToolTipShowSourceName() end)
@@ -136,7 +139,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.sources.title = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("learned from"), text_label_left, text_label_top, "LABEL", "TOPLEFT")
         self.labels.sources.title:Hide()
         -- Create a frame to hold the labels
-        self.labels.sources.ui_frame = MTSLUI_TOOLS:CreateBaseFrame("Frame", "", self.ui_frame, nil, self.FRAME_WIDTH - 107, self.FRAME_SOURCES_HEIGHT, false)
+        self.labels.sources.ui_frame = MTSLUI_TOOLS:CreateBaseFrame("Frame", "", self.ui_frame, nil, self.FRAME_WIDTH - 120, self.FRAME_SOURCES_HEIGHT, false)
         -- position under MissingSkillsListui_frameand above ProgressBar
         self.labels.sources.ui_frame:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", text_label_right - 10, text_label_top + 8)
         -- we have MAX_SOURCES_SHOWN we can show at same time
@@ -154,7 +157,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         -- hide on creation
         self.labels.sources.ui_frame:Show()
         text_label_right = 130
-        text_label_top = text_label_top + 2 - text_gap - text_gap - text_gap
+        text_label_top = text_label_top - (3 * text_gap)
         self.labels.alt_type.title = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("also learned from"), text_label_left, text_label_top, "LABEL", "TOPLEFT")
         self.labels.alt_type.value = MTSLUI_TOOLS:CreateLabel(self.ui_frame, "-", text_label_right, text_label_top, "TEXT", "TOPLEFT")
         -- create a frame to hover over and show the tooltip
@@ -162,11 +165,13 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.alt_type.tooltip_frame_point_x = text_label_right - 5
         self.labels.alt_type.tooltip_frame_point_y = text_label_top + 5
         self.labels.alt_type.tooltip_frame:SetPoint("TOPLEFT", self.ui_frame, "TOPLEFT", self.labels.alt_type.tooltip_frame_point_x, self.labels.alt_type.tooltip_frame_point_y)
-        self.labels.alt_type.tooltip_frame:SetScript("OnMouseUp", function()
-            if IsShiftKeyDown() then
-                event_class:InsertAlternativeItemToChat()
+        self.labels.alt_type.tooltip_frame:SetScript("OnMouseUp", function(self, button)
+            -- Left mouse button
+            if button == "LeftButton" then
+                event_class:LinkAlternativeItemToChat(IsAltKeyDown(), IsControlKeyDown(), IsShiftKeyDown())
+                -- Right mouse button, so insert
             else
-                event_class:LinkAlternativeItemToChat()
+                event_class:InsertAlternativeItemToChat()
             end
         end)
         self.labels.alt_type.tooltip_frame:SetScript("OnEnter", function() event_class:ToolTipShowAltSourceName() end)
@@ -178,14 +183,14 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         -- Labels to show "Trained by: <trainers> or Sold by: <vendors> or Dropped by: <mobs> or Obtained from: <quest>"
         self.labels.alt_sources.title = MTSLUI_TOOLS:CreateLabel(self.ui_frame, MTSLUI_TOOLS:GetLocalisedLabel("also learned from"), text_label_left, text_label_top, "LABEL", "TOPLEFT")
         -- Create a frame to show the alternative sources
-        self.labels.alt_sources.ui_frame = MTSLUI_TOOLS:CreateBaseFrame("Frame", "", self.ui_frame, nil, self.FRAME_WIDTH - 118, self.FRAME_ALT_SOURCES_HEIGHT, false)
+        self.labels.alt_sources.ui_frame = MTSLUI_TOOLS:CreateBaseFrame("Frame", "", self.ui_frame, nil, self.FRAME_WIDTH - 120, self.FRAME_ALT_SOURCES_HEIGHT, false)
         -- position halfway from the frame with primary sources
-        self.labels.alt_sources.ui_frame:SetPoint("BOTTOMRIGHT", self.ui_frame, "BOTTOMRIGHT", -2, -2)
+        self.labels.alt_sources.ui_frame:SetPoint("BOTTOMRIGHT", self.ui_frame, "BOTTOMRIGHT", 0, 0)
         -- hide on creation
         self.labels.alt_sources.ui_frame:Show()
         self.labels.alt_sources.values = {}
-        text_label_top = 0 - 5 - text_gap - text_gap
-        text_label_right = 15
+        text_label_top = -8
+        text_label_right = 10
         -- Create the labels for sources
         for i=1,self.MAX_SOURCES_SHOWN_SECONDARY do
             local string_sources_content = MTSLUI_TOOLS:CreateLabel(self.labels.alt_sources.ui_frame, i .. " alt", text_label_right, text_label_top, "TEXT", "TOPLEFT")
@@ -198,72 +203,61 @@ MTSLUI_SKILL_DETAIL_FRAME = {
 
     -- Tries to add a way point to the map for the clicked NPC
     AddTomTomWayPointPrimarySource = function(self)
-        -- Calculate the clicked Y coordinate based on the used scale
-        local x, y = GetCursorPosition()
-        local s = self.labels.sources.ui_frame:GetEffectiveScale()
-        x, y = x/s, y/s;
-        local top = self.labels.sources.ui_frame:GetTop()
-        -- calculate how many labels we passed from top coordinate
-        local text_gap = 16
-        local label_number = 0
-        while top > y and label_number < self.MAX_SOURCES_SHOWN_PRIMARY do
-            top = top - text_gap
-            label_number = label_number + 1
-        end
-        -- Check if the label is visible
-        if label_number <= self.MAX_SOURCES_SHOWN_PRIMARY and self.labels.sources.values[label_number]:IsVisible() then
-            MTSLUI_TOOLS:CreateWayPoint(self.labels.sources.values[label_number]:GetText(), self.labels.name.value:GetText())
-        end
+        self:AddTomTomWayPoint(self.labels.sources, 16, self.MAX_SOURCES_SHOWN_PRIMARY)
     end,
 
     -- Tries to add a way point to the map for the clicked NPC of an alternative source
     AddTomTomWayPointSecondarySource = function(self)
+        self:AddTomTomWayPoint(self.labels.alt_sources, 16, self.MAX_SOURCES_SHOWN_SECONDARY)
+    end,
+
+    -- Determine the number of label clicked in an area
+    AddTomTomWayPoint = function(self, labels, text_gap, max_label_number)
         -- Calculate the clicked Y coordinate based on the used scale
         local x, y = GetCursorPosition()
-        local s = self.labels.alt_sources.ui_frame:GetEffectiveScale()
+        local s = labels.ui_frame:GetEffectiveScale()
         x, y = x/s, y/s;
-        local top = self.labels.alt_sources.ui_frame:GetTop()
+        local top = labels.ui_frame:GetTop()
         -- calculate how many labels we passed from top coordinate
-        local text_gap = 16
         local label_number = 0
-        while top > y and label_number < self.MAX_SOURCES_SHOWN_SECONDARY do
+        while top > y and label_number < max_label_number do
             top = top - text_gap
             label_number = label_number + 1
         end
         -- Check if the label is visable
-        if label_number <= self.MAX_SOURCES_SHOWN_SECONDARY and self.labels.alt_sources.values[label_number]:IsVisible() then
-            MTSLUI_TOOLS:CreateWayPoint(self.labels.alt_sources.values[label_number]:GetText(), self.labels.name.value:GetText())
+        if label_number <= max_label_number and labels.values[label_number]:IsVisible() then
+            MTSLUI_TOOLS:CreateWayPoint(labels.values[label_number]:GetText(), self.labels.name.value:GetText())
         end
     end,
 
-    -- Show the tooltip for the skill/item on top of the detail skill frame
-    ToolTipShow = function(self, parent_frame, text)
-        if text ~= nil then
-            local GameTooltip = _G.GameTooltip
-            GameTooltip:SetOwner(parent_frame, "ANCHOR_CURSOR")
-            GameTooltip:ClearLines()
-            GameTooltip:SetHyperlink(text)
-            GameTooltip:Show()
-        end
+    LinkItemToChat = function(self, is_alt_down, is_ctrl_down, is_shift_down)
+        if self.tooltip_source_name then self:LinkToChat(self.tooltip_source_name, is_alt_down, is_ctrl_down, is_shift_down) end
     end,
 
-    LinkItemToChat = function(self)
-        if self.tooltip_source_name then self:LinkToChat(self.tooltip_source_name) end
+    LinkAlternativeItemToChat = function(self, is_alt_down, is_ctrl_down, is_shift_down)
+        if self.tooltip_alt_source_name then self:LinkToChat(self.tooltip_alt_source_name, is_alt_down, is_ctrl_down, is_shift_down) end
     end,
 
-    LinkAlternativeItemToChat = function(self)
-        if self.tooltip_alt_source_name then self:LinkToChat(self.tooltip_alt_source_name) end
-    end,
-
-    LinkToChat = function (self, item_name)
-        local _, link = GetItemInfo(item_name)
-        if link and MTSLUI_SAVED_VARIABLES:GetChatLinkEnabled()  == 1 then
-            local channel = MTSLUI_SAVED_VARIABLES:GetChatLinkChannel()
-            -- check if channel is guild and we are in guild, otherwise use say
-            if channel == "GUILD" and MTSL_LOGIC_PLAYER_NPC:GetCurrentPlayerIsInGuild() == false then channel = "SAY" end
-            -- Same but for party
-            if channel == "PARTY" and GetNumGroupMembers() <= 1 then channel = "SAY" end
-            SendChatMessage(link, channel)
+    LinkToChat = function (self, item_name, is_alt_down, is_ctrl_down, is_shift_down)
+        if MTSLUI_SAVED_VARIABLES:GetChatLinkEnabled()  == 1 then
+            local link = self:GetItemLink(item_name)
+            if link then
+                local channel = MTSLUI_SAVED_VARIABLES:GetChatLinkChannel()
+                -- if channel is auto, then select channel on how we clicked
+                if channel == "AUTO" then
+                    if is_alt_down and not is_ctrl_down and not is_shift_down then channel = "RAID"
+                    elseif not is_alt_down and is_ctrl_down and not is_shift_down then channel = "GUILD"
+                    elseif not is_alt_down and not is_ctrl_down and is_shift_down then channel = "PARTY"
+                    else channel = "SAY" end
+                end
+                -- check if channel is guild and we are in guild, otherwise use say
+                if channel == "GUILD" and MTSL_LOGIC_PLAYER_NPC:GetCurrentPlayerIsInGuild() == false then channel = "SAY" end
+                -- Same but for party
+                if channel == "PARTY" and MTSL_LOGIC_PLAYER_NPC:GetCurrentPlayerIsInParty() == false then channel = "SAY" end
+                -- Same but for raid
+                if channel == "RAID" and MTSL_LOGIC_PLAYER_NPC:GetCurrentPlayerIsInRaid() == false then channel = "SAY" end
+                SendChatMessage(link, channel)
+            end
         end
     end,
 
@@ -277,8 +271,29 @@ MTSLUI_SKILL_DETAIL_FRAME = {
 
     InsertIntoChat = function(self, item_name)
         if ChatFrame1EditBox and ChatFrame1EditBox:IsVisible() then
-            local _, link = GetItemInfo(item_name)
-            ChatFrame1EditBox:Insert(link)
+            local link = self:GetItemLink(item_name)
+            if link then ChatFrame1EditBox:Insert(link) end
+        end
+    end,
+
+    GetItemLink = function (self, item_name)
+        local _, link = GetItemInfo(item_name)
+        local attempts = 0
+        while link == nil and attempts < 5 do
+            link = self:GetItemLink(item_name)
+            attempts = attempts + 1
+        end
+        return link
+    end,
+
+    -- Show the tooltip for the skill/item on top of the detail skill frame
+    ToolTipShow = function(self, parent_frame, text)
+        if text ~= nil then
+            local GameTooltip = _G.GameTooltip
+            GameTooltip:SetOwner(parent_frame, "ANCHOR_CURSOR")
+            GameTooltip:ClearLines()
+            GameTooltip:SetHyperlink(text)
+            GameTooltip:Show()
         end
     end,
 
@@ -322,6 +337,8 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         self.labels.special_action.value:SetText("-")
         self.labels.price.value:SetText("-")
         self.labels.type.value:SetText("-")
+        -- always reset height as it will be only source
+        self.labels.sources.ui_frame:SetHeight(self.FRAME_SOURCES_HEIGHT)
         self.labels.source.value:SetText("-")
         self.labels.sources.title:SetText(MTSLUI_FONTS.COLORS.TEXT.TITLE .. MTSLUI_TOOLS:GetLocalisedLabel("learned from"))
         self.labels.sources.title:Hide()
@@ -356,8 +373,8 @@ MTSLUI_SKILL_DETAIL_FRAME = {
             self:SetRequiredSkillLevel(skill.min_skill, current_skill_level)
             -- Set minimum xp level
             self:SetRequiredXPLevel(skill.min_xp_level, current_xp_level)
-            self:SetRequiredReputationWithFaction(skill.reputation)
-            self:SetRequiredSpecialisation(profession_name, skill.specialisation)
+            self:SetRequiredReputationWithFaction(skill.reputation, current_xp_level)
+            self:SetRequiredSpecialisation(profession_name, skill.specialisation, current_xp_level)
             self:SetRequiredSpecialAction(skill.special_action)
             -- clear the price
             self.labels.price.value:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. "-")
@@ -387,8 +404,6 @@ MTSLUI_SKILL_DETAIL_FRAME = {
             self.ui_frame:Show()
             -- Update the text for the tooltips
             self.tooltip_skill_name = "spell:"..skill.id
-            -- TODO UPDATE: Update the Character Screen
-            -- MTSLDBUI_CHARS_SELECTED_SKILL_FRAME:RefreshUI(profession_name, skill.id)
         end
     end,
 
@@ -451,13 +466,22 @@ MTSLUI_SKILL_DETAIL_FRAME = {
     --
     -- @reputation	object	Contains reputation.faction & reputation.level
     ----------------------------------------------------------------------------
-    SetRequiredReputationWithFaction = function(self, reputation)
+    SetRequiredReputationWithFaction = function(self, reputation, current_xp_level)
         -- Check if require reputation to acquire
         if reputation ~= nil then
             local faction = MTSL_LOGIC_FACTION_REPUTATION:GetFactionNameById(reputation.faction_id)
-            local level = MTSL_LOGIC_FACTION_REPUTATION:GetReputationLevelById(reputation.level_id)
-            -- TODO COMPARE CURRENT PLAYER HIS FACTION
-            self.labels.requires_rep.value:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. faction .. " [" .. MTSLUI_TOOLS:GetLocalisedData(level) .. "]")
+            local rep_level = MTSL_LOGIC_FACTION_REPUTATION:GetReputationLevelById(reputation.level_id)
+            -- Color for standing
+            local rep_level_player = MTSL_LOGIC_FACTION_REPUTATION:GetReputationLevelWithFaction(faction)
+            local rep_status = MTSLUI_FONTS.COLORS.TEXT.NORMAL
+            if current_xp_level and current_xp_level > 0 then
+                if rep_level_player >= reputation.level_id  then
+                    rep_status = MTSLUI_FONTS.COLORS.AVAILABLE.YES
+                else
+                    rep_status = MTSLUI_FONTS.COLORS.AVAILABLE.NO
+                end
+            end
+            self.labels.requires_rep.value:SetText(rep_status .. faction .. " [" .. MTSLUI_TOOLS:GetLocalisedData(rep_level) .. "]")
         else
             self.labels.requires_rep.value:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. "-")
         end
@@ -469,12 +493,12 @@ MTSLUI_SKILL_DETAIL_FRAME = {
     -- @profession_name         String      The name of the profession
     -- @rspecialisation 	    Number      The number of the specialisation
     ----------------------------------------------------------------------------
-    SetRequiredSpecialisation = function(self, profession_name, specialisation)
+    SetRequiredSpecialisation = function(self, profession_name, specialisation, current_xp_level)
         -- Check if require specialisation to acquire
         if specialisation ~= nil and specialisation > 0 then
             local name_spec = MTSL_LOGIC_PROFESSION:GetNameSpecialisation(profession_name, specialisation)
             -- global database so show neutral color
-            if self.current_xp_level == nil or self.current_xp_level <= 0 then
+            if current_xp_level == nil or current_xp_level <= 0 then
                 self.labels.requires_spec.value:SetText(MTSLUI_FONTS.COLORS.AVAILABLE.ALL .. name_spec)
                 -- check if player knows the specialisation by using its spellid
             elseif IsSpellKnown(specialisation) then
@@ -762,10 +786,12 @@ MTSLUI_SKILL_DETAIL_FRAME = {
                     -- primary source since no vendors or quests or drops
                     if has_vendors <= 0 and has_quests <= 0 and has_drops <= 0 then
                         self:ShowDetailsOfObjects(objects, 0)
+                        self.tooltip_source_name = "item:" .. item_id
                     else
                         -- also set the recipe as alternative source item
                         self:SetSourceType(MTSLUI_FONTS:GetTextColorByItemQuality(item.quality) .. MTSLUI_TOOLS:GetLocalisedData(item), 1, is_primary_type)
                         self:ShowDetailsOfObjects(objects, 1)
+                        self.tooltip_alt_source_name  = "item:" .. item_id
                     end
                 end
             end
@@ -824,6 +850,8 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         if is_alternative_source == 1 then
             labels_sources = self.labels.alt_sources
             amount_labels = self.MAX_SOURCES_SHOWN_SECONDARY
+            -- adjust the height of the primary panel
+            self.labels.sources.ui_frame:SetHeight(self.FRAME_SOURCES_HEIGHT_WITH_SECONDARY)
         end
         labels_sources.ui_frame:Show()
         -- Not obtainable for this faction
@@ -893,6 +921,8 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         if is_alternative_source == 1  then
             label_sources = self.labels.alt_sources
             amount_labels = self.MAX_SOURCES_SHOWN_SECONDARY
+            -- adjust the height of the primary panel
+            self.labels.sources.ui_frame:SetHeight(self.FRAME_SOURCES_HEIGHT_WITH_SECONDARY)
         end
         label_sources.ui_frame:Show()
         local drop_text = MTSLUI_TOOLS:GetLocalisedLabel("worldwide drop") .. min_level .. MTSLUI_TOOLS:GetLocalisedLabel("to") .. max_level .. MTSLUI_TOOLS:GetLocalisedLabel("worldwide drop rest")
@@ -916,6 +946,8 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         if is_alternative_source == 1 then
             labels_sources = self.labels.alt_sources
             amount_labels = self.MAX_SOURCES_SHOWN_SECONDARY
+            -- adjust the height of the primary panel
+            self.labels.sources.ui_frame:SetHeight(self.FRAME_SOURCES_HEIGHT_WITH_SECONDARY)
         end
         labels_sources.ui_frame:Show()
         for i=1, amount_labels do
@@ -951,6 +983,8 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         if is_alternative_source == 1 then
             labels_sources = self.labels.alt_sources
             amount_labels = self.MAX_SOURCES_SHOWN_SECONDARY
+            -- adjust the height of the primary panel
+            self.labels.sources.ui_frame:SetHeight(self.FRAME_SOURCES_HEIGHT_WITH_SECONDARY)
         end
         labels_sources.ui_frame:Show()
         for i=1, amount_labels do

@@ -374,7 +374,7 @@ MTSLOPTUI_CONFIG_FRAME = {
 
     InitialiseOptionsFonts = function (self, margin_top)
         -- Fonts
-        self.font_names = MTSLUI_FONTS.AVAILABLE_FONT_NAMES
+        self.font_names = MTSLUI_FONTS:GetAvailableFonts()
         self.font_name =  MTSLUI_PLAYER.FONT.NAME
         self.font_sizes = MTSLUI_FONTS.AVAILABLE_FONT_SIZES
         self.font_size = {
@@ -389,7 +389,7 @@ MTSLOPTUI_CONFIG_FRAME = {
         self.ui_frame.font_type_drop_down:SetPoint("TOPLEFT", self.ui_frame.scale_mtsl_drop_down, "BOTTOMLEFT", 0, -18)
         self.ui_frame.font_type_drop_down.initialize = self.CreateDropDownFontType
         UIDropDownMenu_SetWidth(self.ui_frame.font_type_drop_down, self.WIDTH_DD)
-        UIDropDownMenu_SetText(self.ui_frame.font_type_drop_down, MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSLUI_FONTS.AVAILABLE_FONT_NAMES, "id", self.font_name).name)
+        UIDropDownMenu_SetText(self.ui_frame.font_type_drop_down, MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSLUI_FONTS:GetAvailableFonts(), "id", self.font_name).name)
         -- center text above the dropdown
         self.ui_frame.font_type_text = MTSLUI_TOOLS:CreateLabel(self.ui_frame.font_type_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("type"), 0, self.TOP_LABEL_ABOVE_DD, "LABEL", "CENTER")
 
@@ -777,7 +777,7 @@ MTSLOPTUI_CONFIG_FRAME = {
 
         -- Font
         self.font_name = MTSLUI_PLAYER.FONT.NAME
-        UIDropDownMenu_SetText(self.ui_frame.font_type_drop_down, MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSLUI_FONTS.AVAILABLE_FONT_NAMES, "id", self.font_name).name)
+        UIDropDownMenu_SetText(self.ui_frame.font_type_drop_down, MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSLUI_FONTS:GetAvailableFonts(), "id", self.font_name).name)
         UIDropDownMenu_SetText(self.ui_frame.font_title_drop_down, MTSLUI_PLAYER.FONT.SIZE.TITLE)
         UIDropDownMenu_SetText(self.ui_frame.font_label_drop_down, MTSLUI_PLAYER.FONT.SIZE.LABEL)
         UIDropDownMenu_SetText(self.ui_frame.font_text_drop_down, MTSLUI_PLAYER.FONT.SIZE.TEXT)
