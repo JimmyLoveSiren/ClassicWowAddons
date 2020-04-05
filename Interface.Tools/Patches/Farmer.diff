@@ -1,0 +1,12 @@
+diff --git a/Interface/AddOns/Farmer/Farmer.toc b/Interface/AddOns/Farmer/Farmer.toc
+index b37d2be9..10e4dde2 100644
+--- a/Interface/AddOns/Farmer/Farmer.toc
++++ b/Interface/AddOns/Farmer/Farmer.toc
+@@ -24,7 +24,6 @@ core/Storageutils.lua
+ detectors/Items.lua
+ detectors/storages/Bags_Bank.lua
+ detectors/storages/Equipment.lua
+-detectors/storages/Voidstorage.lua
+ detectors/Reputation.lua
+ detectors/Money.lua
+ detectors/Skills.lua
