@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
 local main= "1.13.3."
-local minor = "45"
+local minor = "52"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,35 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2020/05/20 (1.13.3.52)")
+	BigFootChangelog_ar("大脚插件","同步更新整合类插件。")
+
+
+	BigFootChangelog_at("2020/05/07 (1.13.3.51)")
+	BigFootChangelog_ar("仇恨统计","升级至最新版本(2.18)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(1.13.44)。")
+
+
+	BigFootChangelog_at("2020/04/30 (1.13.3.50)")
+	BigFootChangelog_ar("大脚插件","同步更新整合类插件。")
+
+
+	BigFootChangelog_at("2020/04/24 (1.13.3.49)")
+	BigFootChangelog_ar("大脚插件","同步更新整合类插件。")
+
+
+	BigFootChangelog_at("2020/04/21 (1.13.3.48)")
+	BigFootChangelog_ar("首领报警","升级至最新版本(1.13.43)。")
+
+
+	BigFootChangelog_at("2020/04/03 (1.13.3.47)")
+	BigFootChangelog_ar("大脚插件","同步更新整合类插件。")
+
+
+	BigFootChangelog_at("2020/03/26 (1.13.3.46)")
+	BigFootChangelog_ar("大脚插件","同步更新整合类插件。")
+
 
 	BigFootChangelog_at("2020/03/18 (1.13.3.45)")
 	BigFootChangelog_ar("大脚插件","同步更新整合类插件。")
@@ -245,4 +274,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "48"
+BF_VERSION_CHECKSUM = "54"
