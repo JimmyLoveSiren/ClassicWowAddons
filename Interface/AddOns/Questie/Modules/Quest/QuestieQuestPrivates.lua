@@ -46,7 +46,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
 
         obj.Name = object.name
         if not object.spawns then
-            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", object.id)
+            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for object:", object.id)
             object.spawns = {}
         end
         obj.Spawns = object.spawns
@@ -136,18 +136,3 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         return ret
     end
 }
-
-function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
-    return (quest.level == 60 and quest.requiredLevel == 1) or (quest.level >= minLevel or Questie.db.char.lowlevel) and quest.level <= maxLevel and (quest.requiredLevel <= playerLevel or Questie.db.char.manualMinLevelOffset or Questie.db.char.manualMinLevelOffsetAbsolute)
-end
-
--- We always want to show a quest if it is a childQuest and its parent is in the quest log
-function _QuestieQuest:IsParentQuestActive(parentID)
-    if parentID == nil or parentID == 0 then
-        return false
-    end
-    if QuestiePlayer.currentQuestlog[parentID] then
-        return true
-    end
-    return false
-end

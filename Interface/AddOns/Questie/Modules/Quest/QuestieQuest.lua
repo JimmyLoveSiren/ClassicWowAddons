@@ -13,8 +13,6 @@ local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLib
@@ -53,7 +51,7 @@ function QuestieQuest:Initialize()
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
-    QuestieReputation:Update()
+    QuestieReputation:Update(true)
 
     QuestieHash:LoadQuestLogHashes()
 end
@@ -184,6 +182,7 @@ function QuestieQuest:AddAllNotes()
 end
 
 function QuestieQuest:Reset()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:Reset]")
     -- clear all notes
     QuestieQuest:ClearAllNotes()
     QuestieCorrections:Initialize() -- Just to be sure all the right corrections are loaded
@@ -195,12 +194,13 @@ function QuestieQuest:Reset()
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
-    QuestieReputation:Update()
+    QuestieReputation:Update(false)
 
     QuestieQuest:AddAllNotes()
 end
 
 function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
     local stepTable = {
@@ -213,7 +213,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
             QuestieProfessions:Update()
-            QuestieReputation:Update()
+            QuestieReputation:Update(false)
             QuestieQuest.availableQuests = {} -- reset available quest db
 
             -- draw available quests
@@ -241,6 +241,7 @@ end
 
 
 function QuestieQuest:UpdateHiddenNotes()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateHiddenNotes]")
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
     local questieGlobalDB = Questie.db.global
     if questieGlobalDB.enableAvailable then
@@ -354,7 +355,9 @@ function QuestieQuest:AcceptQuest(questId)
         QuestieQuest:DrawAllAvailableQuests()
 
         for availableQuestId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
-            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(availableQuestId)) then
+            ---@type Quest
+            local availableQuest = QuestieDB:GetQuest(availableQuestId)
+            if (not availableQuest) or (not availableQuest:IsDoable()) then
                 QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
             end
         end
@@ -422,7 +425,9 @@ function QuestieQuest:AbandonedQuest(questId)
 
         -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
         for k, v in pairs(QuestieQuest.availableQuests) do
-            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
+            ---@type Quest
+            local availableQuest = QuestieDB:GetQuest(k)
+            if (not availableQuest) or (not availableQuest:IsDoable()) then
                 QuestieMap:UnloadQuestFrames(k);
             end
         end
@@ -462,6 +467,7 @@ function QuestieQuest:UpdateQuest(questId)
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
     end
 end
+
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
@@ -489,7 +495,7 @@ function QuestieQuest:GetAllQuestIds()
 end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'), "(without objectives)");
     local numEntries, numQuests = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
@@ -823,7 +829,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 iconCount = iconCount + 1;
                 tinsert(orderedList, icons[distance]);
             end
-            local range = QUESTIE_CLUSTER_DISTANCE
+            local range = Questie.db.global.clusterLevelHotzone
             if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
                 range = range * 0.2;  -- Only use 20% of the default range.
             end
@@ -879,10 +885,48 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     end
 end
 
+local function _CallPopulateObjective(quest)
+    for k, v in pairs(quest.Objectives) do
+        SelectQuestLogEntry(v.Index)
+        local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v, false);
+        if not result then
+            local major, minor, patch = QuestieLib:GetAddonVersionInfo();
+            local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
+            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
+        end
+    end
+end
+
+local function _AddSourceItemObjective(quest)
+    if quest.sourceItemId then
+        local item = QuestieDB:GetItem(quest.sourceItemId);
+        if item and item.name then
+            -- We fake an objective for the sourceItems because this allows us
+            -- to simply reuse "QuestieTooltips:GetTooltip".
+            -- This should be all the data required for the tooltip
+            local fakeObjective = {
+                IsSourceItem = true,
+                QuestData = quest,
+                Index = 1,
+                Needed = 1,
+                Collected = 1,
+                text = item.name,
+                Description = item.name
+            }
+
+            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. item.Id, fakeObjective);
+        end
+    end
+end
+
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", quest.Id)
     if not quest then return; end
     if QuestieQuest:IsComplete(quest) == 1 then
+
+        _CallPopulateObjective(quest)
+        _AddSourceItemObjective(quest)
+
         QuestieQuest:AddFinisher(quest)
         return
     end
@@ -895,15 +939,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     -- we've already checked the objectives table by doing IsComplete
     -- if that changes, check it here
     local old = GetQuestLogSelection()
-    for k, v in pairs(quest.Objectives) do
-        SelectQuestLogEntry(v.Index)
-        local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v, false);
-        if not result then
-            local major, minor, patch = QuestieLib:GetAddonVersionInfo();
-            local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
-            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
-        end
-    end
+    _CallPopulateObjective(quest)
+    _AddSourceItemObjective(quest)
 
     -- check for special (unlisted) DB objectives
     if quest.SpecialObjectives then
@@ -1352,7 +1389,6 @@ end
 
 function QuestieQuest:DrawAllAvailableQuests()--All quests between
     --This should probably be called somewhere else!
-    --QuestieFramePool:UnloadAll()
 
     local count = 0
     for questId, _ in pairs(QuestieQuest.availableQuests) do
@@ -1392,77 +1428,25 @@ function _QuestieQuest:GetQuestIcon(questObject)
     return icon
 end
 
-function _QuestieQuest:IsDoable(quest)
-    if not quest then
-        return false;
-    end
-    if quest.isHidden then
-        return false;
-    end
-    if Questie.db.char.hidden[quest.Id] then
-        return false;
-    end
-    if quest.nextQuestInChain then
-        if Questie.db.char.complete[quest.nextQuestInChain] or QuestiePlayer.currentQuestlog[quest.nextQuestInChain] then
-            return false
-        end
-    end
-    -- Check if a quest which is exclusive to the current has already been completed or accepted
-    -- If yes the current quest can't be accepted
-    if quest.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
-        for k, v in pairs(quest.ExclusiveQuestGroup) do
-            if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
-                return false
-            end
-        end
-    end
-    if quest.parentQuest then
-        -- If the quest has a parent quest then only show it if the
-        -- parent quest is in the quest log
-        return _QuestieQuest:IsParentQuestActive(quest.parentQuest)
-    end
-
-    if not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
-        return false
-    end
-
-    if not QuestieReputation:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
-        return false
-    end
-
-    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if quest.preQuestGroup ~= nil and next(quest.preQuestGroup) ~= nil then
-        return quest:IsPreQuestGroupFulfilled()
-    end
-
-    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    if quest.preQuestSingle ~= nil and next(quest.preQuestSingle) ~= nil then
-        return quest:IsPreQuestSingleFulfilled()
-    end
-
-    return true
-end
-
---TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-    local minLevel = playerLevel - Questie.db.global.minLevelFilter
-    local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
-    if Questie.db.char.manualMinLevelOffsetAbsolute then
-        minLevel = Questie.db.global.minLevelFilter
-        maxLevel = Questie.db.global.maxLevelFilter
+    local minLevel = playerLevel - Questie.db.char.minLevelFilter
+    local maxLevel = playerLevel + Questie.db.char.maxLevelFilter
+    if Questie.db.char.absoluteLevelOffset then
+        minLevel = Questie.db.char.minLevelFilter
+        maxLevel = Questie.db.char.maxLevelFilter
+    else
+        minLevel = playerLevel - GetQuestGreenRange()
     end
+
     local showRepeatableQuests = Questie.db.char.showRepeatableQuests
     local showDungeonQuests = Questie.db.char.showDungeonQuests
     local showPvPQuests = Questie.db.char.showPvPQuests
 
-    if(not Questie.db.char.manualMinLevelOffset) then
-        minLevel = playerLevel - GetQuestGreenRange();
-    end
-
     QuestieQuest.availableQuests = {}
 
     for questId, _ in pairs(QuestieDB.questData) do
+        ---@type Quest
         local quest = QuestieDB:GetQuest(questId)
 
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
@@ -1475,8 +1459,8 @@ function QuestieQuest:CalculateAvailableQuests()
             (showPvPQuests or (not quest:IsPvPQuest())) -- Show PvP quests only with the option enabled
         ) then
 
-            if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) then
-                if _QuestieQuest:IsDoable(quest) then
+            if quest and quest:IsLevelRequirementsFulfilled(playerLevel, minLevel, maxLevel) then
+                if quest:IsDoable() then
                     QuestieQuest.availableQuests[questId] = questId
                 end
             else
