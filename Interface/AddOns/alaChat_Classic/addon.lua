@@ -3,27 +3,46 @@
 --]]--
 ----------------------------------------------------------------------------------------------------
 local ADDON, NS = ...;
+_G.__ala_meta__ = _G.__ala_meta__ or {  };
+__ala_meta__.chat = NS;
+local _G = _G;
+
+do
+	local _G = _G;
+	if NS.__fenv == nil then
+		NS.__fenv = setmetatable({  },
+				{
+					__index = _G,
+					__newindex = function(t, key, value)
+						rawset(t, key, value);
+						print("acc assign global", key, value);
+						return value;
+					end,
+				}
+			);
+	end
+	setfenv(1, NS.__fenv);
+end
+
 NS.FUNC = NS.FUNC or { ON = { }, OFF = { }, INIT = { }, TOOLTIPS = { }, SETVALUE = { }, SETSTYLE = {  }, };
 local FUNC = NS.FUNC;
 local L = NS.L;
 if not L then return;end
 ----------------------------------------------------------------------------------------------------upvalue LUA
-local math, table, string, bit = math, table, string, bit;
-local type = type;
-local assert, collectgarbage, date, difftime, error, getfenv, getmetatable, loadstring, next, newproxy, pcall, select, setfenv, setmetatable, time, type, unpack, xpcall, rawequal, rawget, rawset =
-		assert, collectgarbage, date, difftime, error, getfenv, getmetatable, loadstring, next, newproxy, pcall, select, setfenv, setmetatable, time, type, unpack, xpcall, rawequal, rawget, rawset;
-local abs, acos, asin, atan, atan2, ceil, cos, deg, exp, floor, fmod, frexp,ldexp, log, log10, max, min, mod, rad, random, sin, sqrt, tan, fastrandom =
-		abs, acos, asin, atan, atan2, ceil, cos, deg, exp, floor, fmod or math.fmod, frexp,ldexp, log, log10, max, min, mod, rad, random, sin, sqrt, tan, fastrandom;
-local format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, tonumber, tostring =
-		format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, tonumber, tostring;
-local strcmputf8i, strlenutf8, strtrim, strsplit, strjoin, strconcat, tostringall = strcmputf8i, strlenutf8, strtrim, strsplit, strjoin, strconcat, tostringall;
-local ipairs, pairs, sort, tContains, tinsert, tremove, wipe = ipairs, pairs, sort, tContains, tinsert, tremove, wipe;
-local gcinfo, foreach, foreachi, getn = gcinfo, foreach, foreachi, getn;	-- Deprecated
-----------------------------------------------------------------------------------------------------
-local _G = _G;
-local _ = nil;
-----------------------------------------------------------------------------------------------------
-local GameTooltip = GameTooltip;
+	local math, table, string, bit = math, table, string, bit;
+	local type, tonumber, tostring = type, tonumber, tostring;
+	local getfenv, setfenv, pcall, xpcall, assert, error, loadstring = getfenv, setfenv, pcall, xpcall, assert, error, loadstring;
+	local abs, ceil, floor, max, min, random, sqrt = abs, ceil, floor, max, min, random, sqrt;
+	local format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, strtrim, strsplit, strjoin, strconcat =
+			format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, strtrim, strsplit, strjoin, strconcat;
+	local getmetatable, setmetatable, rawget, rawset = getmetatable, setmetatable, rawget, rawset;
+	local ipairs, pairs, sort, tContains, tinsert, tremove, wipe, unpack = ipairs, pairs, sort, tContains, tinsert, tremove, wipe, unpack;
+	local tConcat = table.concat;
+	local select = select;
+	local date, time = date, time;
+	----------------------------------------------------------------------------------------------------
+	local _ = nil;
+	local GameTooltip = GameTooltip;
 ----------------------------------------------------------------------------------------------------
 local LCONFIG = L.CONFIG;
 if not LCONFIG then
@@ -54,7 +73,7 @@ local function FUNC_CALL(t,k,...)
 	return nil;
 end
 --------------------------------------------------
-local configFrame = CreateFrame("Frame","alaChatConfigFrame",UIParent);
+local configFrame = CreateFrame("Frame",nil,UIParent);
 configFrame:Hide();
 NS.configFrame = configFrame;
 
@@ -200,6 +219,7 @@ local default = {
 };
 if GetAddOnInfo('!!!163UI!!!') then
 	default.printWel = false;
+	default.chatEmote = false;
 	default.chatEmote_channel = false;
 	default.chat_filter_repeated_words = false;
 end
@@ -207,55 +227,55 @@ local override = {
 	_version				 = 200212.0,
 };
 local buttons = {
-	--[[1]]	{ 				name = "printWel"					,type = "CheckButton"	,label = LCONFIG.printWel				,key = "printWel"				, },
-	--[[1]]	{ 				name = "position"					,type = "DropDownMenu"	,label = LCONFIG.position				,key = "position"				,value = { "BELOW_EDITBOX", "ABOVE_EDITOBX", "ABOVE_CHATFRAME" }, },
-	--[[1]]	{ sub = true,	name = "direction"					,type = "DropDownMenu"	,label = LCONFIG.direction				,key = "direction"				,value = { "HORIZONTAL", "VERTICAL" }, },
-	--[[2]]	{ 				name = "scale"						,type = "Slider"		,label = LCONFIG.scale					,key = "scale"					,minRange = 0.1	,maxRange = 2.0	,stepSize = 0.1	, },
-	--[[3]]	{ sub = true,	name = "alpha"						,type = "Slider"		,label = LCONFIG.alpha					,key = "alpha"					,minRange = 0.0	,maxRange = 1.0	,stepSize = 0.05	, },
-	--[[4]] { sub = true,	name = "barStyle"					,type = "DropDownMenu"	,label = LCONFIG.barStyle				,key = "barStyle"				,value = { "ala", "blz" }, },
+	--[[1]]	{ 				type = "CheckButton"	,label = LCONFIG.printWel				,key = "printWel"				, },
+	--[[1]]	{ 				type = "DropDownMenu"	,label = LCONFIG.position				,key = "position"				,value = { "BELOW_EDITBOX", "ABOVE_EDITOBX", "ABOVE_CHATFRAME" }, },
+	--[[1]]	{ sub = true,	type = "DropDownMenu"	,label = LCONFIG.direction				,key = "direction"				,value = { "HORIZONTAL", "VERTICAL" }, },
+	--[[2]]	{ 				type = "Slider"			,label = LCONFIG.scale					,key = "scale"					,minRange = 0.1	,maxRange = 2.0	,stepSize = 0.1	, },
+	--[[3]]	{ sub = true,	type = "Slider"			,label = LCONFIG.alpha					,key = "alpha"					,minRange = 0.0	,maxRange = 1.0	,stepSize = 0.05	, },
+	--[[4]] { sub = true,	type = "DropDownMenu"	,label = LCONFIG.barStyle				,key = "barStyle"				,value = { "ala", "blz" }, },
 
-	--[[5]]	{ 				name = "shortChannelName"			,type = "CheckButton"	,label = LCONFIG.shortChannelName		,key = "shortChannelName"		, },
-	--[[5]]	{ sub = true,	name = "shortChannelNameFormat"		,type = "DropDownMenu"	,label = LCONFIG.shortChannelNameFormat	,key = "shortChannelNameFormat"	,value = { "NW", "N", "W", }, },
-	--[[7]]	{ sub = true,	name = "chatEmote"					,type = "CheckButton"	,label = LCONFIG.chatEmote				,key = "chatEmote"				, },
-	--[[7]]	{ sub = true,	name = "chatEmote_channel"			,type = "CheckButton"	,label = LCONFIG.chatEmote_channel		,key = "chatEmote_channel"				, },
-	--[[17]]{				name = "statReport"					,type = "CheckButton"	,label = LCONFIG.statReport				,key = "statReport"				, },
-	--[[6]]	{ sub = true,	name = "hyperLinkEnhanced"			,type = "CheckButton"	,label = LCONFIG.hyperLinkEnhanced		,key = "hyperLinkEnhanced"		, },
-	--[[8]]	{ 				name = "ColorNameByClass"			,type = "CheckButton"	,label = LCONFIG.ColorNameByClass		,key = "ColorNameByClass"		, },
-	--[[9]]	{ sub = true,	name = "shamanColor"				,type = "CheckButton"	,label = LCONFIG.shamanColor			,key = "shamanColor"			, },
-	--[[10]]{ 				name = "channelBarStyle"			,type = "DropDownMenu"	,label = LCONFIG.channelBarStyle		,key = "channelBarStyle"			,value = { "CHAR", "CIRCLE", "SQUARE" }, },
-	--[[11]]{ 				name = "channelBarChannel"			,type = "MultiCB"		,label = LCONFIG.channelBarChannel		,key = "channelBarChannel"		, },
-	--[[12]]{ 				name = "channel_Ignore_Switch"		,type = "CheckButton"	,label = LCONFIG.channel_Ignore_Switch	,key = "channel_Ignore_Switch"	, },
-	--[[12]]{ sub = true,	name = "bfWorld_Ignore_Switch"		,type = "CheckButton"	,label = LCONFIG.bfWorld_Ignore_Switch	,key = "bfWorld_Ignore_Switch"	, },
-	--[[13]]{ sub = true,	name = "channel_Ignore_BtnSize"		,type = "Slider"		,label = LCONFIG.channel_Ignore_BtnSize	,key = "channel_Ignore_BtnSize"	,minRange = 12	,maxRange = 96	,stepSize = 4		, },
+	--[[5]]	{ 				type = "CheckButton"	,label = LCONFIG.shortChannelName		,key = "shortChannelName"		, },
+	--[[5]]	{ sub = true,	type = "DropDownMenu"	,label = LCONFIG.shortChannelNameFormat	,key = "shortChannelNameFormat"	,value = { "NW", "N", "W", }, },
+	--[[7]]	{ sub = true,	type = "CheckButton"	,label = LCONFIG.chatEmote				,key = "chatEmote"				, },
+	--[[7]]	{ sub = true,	type = "CheckButton"	,label = LCONFIG.chatEmote_channel		,key = "chatEmote_channel"				, },
+	--[[17]]{				type = "CheckButton"	,label = LCONFIG.statReport				,key = "statReport"				, },
+	--[[6]]	{ sub = true,	type = "CheckButton"	,label = LCONFIG.hyperLinkEnhanced		,key = "hyperLinkEnhanced"		, },
+	--[[8]]	{ 				type = "CheckButton"	,label = LCONFIG.ColorNameByClass		,key = "ColorNameByClass"		, },
+	--[[9]]	{ sub = true,	type = "CheckButton"	,label = LCONFIG.shamanColor			,key = "shamanColor"			, },
+	--[[10]]{ 				type = "DropDownMenu"	,label = LCONFIG.channelBarStyle		,key = "channelBarStyle"			,value = { "CHAR", "CIRCLE", "SQUARE" }, },
+	--[[11]]{ 				type = "MultiCB"		,label = LCONFIG.channelBarChannel		,key = "channelBarChannel"		, },
+	--[[12]]{ 				type = "CheckButton"	,label = LCONFIG.channel_Ignore_Switch	,key = "channel_Ignore_Switch"	, },
+	--[[12]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.bfWorld_Ignore_Switch	,key = "bfWorld_Ignore_Switch"	, },
+	--[[13]]{ sub = true,	type = "Slider"			,label = LCONFIG.channel_Ignore_BtnSize	,key = "channel_Ignore_BtnSize"	,minRange = 12	,maxRange = 96	,stepSize = 4		, },
 
-	--[[21]]{ 				name = "copy"						,type = "CheckButton"	,label = LCONFIG.copy					,key = "copy"					, },
-	--[[22]]{ sub = true,	name = "copyTagColor"				,type = "ColorSelect"	,label = LCONFIG.copyTagColor			,key = "copyTagColor"			, },
-	--[[23]]{ sub = true,	name = "copyTagFormat"				,type = "Input"			,label = LCONFIG.copyTagFormat			,key = "copyTagFormat"			,note = LCONFIG.copyTagFormatNotes		,multiLine = false	,width = 240,  },
-			{ sub = true,	name = "copyTagFormat2"				,type = "DropDownMenu"	,label = LCONFIG.copyTagFormat			,key = "copyTagFormat", value = { "", "%I:%M", "%I:%M:%S", "%I:%M %p", "%I:%M:%S %p", "%H:%M", "%H:%M:%S", }, text = { "NONE", "03:27", "03:27:32", "03:27 PM", "03:27:32 PM", "15:27", "15:27:32", }, list = true, },
-	--[[14]]{ 				name = "broadCastNewMember"			,type = "CheckButton"	,label = LCONFIG.broadCastNewMember		,key = "broadCastNewMember"		, },
-	--[[15]]{ sub = true,	name = "welcomeToGuild"				,type = "CheckButton"	,label = LCONFIG.welcomeToGuild			,key = "welcomeToGuild"			, },
-	--[[16]]{ sub = true,	name = "welcometoGuildMsg"			,type = "Input"			,label = LCONFIG.welcometoGuildMsg		,key = "welcometoGuildMsg"		,note = L.WTG_STRING.WELCOME_NOTES	,multiLine = true	,width = 640,  },
-	--[[18]]{ 				name = "roll"						,type = "CheckButton"	,label = LCONFIG.roll					,key = "roll"					, },
-	--[[19]]{ sub = true,	name = "DBMCountDown"				,type = "CheckButton"	,label = LCONFIG.DBMCountDown			,key = "DBMCountDown"			, },
-	--[[20]]{ sub = true,	name = "ReadyCheck"					,type = "CheckButton"	,label = LCONFIG.ReadyCheck				,key = "ReadyCheck"				, },
-	--[[24]]{ sub = true,	name = "level"						,type = "CheckButton"	,label = LCONFIG.level					,key = "level"					, },
-	--[[25]]{ 				name = "editBoxTab"					,type = "CheckButton"	,label = LCONFIG.editBoxTab				,key = "editBoxTab"				, },
-	--[[26]]{ sub = true,	name = "restoreAfterWhisper"		,type = "CheckButton"	,label = LCONFIG.restoreAfterWhisper	,key = "restoreAfterWhisper"	, },
-	--[[26]]{ sub = true,	name = "restoreAfterChannel"		,type = "CheckButton"	,label = LCONFIG.restoreAfterChannel	,key = "restoreAfterChannel"	, },
-	--[[27]]{ 				name = "hyperLinkHoverShow"			,type = "CheckButton"	,label = LCONFIG.hyperLinkHoverShow		,key = "hyperLinkHoverShow"		, },
+	--[[21]]{ 				type = "CheckButton"	,label = LCONFIG.copy					,key = "copy"					, },
+	--[[22]]{ sub = true,	type = "ColorSelect"	,label = LCONFIG.copyTagColor			,key = "copyTagColor"			, },
+	--[[23]]{ sub = true,	type = "Input"			,label = LCONFIG.copyTagFormat			,key = "copyTagFormat"			,note = LCONFIG.copyTagFormatNotes		,multiLine = false	,width = 240,  },
+			{ sub = true,	type = "DropDownMenu"	,label = LCONFIG.copyTagFormat			,key = "copyTagFormat", value = { "", "%I:%M", "%I:%M:%S", "%I:%M %p", "%I:%M:%S %p", "%H:%M", "%H:%M:%S", }, text = { "NONE", "03:27", "03:27:32", "03:27 PM", "03:27:32 PM", "15:27", "15:27:32", }, list = true, },
+	--[[14]]{ 				type = "CheckButton"	,label = LCONFIG.broadCastNewMember		,key = "broadCastNewMember"		, },
+	--[[15]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.welcomeToGuild			,key = "welcomeToGuild"			, },
+	--[[16]]{ sub = true,	type = "Input"			,label = LCONFIG.welcometoGuildMsg		,key = "welcometoGuildMsg"		,note = L.WTG_STRING.WELCOME_NOTES	,multiLine = true	,width = 640,  },
+	--[[18]]{ 				type = "CheckButton"	,label = LCONFIG.roll					,key = "roll"					, },
+	--[[19]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.DBMCountDown			,key = "DBMCountDown"			, },
+	--[[20]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.ReadyCheck				,key = "ReadyCheck"				, },
+	--[[24]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.level					,key = "level"					, },
+	--[[25]]{ 				type = "CheckButton"	,label = LCONFIG.editBoxTab				,key = "editBoxTab"				, },
+	--[[26]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.restoreAfterWhisper	,key = "restoreAfterWhisper"	, },
+	--[[26]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.restoreAfterChannel	,key = "restoreAfterChannel"	, },
+	--[[27]]{ 				type = "CheckButton"	,label = LCONFIG.hyperLinkHoverShow		,key = "hyperLinkHoverShow"		, },
 
-	--[[28]]{ 				name = "keyWordHighlight"			,type = "CheckButton"	,label = LCONFIG.keyWordHighlight		,key = "keyWordHighlight"		, },
-	--[[28]]{ sub = true,	name = "keyWord"					,type = "Input"			,label = LCONFIG.keyWord				,key = "keyWord"		, },
-	--[[29]]{ sub = true,	name = "keyWordColor"				,type = "ColorSelect"	,label = LCONFIG.keyWordColor			,key = "keyWordColor"			, },
-	--[[28]]{ sub = true,	name = "keyWordHighlight_Exc"		,type = "CheckButton"	,label = LCONFIG.keyWordHighlight_Exc	,key = "keyWordHighlight_Exc"	, },
+	--[[28]]{ 				type = "CheckButton"	,label = LCONFIG.keyWordHighlight		,key = "keyWordHighlight"		, },
+	--[[28]]{ sub = true,	type = "Input"			,label = LCONFIG.keyWord				,key = "keyWord"				, multiLine = true	,},
+	--[[29]]{ sub = true,	type = "ColorSelect"	,label = LCONFIG.keyWordColor			,key = "keyWordColor"			, },
+	--[[28]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.keyWordHighlight_Exc	,key = "keyWordHighlight_Exc"	, },
 
-	--[[28]]{ 				name = "chat_filter"				,type = "CheckButton"	,label = LCONFIG.chat_filter			,key = "chat_filter"			, },
-	--[[29]]{ sub = true,	name = "chat_filter_word"			,type = "Input"			,label = LCONFIG.chat_filter_word		,key = "chat_filter_word"		,note = LCONFIG.chat_filter_word_NOTES, multiLine = true	,width = 320,  },
-	--[[13]]{ 				name = "chat_filter_rep_interval"	,type = "Slider"		,label = LCONFIG.chat_filter_rep_interval	,key = "chat_filter_rep_interval"	,minRange = 0	,maxRange = 3600	,stepSize = 5		, },
-	--[[28]]{ 				name = "chat_filter_repeated_words"	,type = "CheckButton"	,label = LCONFIG.chat_filter_repeated_words	,key = "chat_filter_repeated_words"	, },
-	--[[28]]{ sub = true,	name = "chat_filter_repeated_words_deep"	,type = "CheckButton"	,label = LCONFIG.chat_filter_repeated_words_deep	,key = "chat_filter_repeated_words_deep"	, },
-	--[[28]]{ sub = true,	name = "chat_filter_repeated_words_info"	,type = "CheckButton"	,label = LCONFIG.chat_filter_repeated_words_info	,key = "chat_filter_repeated_words_info"	, },
-	--{ name = "hideConfBtn"				,type = "CheckButton"	,label = LCONFIG.hideConfBtn				,key = "hideConfBtn"				, },
+	--[[28]]{ 				type = "CheckButton"	,label = LCONFIG.chat_filter			,key = "chat_filter"			, },
+	--[[29]]{ sub = true,	type = "Input"			,label = LCONFIG.chat_filter_word		,key = "chat_filter_word"		,note = LCONFIG.chat_filter_word_NOTES, multiLine = true	,width = 320,  },
+	--[[13]]{ 				type = "Slider"			,label = LCONFIG.chat_filter_rep_interval	,key = "chat_filter_rep_interval"	,minRange = 0	,maxRange = 3600	,stepSize = 5		, },
+	--[[28]]{ 				type = "CheckButton"	,label = LCONFIG.chat_filter_repeated_words	,key = "chat_filter_repeated_words"	, },
+	--[[28]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.chat_filter_repeated_words_deep	,key = "chat_filter_repeated_words_deep"	, },
+	--[[28]]{ sub = true,	type = "CheckButton"	,label = LCONFIG.chat_filter_repeated_words_info	,key = "chat_filter_repeated_words_info"	, },
+	--{ type = "CheckButton"	,label = LCONFIG.hideConfBtn				,key = "hideConfBtn"				, },
 };
 local config_zh = {
 	channel_Ignore_BtnSize = 1,
@@ -282,7 +302,7 @@ if GetLocale() == "zhCN" then
 	default.chat_filter_word = "HclubTicket:\n航空\n航班\n飞机\n专机\n直达\n直飞\n3G\n安全便捷\n拉人\n收米\n出米\n托管\n包团\n实惠\n公众号\nG团\n老板\n大米\nRO点\nMMMMMM\n"
 							.. "++++++\n————\n一一一一\n~~~~~~\n------\n======\n``````\n"
 							.. "!!!!!!!!!!\n??????????\n！！！！！！！！！！\n？？？？？？？？？？\n。。。。。。。。。。\n，，，，，，，，，，\n··········\n；；；；；；；；；；\n、、、、、、、、、、\n"
-							.. "#加基森\n#冬泉谷\n#玛拉顿\n斯坦索姆\n#航空\n#直飞\n#直达\n";
+							.. "#加基森\n#冬泉谷\n#玛拉顿\n#斯坦索姆\n#航空\n#直飞\n#直达\n";
 else
 	default.chat_filter_word = "HclubTicket:\n\n++++++\n——————\n~~~~~~\n------\n======\n``````\nMMMMMM\n"
 end
@@ -365,15 +385,15 @@ do
 	end
 	local function sliderDisable(self)
 		self.text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
-		self.minText:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
-		self.maxText:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
+		self.Low:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
+		self.High:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
 		self.valueBox:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
 		self.valueBox:SetEnabled(false)
 	end
 	local function sliderEnable(self)
-		self.text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
-		self.minText:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
-		self.maxText:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+		self.Text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+		self.Low:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+		self.High:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
 		self.valueBox:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
 		self.valueBox:SetEnabled(true)
 	end
@@ -428,7 +448,7 @@ do
 
 		for _, t in pairs(buttons) do
 			if t.type == "CheckButton" then
-				local cb = CreateFrame("CheckButton", "alaChatConfigFrame_CheckButton_"..t.name, configFrame, "OptionsBaseCheckButtonTemplate");
+				local cb = CreateFrame("CheckButton", nil, configFrame, "OptionsBaseCheckButtonTemplate");
 				cb:SetHitRectInsets(0, 0, 0, 0);
 				cb:GetNormalTexture():SetVertexColor(0.0, 1.0, 0.0, 1.0);
 				cb:GetPushedTexture():SetVertexColor(0.0, 1.0, 0.0, 1.0);
@@ -490,7 +510,7 @@ do
 
 				for i = 1, num do
 
-					local cb = CreateFrame("CheckButton", "alaChatConfigFrame_MultiCheckButton_"..t.name..i, configFrame, "OptionsBaseCheckButtonTemplate");
+					local cb = CreateFrame("CheckButton", nil, configFrame, "OptionsBaseCheckButtonTemplate");
 					cb:GetNormalTexture():SetVertexColor(0.0, 1.0, 0.0, 1.0);
 					cb:GetPushedTexture():SetVertexColor(0.0, 1.0, 0.0, 1.0);
 					cb:GetCheckedTexture():SetVertexColor(0.0, 1.0, 0.0, 1.0);
@@ -535,7 +555,7 @@ do
 
 				label:SetPoint("LEFT", texture, "RIGHT", space_Header_Label, 0);
 
-				local slider = CreateFrame("Slider", "alaChatConfigFrame_CheckButton_" .. t.name, configFrame, "OptionsSliderTemplate");
+				local slider = CreateFrame("Slider", nil, configFrame, "OptionsSliderTemplate");
 				slider.key = t.key;
 
 				slider:ClearAllPoints();
@@ -554,11 +574,8 @@ do
 				slider:SetMinMaxValues(t.minRange, t.maxRange)
 				slider.minRange = t.minRange;
 				slider.maxRange = t.maxRange;
-				slider.minText = _G[slider:GetName() .. "Low"];
-				slider.maxText = _G[slider:GetName() .. "High"];
-				slider.text = _G[slider:GetName() .. "Text"];
-				slider.minText:SetText(t.minRange)
-				slider.maxText:SetText(t.maxRange)
+				slider.Low:SetText(t.minRange)
+				slider.High:SetText(t.maxRange)
 				--slider.text:SetText(t.label);
 
 				local valueBox = CreateFrame("EditBox", nil, slider);
@@ -597,7 +614,7 @@ do
 				prevAnchorObj = slider;
 			elseif t.type == "DropDownMenu" then
 				if t.list then
-					local drop = CreateFrame("Button", "alaChatConfigFrame_Drop_" .. t.name, configFrame);
+					local drop = CreateFrame("Button", nil, configFrame);
 					drop:SetSize(28, 28)
 					drop:EnableMouse(true);
 					drop:SetNormalTexture("interface\\mainmenubar\\ui-mainmenu-scrolldownbutton-up")
@@ -640,7 +657,7 @@ do
 
 					label:SetPoint("LEFT", texture, "RIGHT", space_Header_Label, 0);
 
-					local drop = CreateFrame("Button", "alaChatConfigFrame_Drop_" .. t.name, configFrame);
+					local drop = CreateFrame("Button", nil, configFrame);
 					drop:SetSize(28, 28)
 					drop:EnableMouse(true);
 					drop:SetNormalTexture("interface\\mainmenubar\\ui-mainmenu-scrolldownbutton-up")
@@ -697,7 +714,7 @@ do
 				label:SetText(t.label);
 				label:SetPoint("LEFT", texture, "RIGHT", space_Header_Label, 0);
 
-				local button = CreateFrame("Button", "alaChatConfigFrame_InputButton_"..t.name, configFrame);
+				local button = CreateFrame("Button", nil, configFrame);
 				button:SetSize(OptionsSetButtonWidth, 20);
 				button:SetPoint("LEFT", label, "RIGHT", space_Label_Obejct, 0);
 
@@ -773,7 +790,7 @@ do
 				-- f:Hide();
 				-- f:SetFrameStrata("FULLSCREEN_DIALOG");
 
-				local eOK = CreateFrame("Button", "alaChatConfigFrame_InputButtonOK_"..t.name, editBox);
+				local eOK = CreateFrame("Button", nil, editBox);
 				eOK:SetSize(20, 20);
 				eOK:SetNormalTexture("Interface\\Buttons\\ui-checkbox-check");
 				eOK:SetPushedTexture("Interface\\Buttons\\ui-checkbox-check");
@@ -787,7 +804,7 @@ do
 				end);
 				editBox.OK = eOK;
 
-				local eClose = CreateFrame("Button", "alaChatConfigFrame_InputButtonClose_"..t.name, editBox);
+				local eClose = CreateFrame("Button", nil, editBox);
 				eClose:SetSize(20, 20);
 				eClose:SetNormalTexture("Interface\\Buttons\\UI-StopButton");
 				eClose:SetPushedTexture("Interface\\Buttons\\UI-StopButton");
@@ -835,7 +852,7 @@ do
 				label:SetText(t.label);
 				label:SetPoint("LEFT", texture, "RIGHT", space_Header_Label, 0);
 
-				local button = CreateFrame("Button", "alaChatConfigFrame_ColorSelect"..t.name, configFrame);
+				local button = CreateFrame("Button", nil, configFrame);
 				button:SetSize(OptionsSetButtonWidth, 20);
 				button:SetPoint("LEFT", label, "RIGHT", space_Label_Obejct, 0);
 
@@ -927,13 +944,13 @@ do
 			--configFrame:RegisterForDrag("LeftButton");
 			--configFrame:SetScript("OnDragStart", function(self) self:StartMoving();end);
 			--configFrame:SetScript("OnDragStop", function(self) self:StopMovingOrSizing();end);
-			-- local title = configFrame:CreateFontString("alaChatConfigFrame_Title", "ARTWORK", "GameFontHighlight");
+			-- local title = configFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlight");
 			-- title:SetPoint("CENTER", configFrame, "TOP", 0, * 0.5);
 			-- title:SetText(LCONFIG.title);
 
 			-- configFrame.title = title;
 
-			-- local closeButton = CreateFrame("Button", "alaChatConfigFrame_CloseButton", configFrame);
+			-- local closeButton = CreateFrame("Button", nil, configFrame);
 			-- closeButton:SetSize(18, 18);
 			-- closeButton:SetNormalTexture("Interface\\Buttons\\UI-StopButton");
 			-- closeButton:SetPushedTexture("Interface\\Buttons\\UI-StopButton");
@@ -943,7 +960,7 @@ do
 
 			-- configFrame.closeButton = closeButton;
 
-			-- local resetButton = CreateFrame("Button", "alaChatConfigFrame_CloseButton", configFrame);
+			-- local resetButton = CreateFrame("Button", nil, configFrame);
 			-- resetButton:SetSize(18, 18);
 			-- resetButton:SetNormalTexture("Interface\\Buttons\\UI-RefreshButton");
 			-- resetButton:SetPushedTexture("Interface\\Buttons\\UI-RefreshButton");
@@ -1009,7 +1026,7 @@ local function alaC_Init()
 			end
 		end
 	else
-		alaChatConfig = default;
+		_G.alaChatConfig = default;
 	end
 
 	config = alaChatConfig;
@@ -1056,7 +1073,7 @@ local function alaC_Init()
 		end
 	end
 
-	alaChatConfigFrame.config = config;
+	configFrame.config = config;
 	configFrame:configFrame_Create();
 	--[[if LibStub then
 		local icon = LibStub("LibDBIcon-1.0", true);
@@ -1092,6 +1109,7 @@ local function alaC_Init()
 		SendSystemMessage(LCONFIG.wel);
 		-- print(LCONFIG.wel);
 	end
+	if __ala_meta__.initpublic then __ala_meta__.initpublic(); end
 end
 
 local f = CreateFrame("Frame");
@@ -1161,7 +1179,7 @@ FUNC.OFF.hideConfBtn = function(init)
 			configButton = alaBaseBtn:CreateBtn(
 				btnPackIndex, 
 				1, 
-				"alaChatConfig", 
+				nil, 
 				"Interface\\Buttons\\UI-OptionsButton", 
 				"Interface\\Buttons\\UI-OptionsButton", 
 				nil, 
@@ -1174,21 +1192,21 @@ FUNC.OFF.hideConfBtn = function(init)
 	end
 end
 
-SLASH_ALACHAT1 = "/alac";
-SLASH_ALACHAT2 = "/alachat";
+_G.SLASH_ALACHAT1 = "/alac";
+_G.SLASH_ALACHAT2 = "/alachat";
 SlashCmdList["ALACHAT"] = function()
     __OnClick();
 end
 
-_G.alac_func = FUNC;
-function alac_GetConfig(key)
+
+function NS.alac_GetConfig(key)
 	if config then
 		return config[key];
 	else
 		return default[key];
 	end
 end
-function alac_SetConfig(key, value)
+function NS.alac_SetConfig(key, value)
 	if type(value) == 'boolean' then
 		config[key] = value;
 		if value then
@@ -1202,6 +1220,10 @@ function alac_SetConfig(key, value)
 	end
 end
 
+if select(2, GetAddOnInfo('\33\33\33\49\54\51\85\73\33\33\33')) then
+	_G._163_ALACHAT_GETCONFIG = NS.alac_GetConfig;
+	_G._163_ALACHAT_SETCONFIG = NS.alac_SetConfig;
+end
 
 do
 	local FILTER = {  };
@@ -1269,7 +1291,7 @@ do
 		if #S == 0 or s > S[#S] then
 			tinsert(F, f);
 			tinsert(S, s);
-			-- print("ADD", e, s, #S - 1, table.concat(S, "-"))
+			-- print("ADD", e, s, #S - 1, tConcat(S, "-"))
 		else
 			for i = 1, #S do
 				if s == S[i] then
@@ -1277,7 +1299,7 @@ do
 				elseif s < S[i] then
 					tinsert(F, i, f);
 					tinsert(S, i, s);
-					-- print("ADD", e, s, i, table.concat(S, "-"))
+					-- print("ADD", e, s, i, tConcat(S, "-"))
 					break;
 				end
 			end
@@ -1292,7 +1314,7 @@ do
 			if S[i] == s then
 				tremove(F, i);
 				tremove(S, i);
-				-- print("REMOVE", e, s, i, table.concat(S, "-"))
+				-- print("REMOVE", e, s, i, tConcat(S, "-"))
 				break;
 			end
 		end
@@ -1315,15 +1337,29 @@ do
 		end
 	end
 
-	function _G.ala_add_message_event_filter(e, s, f)
+	function NS.ala_add_message_event_filter(e, s, f)
 		-- print("ADD", e, s)
 		FILTER.ADD(e, SL[s], f);
 	end
-	function _G.ala_remove_message_event_filter(e, s)
+	function NS.ala_remove_message_event_filter(e, s)
 		-- print("REMOVE", e, s)
 		FILTER.REMOVE(e, SL[s]);
 	end
 end
+
+-- if not GetAddOnInfo('!!!163UI!!!') and GetLocale() == 'zhCN' then
+-- 	local function anti_profanity()
+-- 		ConsoleExec("portal \"KR\"")
+-- 		ConsoleExec("profanityFilter \"0\"")
+-- 	end
+
+-- 	local f = CreateFrame("Frame");
+--     f:RegisterEvent("PLAYER_ENTERING_WORLD");
+--     f:SetScript("OnEvent", function(self, event)
+--             self:UnregisterEvent("PLAYER_ENTERING_WORLD");
+--             C_Timer.After(1.0, anti_profanity);
+-- 	end);
+-- end
 
 do return end
 do
@@ -1346,7 +1382,7 @@ do
 			backups[i] = backup;
 		end
 	end
-	function _G.ala_add_AddMessage_filter(func)
+	function NS.ala_add_AddMessage_filter(func)
 		for i = 1, #funcs do
 			if func == funcs[i] then
 				return;
@@ -1354,7 +1390,7 @@ do
 		end
 		tinsert(funcs, func);
 	end
-	function _G.ala_sub_AddMessage_filter(func)
+	function NS.ala_sub_AddMessage_filter(func)
 		for i = #funcs, 1, -1 do
 			if func == funcs[i] then
 				tremove(funcs, i);
@@ -1362,3 +1398,4 @@ do
 		end
 	end
 end
+

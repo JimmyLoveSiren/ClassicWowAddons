@@ -4,6 +4,24 @@
 -- do return; end
 ----------------------------------------------------------------------------------------------------
 local ADDON, NS = ...;
+
+do
+	local _G = _G;
+	if NS.__fenv == nil then
+		NS.__fenv = setmetatable({  },
+				{
+					__index = _G,
+					__newindex = function(t, key, value)
+						rawset(t, key, value);
+						print("acc assign global", key, value);
+						return value;
+					end,
+				}
+			);
+	end
+	setfenv(1, NS.__fenv);
+end
+
 local FUNC = NS.FUNC;
 if not FUNC then return;end
 local L = NS.L;
@@ -26,7 +44,7 @@ local control_statReport = false;
 local btnStatReport = nil;
 local locale_class, class = UnitClass('player');
 
-function genReport(set)
+local function genReport(set)
 	-- if true then return "Function Under Construction. 功能施工中";end
 	local uLevel = UnitLevel('player');
 	--local uSpecId = GetSpecialization();
@@ -361,7 +379,7 @@ local function statReport_On()
 		btnStatReport = alaBaseBtn:CreateBtn(
 				3,
 				-1,
-				"statReportBtn",
+				nil,
 				"class",
 				select(2, UnitClass('player')),
 				nil,

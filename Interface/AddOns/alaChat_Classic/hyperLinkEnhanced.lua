@@ -4,6 +4,24 @@
 -- do return; end
 ----------------------------------------------------------------------------------------------------
 local ADDON, NS = ...;
+
+do
+	local _G = _G;
+	if NS.__fenv == nil then
+		NS.__fenv = setmetatable({  },
+				{
+					__index = _G,
+					__newindex = function(t, key, value)
+						rawset(t, key, value);
+						print("acc assign global", key, value);
+						return value;
+					end,
+				}
+			);
+	end
+	setfenv(1, NS.__fenv);
+end
+
 local FUNC = NS.FUNC;
 if not FUNC then return;end
 local L = NS.L;
@@ -20,7 +38,7 @@ _G.ALA_GetSpellLink = _G.ALA_GetSpellLink or  function(id, name)
 	--\124cff71d5ff\124Hspell:355\124h[嘲讽]\124h\124r
 	name = name or GetSpellInfo(id);
 	if name then
-		if alac_hyperLink and alac_hyperLink() then
+		if __ala_meta__.chat.alac_hyperLink and __ala_meta__.chat.alac_hyperLink() then
 			return "\124cff71d5ff\124Hspell:" .. id .. "\124h[" .. name .. "]\124h\124r";
 		else
 			return name;
@@ -43,7 +61,7 @@ for i = 1, 999 do
 	end
 end
 local Orig_SpellButton_OnModifiedClick = SpellButton_OnModifiedClick;
-function SpellButton_OnModifiedClick(self, button, ...)
+function _G.SpellButton_OnModifiedClick(self, button, ...)
 	if control_hyperLinkEnhanced and IsShiftKeyDown() then
 		local slot, slotType, slotID = SpellBook_GetSpellBookSlot(self);
 		local spellName, _, spellId = GetSpellBookItemName(slot, SpellBookFrame.bookType);
@@ -146,64 +164,60 @@ _G.SendChatMessage = _cf__SendChatMessage_hyperLinkEnhanced;
 local function hyperLinkEnhanced_ToggleOn()
 	if not control_hyperLinkEnhanced then
 		control_hyperLinkEnhanced = true;
-		if ala_add_message_event_filter then
-			ala_add_message_event_filter("CHAT_MSG_CHANNEL", "hyperLinkEnhanced_item", _cf_itemLinkEnhanced);
-			ala_add_message_event_filter("CHAT_MSG_CHANNEL", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			-- ala_add_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			-- ala_add_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_SAY", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_YELL", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_WHISPER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_BN_WHISPER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_WHISPER_INFORM", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_RAID", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_RAID_LEADER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_RAID_WARNING", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_PARTY", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_PARTY_LEADER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			--ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			--ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_GUILD", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_OFFICER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_AFK", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_EMOTE", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_DND", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-			ala_add_message_event_filter("CHAT_MSG_COMMUNITIES_CHANNEL", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
-		end
+		NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL", "hyperLinkEnhanced_item", _cf_itemLinkEnhanced);
+		NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		-- NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		-- NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_SAY", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_YELL", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_WHISPER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_BN_WHISPER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_WHISPER_INFORM", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_RAID", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_RAID_LEADER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_RAID_WARNING", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_PARTY", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_PARTY_LEADER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		--NS.ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		--NS.ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_GUILD", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_OFFICER", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_AFK", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_EMOTE", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_DND", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
+		NS.ala_add_message_event_filter("CHAT_MSG_COMMUNITIES_CHANNEL", "hyperLinkEnhanced_spell", _cf_spellLinkEnhanced)
 	end
 end
 local function hyperLinkEnhanced_ToggleOff()
 	if control_hyperLinkEnhanced then
 		control_hyperLinkEnhanced = false;
-		if ala_remove_message_event_filter then
-			ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "hyperLinkEnhanced_item");
-			ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "hyperLinkEnhanced_spell")
-			-- ala_remove_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "hyperLinkEnhanced_spell")
-			-- ala_remove_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_SAY", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_YELL", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_WHISPER", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_WHISPER_INFORM", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_RAID", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_RAID_LEADER", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_RAID_WARNING", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_PARTY", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_PARTY_LEADER", "hyperLinkEnhanced_spell")
-			--ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "hyperLinkEnhanced_spell")
-			--ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_GUILD", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_OFFICER", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_AFK", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_EMOTE", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_DND", "hyperLinkEnhanced_spell")
-			ala_remove_message_event_filter("CHAT_MSG_COMMUNITIES_CHANNEL", "hyperLinkEnhanced_spell")
-		end
+		NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "hyperLinkEnhanced_item");
+		NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "hyperLinkEnhanced_spell")
+		-- NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "hyperLinkEnhanced_spell")
+		-- NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_SAY", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_YELL", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_WHISPER", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_WHISPER_INFORM", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_RAID", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_RAID_LEADER", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_RAID_WARNING", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_PARTY", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_PARTY_LEADER", "hyperLinkEnhanced_spell")
+		--NS.ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "hyperLinkEnhanced_spell")
+		--NS.ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_GUILD", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_OFFICER", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_AFK", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_EMOTE", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_DND", "hyperLinkEnhanced_spell")
+		NS.ala_remove_message_event_filter("CHAT_MSG_COMMUNITIES_CHANNEL", "hyperLinkEnhanced_spell")
 	end
 end
 FUNC.ON.hyperLinkEnhanced = hyperLinkEnhanced_ToggleOn
 FUNC.OFF.hyperLinkEnhanced = hyperLinkEnhanced_ToggleOff
-_G.alac_hyperLink = function()
+__ala_meta__.chat.alac_hyperLink = function()
 	return control_hyperLinkEnhanced;
 end
 ----------------------------------------------------------------------------------------------------

@@ -4,6 +4,24 @@
 -- do return; end
 ----------------------------------------------------------------------------------------------------
 local ADDON,NS=...;
+
+do
+	local _G = _G;
+	if NS.__fenv == nil then
+		NS.__fenv = setmetatable({  },
+				{
+					__index = _G,
+					__newindex = function(t, key, value)
+						rawset(t, key, value);
+						print("acc assign global", key, value);
+						return value;
+					end,
+				}
+			);
+	end
+	setfenv(1, NS.__fenv);
+end
+
 local FUNC=NS.FUNC;
 if not FUNC then return;end
 local L=NS.L;
@@ -27,9 +45,9 @@ local stamp_fmt = "[%H:%M:%S]";
 local function set(fmt)
 	if fmt then
 		--\cffffff\Hcopy:id::::\h[time]\h\r
-		CHAT_TIMESTAMP_FORMAT="\124cff" .. copy_color .. "\124HalaCCopy:-1\124h" .. fmt .. "\124h\124r";
+		_G.CHAT_TIMESTAMP_FORMAT="\124cff" .. copy_color .. "\124HalaCCopy:-1\124h" .. fmt .. "\124h\124r";
 	else
-		CHAT_TIMESTAMP_FORMAT="\124cff" .. copy_color .. "\124HalaCCopy:-1\124h**\124h\124r";
+		_G.CHAT_TIMESTAMP_FORMAT="\124cff" .. copy_color .. "\124HalaCCopy:-1\124h**\124h\124r";
 	end
 	--gsubfmt = "\124cff" .. copy_color .. "\124HalaCCopy:-1\124h**\124h\124r";
 end
@@ -44,9 +62,9 @@ local function setStamp(fmt)
 	stamp_fmt = fmt;
 	if fmt == "" then
 		control_copy = false;
-		CHAT_TIMESTAMP_FORMAT = nil;
+		_G.CHAT_TIMESTAMP_FORMAT = nil;
 		return;
-	elseif alac_GetConfig("copy") then
+	elseif NS.alac_GetConfig("copy") then
 		control_copy = true;
 	end
 	if control_copy then
@@ -87,7 +105,7 @@ local function hook_InterfaceOptionsSocialPanelTimestamps()
 				else
 					stamp_fmt=fmt;
 				end
-				alac_SetConfig(stamp_fmt);
+				NS.alac_SetConfig(stamp_fmt);
 				if control_copy then
 					set(stamp_fmt);
 				end
@@ -114,7 +132,7 @@ local function copy_ToggleOff(loading)
 		return;
 	end
 	control_copy=false;
-	CHAT_TIMESTAMP_FORMAT=stamp_fmt;
+	_G.CHAT_TIMESTAMP_FORMAT=stamp_fmt;
 	return control_copy;
 end
 FUNC.INIT.copy = copy_Init;
@@ -203,8 +221,8 @@ local function copy_Init()
 	-- 		if fmt == "none" then
 	-- 			fmt = "";
 	-- 		end
-	-- 		CHAT_TIMESTAMP_FORMAT = nil;
-	-- 		alac_SetConfig("copyTagFormat", fmt);
+	-- 		_G.CHAT_TIMESTAMP_FORMAT = nil;
+	-- 		NS.alac_SetConfig("copyTagFormat", fmt);
 	-- 	end);
 end
 local function copy_ToggleOn()
@@ -215,7 +233,7 @@ local function copy_ToggleOn()
 	if ala_add_AddMessage_filter then
 		ala_add_AddMessage_filter(copy_AddMessage_filter);
 	end
-	-- CHAT_TIMESTAMP_FORMAT = nil;
+	-- _G.CHAT_TIMESTAMP_FORMAT = nil;
 	return control_copy;
 end
 local function copy_ToggleOff(loading)

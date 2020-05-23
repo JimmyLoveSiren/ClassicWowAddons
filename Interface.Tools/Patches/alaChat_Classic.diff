@@ -1,8 +1,8 @@
 diff --git a/Interface/AddOns/alaChat_Classic/addon.lua b/Interface/AddOns/alaChat_Classic/addon.lua
-index e6ac8dc..66fdddb 100644
+index 2666ec65..7566ab0d 100644
 --- a/Interface/AddOns/alaChat_Classic/addon.lua
 +++ b/Interface/AddOns/alaChat_Classic/addon.lua
-@@ -144,8 +144,8 @@ local default = {
+@@ -163,8 +163,8 @@ local default = {
  	_version				 = 200226.0,
  	_overrideVersion		 = 200226.0,
  
@@ -13,7 +13,7 @@ index e6ac8dc..66fdddb 100644
  	direction				 = "HORIZONTAL",
  	scale					 = 0.9,
  	alpha					 = 1.0,
-@@ -157,9 +157,9 @@ local default = {
+@@ -176,9 +176,9 @@ local default = {
  	chatEmote				 = true,
  	chatEmote_channel		 = true,
  	ColorNameByClass		 = true,
@@ -25,7 +25,7 @@ index e6ac8dc..66fdddb 100644
  	channelBarStyle			 = "CHAR",
  
  	channel_Ignore_Switch 	 = true,
-@@ -176,14 +176,14 @@ local default = {
+@@ -195,14 +195,14 @@ local default = {
  	DBMCountDown			 = true,
  	ReadyCheck				 = true,
  	statReport				 = true,

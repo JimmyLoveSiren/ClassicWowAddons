@@ -4,6 +4,24 @@
 -- do return; end
 ----------------------------------------------------------------------------------------------------
 local ADDON, NS = ...;
+
+do
+	local _G = _G;
+	if NS.__fenv == nil then
+		NS.__fenv = setmetatable({  },
+				{
+					__index = _G,
+					__newindex = function(t, key, value)
+						rawset(t, key, value);
+						print("acc assign global", key, value);
+						return value;
+					end,
+				}
+			);
+	end
+	setfenv(1, NS.__fenv);
+end
+
 local FUNC = NS.FUNC;
 if not FUNC then return;end
 local L = NS.L;
@@ -73,7 +91,7 @@ local function process_repeat(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 		-- if strsplit('-', arg2) == UnitName'player' then
 		-- 	print(i, msg, strlen(msg), repeat_check_len * i)
 		-- end
-		if strlen(msg) > repeat_check_len * i then
+		if #msg > repeat_check_len * i then
 			local pos = nil;
 			for i = repeat_check_min * i, repeat_check_min * i + repeat_check_max_diff do
 				local c = strbyte(strsub(msg, i, i));
@@ -268,16 +286,16 @@ local function CHATFILTER_ONCLICK(button, mouse)
 	end
 end
 local function chat_filter_On()
-	ala_add_message_event_filter("CHAT_MSG_CHANNEL", "chat_filter", chat_filter_Filter)
-	ala_add_message_event_filter("CHAT_MSG_SAY", "chat_filter", chat_filter_Filter)
-	ala_add_message_event_filter("CHAT_MSG_YELL", "chat_filter", chat_filter_Filter)
+	NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL", "chat_filter", chat_filter_Filter)
+	NS.ala_add_message_event_filter("CHAT_MSG_SAY", "chat_filter", chat_filter_Filter)
+	NS.ala_add_message_event_filter("CHAT_MSG_YELL", "chat_filter", chat_filter_Filter)
 	if chatFilter_btn then
 		alaBaseBtn:AddBtn(chatFilter_btnPackIndex,-1,chatFilter_btn,true,false,true);
 	else
 		chatFilter_btn=alaBaseBtn:CreateBtn(
 				chatFilter_btnPackIndex,
 				-1,
-				"chatFilter_btn",
+				nil,
 				"char",
 				"F",
 				nil,
@@ -295,9 +313,9 @@ local function chat_filter_On()
 	end
 end
 local function chat_filter_Off()
-	ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "chat_filter")
-	ala_remove_message_event_filter("CHAT_MSG_SAY", "chat_filter")
-	ala_remove_message_event_filter("CHAT_MSG_YELL", "chat_filter")
+	NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "chat_filter")
+	NS.ala_remove_message_event_filter("CHAT_MSG_SAY", "chat_filter")
+	NS.ala_remove_message_event_filter("CHAT_MSG_YELL", "chat_filter")
 	alaBaseBtn:RemoveBtn(chatFilter_btn,true);
 end
 
@@ -553,26 +571,26 @@ local function keyWordHighlight_Filter(self, event, arg1, arg2, arg3, arg4, arg5
 end
 
 local function keyWordHighlight_On()
-	ala_add_message_event_filter("CHAT_MSG_CHANNEL", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "keyWordHighlight", keyWordHighlight_Filter)
-	ala_add_message_event_filter("CHAT_MSG_SAY", "keyWordHighlight", keyWordHighlight_Filter)
-	ala_add_message_event_filter("CHAT_MSG_YELL", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_WHISPER", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_BN_WHISPER", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_WHISPER_INFORM", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_RAID", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_RAID_LEADER", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_RAID_WARNING", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_PARTY", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_PARTY_LEADER", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_GUILD", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_OFFICER", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_AFK", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_EMOTE", "keyWordHighlight", keyWordHighlight_Filter)
-	-- ala_add_message_event_filter("CHAT_MSG_DND", "keyWordHighlight", keyWordHighlight_Filter)
+	NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "keyWordHighlight", keyWordHighlight_Filter)
+	NS.ala_add_message_event_filter("CHAT_MSG_SAY", "keyWordHighlight", keyWordHighlight_Filter)
+	NS.ala_add_message_event_filter("CHAT_MSG_YELL", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_WHISPER", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_BN_WHISPER", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_WHISPER_INFORM", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_RAID", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_RAID_LEADER", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_RAID_WARNING", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_PARTY", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_PARTY_LEADER", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_GUILD", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_OFFICER", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_AFK", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_EMOTE", "keyWordHighlight", keyWordHighlight_Filter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_DND", "keyWordHighlight", keyWordHighlight_Filter)
 
 	if keyWordHighlight_btn then
 		alaBaseBtn:AddBtn(keyWordHighlight_btnPackIndex,-1,keyWordHighlight_btn,true,false,true);
@@ -580,7 +598,7 @@ local function keyWordHighlight_On()
 		keyWordHighlight_btn=alaBaseBtn:CreateBtn(
 				keyWordHighlight_btnPackIndex,
 				-1,
-				"keyWordHighlight_btn",
+				nil,
 				"char",
 				"K",
 				nil,
@@ -610,26 +628,26 @@ local function keyWordHighlight_On()
 	end
 end
 local function keyWordHighlight_Off()
-	ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "keyWordHighlight")
-	ala_remove_message_event_filter("CHAT_MSG_SAY", "keyWordHighlight")
-	ala_remove_message_event_filter("CHAT_MSG_YELL", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_WHISPER", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_WHISPER_INFORM", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_RAID", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_RAID_LEADER", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_RAID_WARNING", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_PARTY", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_PARTY_LEADER", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_GUILD", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_OFFICER", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_AFK", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_EMOTE", "keyWordHighlight")
-	-- ala_remove_message_event_filter("CHAT_MSG_DND", "keyWordHighlight")
+	NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "keyWordHighlight")
+	NS.ala_remove_message_event_filter("CHAT_MSG_SAY", "keyWordHighlight")
+	NS.ala_remove_message_event_filter("CHAT_MSG_YELL", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_WHISPER", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_WHISPER_INFORM", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_RAID", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_RAID_LEADER", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_RAID_WARNING", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_PARTY", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_PARTY_LEADER", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_GUILD", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_OFFICER", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_AFK", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_EMOTE", "keyWordHighlight")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_DND", "keyWordHighlight")
 	alaBaseBtn:RemoveBtn(keyWordHighlight_btn,true);
 end
 

@@ -4,6 +4,24 @@
 -- do return; end
 ----------------------------------------------------------------------------------------------------
 local ADDON,NS = ...;
+
+do
+	local _G = _G;
+	if NS.__fenv == nil then
+		NS.__fenv = setmetatable({  },
+				{
+					__index = _G,
+					__newindex = function(t, key, value)
+						rawset(t, key, value);
+						print("acc assign global", key, value);
+						return value;
+					end,
+				}
+			);
+	end
+	setfenv(1, NS.__fenv);
+end
+
 local FUNC = NS.FUNC;
 --if not FUNC then return;end
 local L = NS.L;
@@ -130,7 +148,7 @@ local function IconSize(f)
 	--local _, font = f:GetFont();
 	--local res=select(GetCurrentResolution(),GetScreenResolutions())
 	--local _,h=match(res,"(%d+)x(%d+)")
-	font = iconScale * 16;--*h/800
+	local font = iconScale * 16;--*h/800
 	font = floor(font);
 	return font;
 end
@@ -226,7 +244,7 @@ local function CreateIcon(panel, text, texture, px, py)
 	return icon;
 end
 local function CreatePanel(mainButton)
-	panel = CreateFrame("Frame", nil, UIParent);
+	local panel = CreateFrame("Frame", nil, UIParent);
 	panel:SetWidth(260);
 	panel:SetHeight(160);
 	panel:SetFrameLevel(32);
@@ -397,32 +415,30 @@ local function chatEmote_ToggleOn(initing)
 	-- if ala_add_AddMessage_filter then
 	-- 	ala_add_AddMessage_filter(ChatEmoteFilter2);
 	-- end
-	if ala_add_message_event_filter then
-		if control_chatEmote_channel then
-			ala_add_message_event_filter("CHAT_MSG_CHANNEL", "chatEmote", ChatEmoteFilter)
-			-- ala_add_message_event_filter("CHAT_MSG_CHANNEL_JOIN", ChatEmoteFilter)
-			-- ala_add_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", ChatEmoteFilter)
-		end
-		ala_add_message_event_filter("CHAT_MSG_SAY", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_YELL", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_WHISPER", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_BN_WHISPER", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_WHISPER_INFORM", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_BN_WHISPER_INFORM", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_RAID", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_RAID_LEADER", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_RAID_WARNING", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_PARTY", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_PARTY_LEADER", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_GUILD", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_OFFICER", "chatEmote", ChatEmoteFilter)
-		-- ala_add_message_event_filter("CHAT_MSG_AFK", "chatEmote", ChatEmoteFilter)
-		ala_add_message_event_filter("CHAT_MSG_EMOTE", "chatEmote", ChatEmoteFilter)
-		-- ala_add_message_event_filter("CHAT_MSG_DND", "chatEmote", ChatEmoteFilter)
-		-- ala_add_message_event_filter("CHAT_MSG_COMMUNITIES_CHANNEL", "chatEmote", ChatEmoteFilter)
+	if control_chatEmote_channel then
+		NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL", "chatEmote", ChatEmoteFilter)
+		-- NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL_JOIN", ChatEmoteFilter)
+		-- NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", ChatEmoteFilter)
 	end
+	NS.ala_add_message_event_filter("CHAT_MSG_SAY", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_YELL", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_WHISPER", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_BN_WHISPER", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_WHISPER_INFORM", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_BN_WHISPER_INFORM", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_RAID", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_RAID_LEADER", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_RAID_WARNING", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_PARTY", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_PARTY_LEADER", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_GUILD", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_OFFICER", "chatEmote", ChatEmoteFilter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_AFK", "chatEmote", ChatEmoteFilter)
+	NS.ala_add_message_event_filter("CHAT_MSG_EMOTE", "chatEmote", ChatEmoteFilter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_DND", "chatEmote", ChatEmoteFilter)
+	-- NS.ala_add_message_event_filter("CHAT_MSG_COMMUNITIES_CHANNEL", "chatEmote", ChatEmoteFilter)
 
 	return control_chatEmote;
 end
@@ -439,30 +455,28 @@ local function chatEmote_ToggleOff()
 	-- if ala_sub_AddMessage_filter then
 	-- 	ala_sub_AddMessage_filter(ChatEmoteFilter2);
 	-- end
-	if ala_remove_message_event_filter then
-		ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "chatEmote")
-		-- ala_remove_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "chatEmote")
-		-- ala_remove_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_SAY", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_YELL", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_WHISPER", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_WHISPER_INFORM", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER_INFORM", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_RAID", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_RAID_LEADER", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_RAID_WARNING", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_PARTY", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_PARTY_LEADER", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_GUILD", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_OFFICER", "chatEmote")
-		-- ala_remove_message_event_filter("CHAT_MSG_AFK", "chatEmote")
-		ala_remove_message_event_filter("CHAT_MSG_EMOTE", "chatEmote")
-		-- ala_remove_message_event_filter("CHAT_MSG_DND", "chatEmote")
-		-- ala_remove_message_event_filter("CHAT_MSG_COMMUNITIES_CHANNEL", "chatEmote")
-	end
+	NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "chatEmote")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "chatEmote")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_SAY", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_YELL", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_WHISPER", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_WHISPER_INFORM", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_BN_WHISPER_INFORM", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_RAID", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_RAID_LEADER", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_RAID_WARNING", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_PARTY", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_PARTY_LEADER", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_INSTANCE_CHAT_LEADER", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_GUILD", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_OFFICER", "chatEmote")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_AFK", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_EMOTE", "chatEmote")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_DND", "chatEmote")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_COMMUNITIES_CHANNEL", "chatEmote")
 
 	--SendChatMessage = __SendChatMessage;
 	--BNSendWhisper = BNSendWhisper;
@@ -476,9 +490,9 @@ local function chatEmote_channel_ToggleOn()
 	end
 	chatEmote_channel = true;
 	if control_chatEmote then
-		ala_add_message_event_filter("CHAT_MSG_CHANNEL", "chatEmote", ChatEmoteFilter)
-		-- ala_add_message_event_filter("CHAT_MSG_CHANNEL_JOIN", ChatEmoteFilter)
-		-- ala_add_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", ChatEmoteFilter)
+		NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL", "chatEmote", ChatEmoteFilter)
+		-- NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL_JOIN", ChatEmoteFilter)
+		-- NS.ala_add_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", ChatEmoteFilter)
 	end
 end
 local function chatEmote_channel_ToggleOff()
@@ -486,9 +500,9 @@ local function chatEmote_channel_ToggleOff()
 		return;
 	end
 	chatEmote_channel = false;
-	ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "chatEmote")
-	-- ala_remove_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "chatEmote")
-	-- ala_remove_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "chatEmote")
+	NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL", "chatEmote")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL_JOIN", "chatEmote")
+	-- NS.ala_remove_message_event_filter("CHAT_MSG_CHANNEL_LEAVE", "chatEmote")
 end
 
 if FUNC then

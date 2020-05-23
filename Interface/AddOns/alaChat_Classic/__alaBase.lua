@@ -305,7 +305,6 @@ f.delhfCall=delhfCall;
 f.hookwCall=hookwCall;
 f.delhwCall=delhwCall;
 ----------
-__alaBase=f;
 __alaBase.Version=__alaBase_Version;
 ------------------------
 

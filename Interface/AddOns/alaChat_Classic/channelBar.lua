@@ -4,6 +4,24 @@
 -- do return; end
 ----------------------------------------------------------------------------------------------------
 local ADDON,NS = ...;
+
+do
+	local _G = _G;
+	if NS.__fenv == nil then
+		NS.__fenv = setmetatable({  },
+				{
+					__index = _G,
+					__newindex = function(t, key, value)
+						rawset(t, key, value);
+						print("acc assign global", key, value);
+						return value;
+					end,
+				}
+			);
+	end
+	setfenv(1, NS.__fenv);
+end
+
 local FUNC = NS.FUNC;
 if not FUNC then return;end
 local L = NS.L;
@@ -384,23 +402,23 @@ _G.alaChatChannelBarBindingFunc_ToggleChannel = function(channel)
 	end
 end
 
-BINDING_HEADER_ALAC_CHANNELBAR = CB_DATA.ALAC_CHANNELBAR;
-BINDING_NAME_ALAC_SAY = SAY;
-BINDING_NAME_ALAC_PARTY = PARTY;
-BINDING_NAME_ALAC_RAID = RAID;
-BINDING_NAME_ALAC_RAID_WARING = RAID_WARNING;
-BINDING_NAME_ALAC_INSTANCE_CHAT = INSTANCE_CHAT;
-BINDING_NAME_ALAC_GUILD = GUILD;
-BINDING_NAME_ALAC_YELL = YELL;
-BINDING_NAME_ALAC_WHISPER = WHISPER;
-BINDING_NAME_ALAC_OFFICER = OFFICER;
-BINDING_NAME_ALAC_GENERAL = GENERAL;
-BINDING_NAME_ALAC_TRADE = TRADE;
-BINDING_NAME_ALAC_LOCALDEFENSE = SC_DATA2[3][1];
-BINDING_NAME_ALAC_LOOKINGFORGROUP = SC_DATA2[4][1];
+_G.BINDING_HEADER_ALAC_CHANNELBAR = CB_DATA.ALAC_CHANNELBAR;
+_G.BINDING_NAME_ALAC_SAY = SAY;
+_G.BINDING_NAME_ALAC_PARTY = PARTY;
+_G.BINDING_NAME_ALAC_RAID = RAID;
+_G.BINDING_NAME_ALAC_RAID_WARING = RAID_WARNING;
+_G.BINDING_NAME_ALAC_INSTANCE_CHAT = INSTANCE_CHAT;
+_G.BINDING_NAME_ALAC_GUILD = GUILD;
+_G.BINDING_NAME_ALAC_YELL = YELL;
+_G.BINDING_NAME_ALAC_WHISPER = WHISPER;
+_G.BINDING_NAME_ALAC_OFFICER = OFFICER;
+_G.BINDING_NAME_ALAC_GENERAL = GENERAL;
+_G.BINDING_NAME_ALAC_TRADE = TRADE;
+_G.BINDING_NAME_ALAC_LOCALDEFENSE = SC_DATA2[3][1];
+_G.BINDING_NAME_ALAC_LOOKINGFORGROUP = SC_DATA2[4][1];
 if GetLocale() == "zhCN" or GetLocale() == "zhTW" then
-	BINDING_NAME_ALAC_CUSTOM = SC_DATA2[5][1];
+	_G.BINDING_NAME_ALAC_CUSTOM = SC_DATA2[5][1];
 else
-	BINDING_NAME_ALAC_CUSTOM = "NOTHING TO DO HERE";
+	_G.BINDING_NAME_ALAC_CUSTOM = "NOTHING TO DO HERE";
 end
 ----------------------------------------------------------------------------------------------------

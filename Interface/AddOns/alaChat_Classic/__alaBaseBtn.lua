@@ -340,12 +340,12 @@ end
 --name,nTex,pTex,hTex,onClickHandler,line,panel,alpha,color
 local temp_name_id = 1;
 function alaBaseBtn:CreateBtn(posIndexMajor,posIndexMinor,name,nTex,pTex,hTex,onClickHandler,line,panel,alpha,color)
-	if type(posIndexMajor)=="string" then
+	if posIndexMajor == nl or type(posIndexMajor)=="string" then
 		name,nTex,pTex,hTex,onClickHandler,line,panel,alpha=posIndexMajor,posIndexMinor,name,nTex,pTex,hTex,onClickHandler,line;
 		posIndexMajor=1;
 		posIndexMinor=-1
 	else
-		if type(posIndexMinor)=="string" then
+		if posIndexMinor == nil or type(posIndexMinor)=="string" then
 			name,nTex,pTex,hTex,onClickHandler,line,panel,alpha=posIndexMinor,name,nTex,pTex,hTex,onClickHandler,line,panel;
 			posIndexMajor=tonumber(posIndexMajor);
 			if not posIndexMajor or posIndexMajor<=0 then
@@ -363,11 +363,11 @@ function alaBaseBtn:CreateBtn(posIndexMajor,posIndexMinor,name,nTex,pTex,hTex,on
 			end
 		end
 	end
-	if not name then
-		name = "alaBaseBtnChildren" .. temp_name_id;
-		temp_name_id = temp_name_id + 1;
-	end
-	local btn=CreateFrame("Button",name,alaBaseBtn);
+	-- if not name then
+	-- 	name = "alaBaseBtnChildren" .. temp_name_id;
+	-- 	temp_name_id = temp_name_id + 1;
+	-- end
+	local btn=CreateFrame("Button", name,alaBaseBtn);
 	btn:SetWidth(btnSize);
 	btn:SetHeight(btnSize);
 	alaBaseBtn:ChangeBtnTexture(btn, nTex, pTex, hTex,color);
@@ -419,7 +419,8 @@ function alaBaseBtn:ChangeBtnTexture(btn, nTex, pTex, hTex, color)
 			-- local btnTexture=btn:CreateTexture(name.."Texture","BACKGROUND");
 			-- btnTexture:SetAllPoints(btn);
 			-- btnTexture:SetTexture("Interface\\Buttons\\UI-Quickslot-Depress");
-			local btnFontString = btn.fontString or btn:CreateFontString(btn:GetName().."FontString","ARTWORK");
+			local name = btn:GetName();
+			local btnFontString = btn.fontString or btn:CreateFontString(name and (name.."FontString"),"ARTWORK");
 			btnFontString:SetPoint("CENTER");
 			if alaBaseData.xBtn.style == 'blz' then
 				btn:SetBackdropColor({
@@ -497,13 +498,13 @@ function alaBaseBtn:ChangeBtnTexture(btn, nTex, pTex, hTex, color)
 	end
 end
 function alaBaseBtn:CreateBtnPanel(name,nTex,pTex,line)
-    if not name then
-	    name=1;
-		while self.BPList[name] do
-		    name=name+1;
-		end
-	end
-	local btn=self:CreateBtn(name.."BTN",nTex,pTex,onClickBP,line);
+    -- if not name then
+	--     name=1;
+	-- 	while self.BPList[name] do
+	-- 	    name=name+1;
+	-- 	end
+	-- end
+	local btn=self:CreateBtn(name and (name.."BTN"),nTex,pTex,onClickBP,line);
 	btn.onClickHandler=onClickP;
 	btn.list={};
 	btn.num=0;
@@ -513,7 +514,6 @@ function alaBaseBtn:CreateBtnPanel(name,nTex,pTex,line)
 	return name;
 end
 ----------
-__alaBaseBtn=alaBaseBtn;
 __alaBaseBtn.Version=__alaBaseBtn_Version;
 ----------
 ----------------------------------------------------------------------------------------------------
