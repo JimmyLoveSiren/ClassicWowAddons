@@ -1,34 +1,22 @@
-lightweight tag 2671e7dd7362bd7fc8a9e4b13cdf2398ebfae297 v2.3.9
+lightweight tag c99d1fc3fe92732513ebf78385141d738f6197d7 v2.3.10
 Author:	Boshi Lian <farmer1992@gmail.com>
-Date:	Mon Mar 16 02:32:04 2020 -0700
+Date:	Mon Apr 20 16:03:57 2020 -0700
 
-commit 2671e7dd7362bd7fc8a9e4b13cdf2398ebfae297
+commit c99d1fc3fe92732513ebf78385141d738f6197d7
 Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Mon Mar 16 02:32:04 2020 -0700
+Date:   Mon Apr 20 16:03:57 2020 -0700
 
-    fix typo
+    better pos
 
-commit 67169279438b1634d6bc0a1d97b22f0504a8b131
+commit f9636cda0e35637eceee751cec946f5301af46d8
 Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Mon Mar 16 02:31:58 2020 -0700
+Date:   Mon Mar 16 04:52:53 2020 -0700
 
-    move pos update to score update
+    fix font
 
-commit 7b5f5c1121fc581e91f87c9f3a28f71aaa973869
+commit 91f5e3becb56af6fbf1b6af30fcec6735134f5ef
 Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Sun Mar 15 05:43:50 2020 -0700
+Date:   Mon Mar 16 04:05:16 2020 -0700
 
-    fix battle map unit color not work every time
-
-commit d16db2059c35b3a2637d1604c0c3dd78e09fc277
-Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Sun Mar 15 03:41:34 2020 -0700
-
-    first approach to fix number position
-
-commit 47e883ef6b4d0709faf2261d742b56d97328a988
-Author: Boshi Lian <farmer1992@gmail.com>
-Date:   Thu Mar 12 05:48:27 2020 -0700
-
-    bump ver
+    try to fix incompatible with sspvp
 
