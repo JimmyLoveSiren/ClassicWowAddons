@@ -1,11 +1,10 @@
 -- NAMESPACE / CLASS: FiveSecondRule   
 -- OPTIONS: FiveSecondRule_Options      
 
-local ADDON_NAME = "FiveSecondRule"
-
 FiveSecondRule = CreateFrame("Frame")
 
 do -- Private Scope
+    local ADDON_NAME = "FiveSecondRule"
 
     local defaults = {
         ["unlocked"] = false,
@@ -18,6 +17,7 @@ do -- Private Scope
         ["showText"] = true,
         ["showSpark"] = true,
         ["alwaysShowTicks"] = false,
+        ["enableCountdown"] = true,
         ["statusBarColor"] = {0,0,1,0.95},
         ["statusBarBackgroundColor"] = {0,0,0,0.55},
         ["manaTicksColor"] = {0.95, 0.95, 0.95, 1},

@@ -1,17 +1,28 @@
-tag 64a023c0c9906252af3b2cab7eb3682301e5e57d Release-1-18
+tag b208de1ab583610a07e2f5e1f8363158797f0317 Release-1-20
 Author:	Stefan Pedersen <sp@ceptu.com>
-Date:	Sat Apr 4 00:04:22 2020 +0200
+Date:	Thu Apr 23 19:48:28 2020 +0200
 
-commit f76e6a092b9157d24942a03253ab667abc93288b
+commit bd34df225e61b6685ac143c47aa4be2684e32e3b
 Author: Stefan Pedersen <sp@ceptu.com>
-Date:   Sat Apr 4 00:04:08 2020 +0200
+Date:   Thu Apr 23 19:48:17 2020 +0200
 
-    Release version 1.18.
+    Bump version for release.
 
-commit 72ae16aede1bcbfb5b0dcb9313bcd6facfd3ef21
+commit c73bd0155b38826217502499a01c03b76927bec3
 Author: Stefan Pedersen <sp@ceptu.com>
-Date:   Sat Apr 4 00:03:24 2020 +0200
+Date:   Thu Apr 23 19:47:35 2020 +0200
 
-    Split the FiveSecondRule.lua into separate files for handling the StatusBar and the TickBar. Refactor and clean up across the board.
-    Also disable the addon for warriors.
+    Minor refactor.
+
+commit 56d57efc369f694674111e357cfca7fa364b9130
+Author: Stefan Pedersen <sp@ceptu.com>
+Date:   Thu Apr 23 19:47:27 2020 +0200
+
+    Add NPE protection.
+
+commit 0b3f3e920d1732443b5e1ab2f57d5dc04e69f97b
+Author: Stefan Pedersen <sp@ceptu.com>
+Date:   Thu Apr 23 19:47:18 2020 +0200
+
+    Consider Evocation as rapid regen to properly track tick size.
 
