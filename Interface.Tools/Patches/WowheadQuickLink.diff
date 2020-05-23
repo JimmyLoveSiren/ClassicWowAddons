@@ -1,12 +1,12 @@
 diff --git a/Interface/AddOns/WowheadQuickLink/WowheadQuickLinkConfig.lua b/Interface/AddOns/WowheadQuickLink/WowheadQuickLinkConfig.lua
-index aee7c12..038f7aa 100644
+index a73df057..286c04bc 100644
 --- a/Interface/AddOns/WowheadQuickLink/WowheadQuickLinkConfig.lua
 +++ b/Interface/AddOns/WowheadQuickLink/WowheadQuickLinkConfig.lua
-@@ -6,7 +6,7 @@ frame:SetScript("OnEvent", function(self, event, arg1)
+@@ -7,7 +7,7 @@ frame:SetScript("OnEvent", function(self, event, arg1)
      if event == "ADDON_LOADED" and arg1 == "WowheadQuickLink" then
          if WowheadQuickLinkCfg == nil then
              WowheadQuickLinkCfg = {
--                prefix = "", 
+-                prefix = "",
 +                prefix = "cn.",
                  suffix = ""
              }

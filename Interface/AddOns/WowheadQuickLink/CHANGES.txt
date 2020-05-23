@@ -1,10 +1,34 @@
-lightweight tag da58ffe514f20dfef270a68bce7c7e956f768863 2.7.9-release
-Author:	NielsHeltner <niels.heltner@hotmail.com>
-Date:	Sun Sep 29 22:52:04 2019 +0200
+lightweight tag 21694e72517896627668739d2c554789181f654f 2.9.1
+Author:	GitHub <noreply@github.com>
+Date:	Fri May 8 16:44:38 2020 +0200
 
-commit da58ffe514f20dfef270a68bce7c7e956f768863
-Author: NielsHeltner <niels.heltner@hotmail.com>
-Date:   Sun Sep 29 22:52:04 2019 +0200
+commit c7ae36ceb7737b6d4cb66aef9e7e8987ea1eec45
+Author: Steven Hall <vaindil@pm.me>
+Date:   Sun Apr 26 17:56:56 2020 -0400
 
-    remove tooltip hook not existing in classic
+    use PLAYER_LOGIN for bindings
+
+commit c7ae36ceb7737b6d4cb66aef9e7e8987ea1eec45
+Author: Steven Hall <vaindil@pm.me>
+Date:   Sun Apr 26 17:56:56 2020 -0400
+
+    use PLAYER_LOGIN for bindings
+
+commit 774b6367bdfe72ec26d2fbc92ef19df8cd090aa7
+Author: Steven Hall <vaindil@pm.me>
+Date:   Sun Apr 26 14:04:30 2020 -0400
+
+    another fix for classic
+
+commit 7ccada70805892d9cd13d583667fbc0aa6b45dee
+Author: Steven Hall <vaindil@pm.me>
+Date:   Sun Apr 26 13:43:43 2020 -0400
+
+    fix for classic
+
+commit 87e2171abded49298f7fbedad6475c90aad25998
+Author: Steven Hall <vaindil@pm.me>
+Date:   Sat Apr 25 20:21:11 2020 -0400
+
+    fix key bindings
 

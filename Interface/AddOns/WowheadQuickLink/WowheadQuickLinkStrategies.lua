@@ -2,16 +2,16 @@ local addonName, nameSpace = ...
 nameSpace.strategies = {}
 nameSpace.altStrategies = {}
 local strategies = {
-    wowhead = {}, 
-    wowheadAzEs = {}, 
+    wowhead = {},
+    wowheadAzEs = {},
     armory = {}
 }
 local tooltipStates = {}
 local regions = {
-    [1] = "us", 
-    [2] = "kr", 
-    [3] = "eu", 
-    [4] = "tw", 
+    [1] = "us",
+    [2] = "kr",
+    [3] = "eu",
+    [4] = "tw",
     [5] = "cn"
 }
 
@@ -20,7 +20,7 @@ function nameSpace.strategies.GetWowheadUrl(dataSources)
     for _, strategy in pairs(strategies.wowhead) do
         local id, type = strategy(dataSources)
         if id and type then
-            return "Wowhead " .. type:sub(1, 1):upper() .. type:sub(2), 
+            return "Wowhead " .. type:sub(1, 1):upper() .. type:sub(2),
                 string.format(nameSpace.baseWowheadUrl, WowheadQuickLinkCfg.prefix, type, id, WowheadQuickLinkCfg.suffix)
         end
     end
@@ -31,7 +31,7 @@ function nameSpace.strategies.GetWowheadAzEsUrl(dataSources)
     for _, strategy in pairs(strategies.wowheadAzEs) do
         local id = strategy(dataSources)
         if id then
-            return "Wowhead Azerite Essence", 
+            return "Wowhead Azerite Essence",
                 string.format(nameSpace.baseWowheadAzEsUrl, WowheadQuickLinkCfg.prefix, id, WowheadQuickLinkCfg.suffix)
         end
     end
@@ -91,8 +91,15 @@ end
 
 function strategies.armory.GetArmoryFromLfgLeader(data)
     if not data.focus.resultID then return end
-    leader = C_LFGList.GetSearchResultInfo(data.focus.resultID).leaderName
+    local leader = C_LFGList.GetSearchResultInfo(data.focus.resultID).leaderName
     return GetFromNameAndRealm(strsplit("-", leader))
+end
+
+
+function strategies.armory.GetArmoryFromLfgApplicant(data)
+    if not data.focus.memberIdx or not data.focus:GetParent() or not data.focus:GetParent().applicantID then return end
+    local applicant = select(1, C_LFGList.GetApplicantMemberInfo(data.focus:GetParent().applicantID, data.focus.memberIdx))
+    return GetFromNameAndRealm(strsplit("-", applicant))
 end
 
 
@@ -187,7 +194,7 @@ function strategies.wowhead.GetLearntMountFromFocus(data)
 end
 
 
-function strategies.wowhead.GetCompanionFromFocus(data)
+function strategies.wowhead.GetBattlePetFromFocus(data)
     if not data.focus.petID and (not data.focus:GetParent() or not data.focus:GetParent().petID) then return end
     local petId = data.focus.petID or data.focus:GetParent().petID
     local id
@@ -200,14 +207,21 @@ function strategies.wowhead.GetCompanionFromFocus(data)
 end
 
 
-function strategies.wowhead.GetCompanionFromFloatingTooltip(data)
+function strategies.wowhead.GetBattlePetFromFloatingTooltip(data)
     if not data.focus.speciesID then return end
     return select(4, C_PetJournal.GetPetInfoBySpeciesID(data.focus.speciesID)), "npc"
 end
 
 
-function strategies.wowhead.GetItemFromAuctionHouse(data)
-    if not data.focus.itemIndex and (not data.focus:GetParent() or not data.focus:GetParent().itemIndex) then return end
+function strategies.wowhead.GetBattlePetFromAuctionHouse(data)
+    if not data.focus.itemKey and (not data.focus.GetRowData or not data.focus:GetRowData().itemKey) then return end
+    local itemKey = data.focus.itemKey or data.focus:GetRowData().itemKey
+    return select(4, C_PetJournal.GetPetInfoBySpeciesID(itemKey.battlePetSpeciesID)), "npc"
+end
+
+
+function strategies.wowhead.GetItemFromAuctionHouseClassic(data)
+    if not IsClassic() or (not data.focus.itemIndex and (not data.focus:GetParent() or not data.focus:GetParent().itemIndex)) then return end
     local index = data.focus.itemIndex or data.focus:GetParent().itemIndex
     local link = GetAuctionItemLink("list", index)
     local id, type = GetFromLink(link)
@@ -216,6 +230,26 @@ function strategies.wowhead.GetItemFromAuctionHouse(data)
         type = "npc"
     end
     return id, type
+end
+
+
+function strategies.wowhead.GetTransmogCollectionItemFromFocus(data)
+    if not data.focus.visualInfo or not WardrobeCollectionFrame.tooltipSourceIndex then return end
+    local selectedAppearance = data.focus.visualInfo.visualID
+    local selectedStyle = WardrobeCollectionFrame.tooltipSourceIndex
+    return WardrobeCollectionFrame_GetSortedAppearanceSources(selectedAppearance)[selectedStyle].itemID, "item"
+end
+
+
+function strategies.wowhead.GetTransmogSetItemFromFocus(data)
+    if not data.focus.sourceID or not WardrobeCollectionFrame.tooltipSourceIndex then return end
+    local selectedAppearance = C_TransmogCollection.GetAppearanceInfoBySource(data.focus.sourceID).appearanceID
+    local selectedStyle = WardrobeCollectionFrame.tooltipSourceIndex
+
+    local appearanceSources = C_TransmogCollection.GetAppearanceSources(selectedAppearance)
+    WardrobeCollectionFrame_SortSources(appearanceSources, appearanceID, data.focus.sourceID)
+
+    return appearanceSources[selectedStyle].itemID, "item"
 end
 
 
