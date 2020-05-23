@@ -97,7 +97,7 @@ L["PP_CLEAR_DESC"] = [=[자신, 파티 및 공격대
 할당을 지웁니다.]=]
 L["PP_COLOR"] = "버프 버튼의 상태 색상 변경"
 L["PP_LOOKS"] = "PallyPower 외관 변경"
-L["PP_NAME"] = "PallyPower"
+L["PP_NAME"] = "PallyPower 클래식"
 L["PP_RAS1"] = "--- 성기사 할당 ---"
 L["PP_RAS2"] = "--- 할당의 끝 ---"
 L["PP_RAS3"] = "경고: 공격대 내 5명 이상의 성기사가 있습니다."
@@ -111,16 +111,14 @@ L["PP_RESET"] = "당신이 엉망인 경우의 대비책"
 L["PP_SHOW"] = "PallyPower 표시 시기"
 L["RAID"] = "공격대"
 L["RAID_DESC"] = "공격대 전용 옵션"
---[[Translation missing --]]
-L["REPORTCHANNEL"] = "Blessings Report Channel"
---[[Translation missing --]]
-L["REPORTCHANNEL_DESC"] = [=[Set the desired chennel to broadcast the Bliessings Report to:
+L["REPORTCHANNEL"] = "축복 알림 채널"
+L["REPORTCHANNEL_DESC"] = [=[축복을 알릴 방송 채널을 다음과 같이 설정하세요:
 
-|cffffd200[None]|r Selects channel based on group makeup. (Party/Raid)
+|cffffd200[없음]|r 그룹 구성에 따라 채널을 선택합니다. (파티/공격대)
 
-|cffffd200[Channel List]|r An auto populated channel list based on channels the player has joined. Default channels such as Trade, General, etc. are automatically filtered from the list.
+|cffffd200[채널 목록]|r 플레이어가 입장한 채널을 기반으로 자동으로 채워진 채널 목록입니다. 거래, 일반 등과 같은 기본 채널은 목록에서 자동으로 필터링됩니다.
 
-|cffffff00Note: If you change your Channel Order then you will need to reload your UI and verify that it is broadcasting to the correct channel.|r]=]
+|cffffff00알림: 채널 순서를 변경하면 UI를 재시작하고 UI가 올바른 채널로 방송되는지 확인해야합니다.|r]=]
 L["RESET"] = "프레임 초기화"
 L["RESET_DESC"] = "모든 PallyPower 프레임을 중앙으로 초기화"
 L["RESIZEGRIP"] = [=[좌클릭-고정으로 크기 변경 
@@ -135,8 +133,7 @@ L["SEALTRACKER"] = "문장 추적기"
 L["SEALTRACKER_DESC"] = "추적하려는 문장을 선택하세요."
 L["SETTINGS"] = "설정"
 L["SETTINGS_DESC"] = "전역 설정을 변경합니다."
---[[Translation missing --]]
-L["SETTINGSBUFF"] = "What to buff with PallyPower"
+L["SETTINGSBUFF"] = "PallyPower로 버프할 내용"
 L["SHOWGLOBAL"] = "전역 표시"
 L["SHOWGLOBAL_DESC"] = "PallyPower [표시/숨김]"
 L["SHOWPARTY"] = "파티 시 표시"

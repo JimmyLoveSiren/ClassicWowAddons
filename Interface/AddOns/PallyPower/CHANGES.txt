@@ -1,0 +1,13 @@
+------------------------------------------------------------------------
+r278 | Dyaxler | 2020-05-06 23:39:22 +0000 (Wed, 06 May 2020) | 4 lines
+Changed paths:
+   M /trunk/.pkgmeta
+   M /trunk/PallyPower.lua
+   M /trunk/embeds.xml
+
+* Added the AceComm-3.0 library.
+* Updated all SendChatMessage's and SendAddonMessage's to use ChatThrottleLib.
+* Fixed all functions to send less AddonMessage's overall.
+* I forgot to remove a CancelTimer() entry that I added for debugging purposes.
+------------------------------------------------------------------------
+
