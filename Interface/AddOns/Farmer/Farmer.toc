@@ -1,39 +1,42 @@
 ## Interface: 11304
 ## Title: Farmer
-## Version: 1.2.3
+## Version: 1.3.1
 ## Author: syndenbock
 ## Notes: Shows information on all the stuff you loot
 ## Notes-deDe: Zeigt Infos über all das Zeug das du lootest
 ## SavedVariablesPerCharacter: earningStamp
 ## SavedVariables: farmerOptions
 
-Localization.lua
-localizations/German.lua
-localizations/Russian.lua
-localizations/Korean.lua
-localizations/Chinese_simplified.lua
+shared/core/Localization.lua
+shared/localizations/German.lua
+shared/localizations/Russian.lua
+shared/localizations/Korean.lua
+shared/localizations/Chinese_simplified.lua
 
-Core.lua
+shared/core/Core.lua
 
-core/Events.lua
-core/Slashcommands.lua
-core/Yell.lua
-core/Utils.lua
-core/Storageutils.lua
+shared/core/Events.lua
+shared/core/Slashcommands.lua
+shared/core/Yell.lua
+shared/core/Utils.lua
+shared/core/Storageutils.lua
+shared/core/Print.lua
+shared/core/Keybindings.lua
+shared/core/Factory.lua
 
-detectors/Items.lua
-detectors/storages/Bags_Bank.lua
-detectors/storages/Equipment.lua
-detectors/Reputation.lua
-detectors/Money.lua
-detectors/Skills.lua
+shared/detectors/Items.lua
+shared/detectors/storages/Bags_Bank.lua
+shared/detectors/storages/Equipment.lua
+shared/detectors/Reputation.lua
+shared/detectors/Money.lua
+shared/detectors/Skills.lua
 
-main/Print.lua
 main/FarmerOptions.lua
 
-modules/Autoloot.lua
-modules/Items.lua
-modules/Fishing.lua
-modules/Money.lua
-modules/Reputation.lua
-modules/Skills.lua
+shared/modules/Autoloot.lua
+shared/modules/Items.lua
+shared/modules/Fishing.lua
+shared/modules/Money.lua
+shared/modules/Reputation.lua
+shared/modules/Skills.lua
+shared/modules/Farmradar.lua

@@ -1,7 +1,7 @@
 local addonName, addon = ...;
 
 local L = addon.L;
-local currentVersion = 0100000;
+local currentVersion = 0100002;
 local tocVersion = GetAddOnMetadata(addonName, 'version');
 
 local ADDON_ICON_ID = 3334;
@@ -436,8 +436,11 @@ addon:on('PLAYER_LOGIN', function (name)
   if (farmerOptions.version == nil) then
     print(L['You seem to have used an old Version of Farmer\nCheck out all the new features in the options!'])
   elseif (farmerOptions.version < currentVersion) then
-    local version = tocVersion
-    local text = 'Farmer can now display skill levelups!'
+    local text
+
+    text = 'New in ' .. addonName .. ' version ' .. tocVersion .. ':\n' ..
+           'Farmer has a brand new farm mode!\n' ..
+           'You can toggle it using "/farmer radar" or by setting a keybind in the WoW keybinding options.'
 
     print(text)
   end
@@ -500,7 +503,7 @@ addon:slash('gold', function (param)
     return
   end
   local difference = GetMoney() - earningStamp
-  local text = GetCoinTextureString(math.abs(difference))
+  local text = addon:formatMoney(math.abs(difference))
 
   if (difference >= 0) then
     print(L['Money earned this session: '] .. text)

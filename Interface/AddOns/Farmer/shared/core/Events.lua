@@ -4,7 +4,7 @@ local events = {};
 local eventFrame = CreateFrame('frame');
 
 function addon:on (eventList, callback)
-  assert(type(callback) == 'function', addonName .. 'callback is not a function');
+  assert(type(callback) == 'function', addonName .. ': callback is not a function');
 
   if (type(eventList) ~= 'table') then
     eventList = {eventList};
@@ -24,7 +24,7 @@ function addon:on (eventList, callback)
 end
 
 function addon:off (eventList, callback)
-  assert(type(callback) == 'function', addonName .. 'callback is not a function');
+  assert(type(callback) == 'function', addonName .. ': callback is not a function');
 
   if (type(eventList) ~= 'table') then
     eventList = {eventList};
@@ -40,12 +40,17 @@ function addon:off (eventList, callback)
     for y = 1, #list, 1 do
       if (callback == list[y]) then
         success = true;
-        table.remove(list, y)
+        table.remove(list, y);
         y = y - 1;
       end
     end
 
     assert(success == true, addonName .. ': no hook was registered for event ' .. event);
+
+    if (#list == 0) then
+      events[event] = nil;
+      eventFrame:UnregisterEvent(event);
+    end
   end
 end
 

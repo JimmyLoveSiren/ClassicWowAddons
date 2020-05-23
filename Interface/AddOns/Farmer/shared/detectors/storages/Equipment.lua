@@ -22,15 +22,13 @@ local function getEquipmentSlot (slot)
   local id = GetInventoryItemID(UNITID_PLAYER, slot);
 
   if (id ~= nil) then
-    local link = GetInventoryItemLink(UNITID_PLAYER, slot) or id;
-
     return {
       id = id,
-      link = link,
+      link = GetInventoryItemLink(UNITID_PLAYER, slot),
     };
+  else
+    return nil;
   end
-
-  return nil;
 end
 
 local function getEquipment ()
@@ -73,22 +71,24 @@ addon:on('PLAYER_LOGIN', function ()
   Items:updateCurrentInventory();
 end);
 
---[[ we need to do this because when equipping artifact weapons, a second item
-       appears in the offhand slot --]]
 addon:on('PLAYER_EQUIPMENT_CHANGED', function (slot, isEmpty)
+  --[[ we need to do this because when equipping artifact weapons, a second item
+         appears in the offhand slot --]]
   if (slot == INVSLOT_OFFHAND) then
     checkSlotForArtifact(INVSLOT_OFFHAND);
   end
 
+  --[[ Seems like this is not needed, but will keep it here if a bug with
+       artifact weapons occurs ]]
   -- checkSlotForArtifact(INVSLOT_MAINHAND);
 
-    if (isEmpty == true) then
-      currentEquipment[slot] = nil;
-    else
-      currentEquipment[slot] = getEquipmentSlot(slot);
-    end
-
-  updateStorage();
+  if (isEmpty == true) then
+    currentEquipment[slot] = nil;
+    updateStorage();
+  else
+    currentEquipment[slot] = getEquipmentSlot(slot);
+    updateStorage();
+  end
 end);
 
 Items:addStorage(function ()

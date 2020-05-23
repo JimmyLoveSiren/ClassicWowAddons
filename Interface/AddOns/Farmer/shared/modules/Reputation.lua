@@ -9,7 +9,7 @@ addon:listen('REPUTATION_CHANGED', function (faction, repChange, paragonLevelGai
   end
 
   local threshold = farmerOptions.reputationThreshold;
-  local text = addon:formatNumber(repChange);
+  local text = BreakUpLargeNumbers(repChange);
 
   if (paragonLevelGained or abs(repChange) > threshold) then
     if (repChange > 0) then

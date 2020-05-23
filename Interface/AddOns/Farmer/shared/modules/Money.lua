@@ -7,5 +7,5 @@ addon:listen('MONEY_CHANGED', function (amount)
     return;
   end
 
-  addon.Print.printMessage(GetCoinTextureString(amount), {1, 1, 1});
+  addon.Print.printMessage(addon:formatMoney(amount), {1, 1, 1});
 end);

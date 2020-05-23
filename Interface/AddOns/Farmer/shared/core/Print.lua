@@ -4,8 +4,6 @@ local SYMBOL_MULT = '×';
 
 local widgetFlags = {
   mail = false,
-  guildbank = false,
-  voidstorage = false,
 };
 
 local function setTrueScale (frame, scale)
@@ -48,30 +46,7 @@ addon:on('MAIL_CLOSED', function ()
   widgetFlags.mail = false;
 end);
 
-if (addon:isClassic() == false) then
-  addon:on('GUILDBANKFRAME_OPENED', function ()
-    widgetFlags.guildbank = true;
-  end);
-
-  addon:on('GUILDBANKFRAME_CLOSED', function ()
-    widgetFlags.guildbank = false;
-  end);
-
-  addon:on('VOID_STORAGE_OPEN', function ()
-    widgetFlags.voidstorage = true;
-  end);
-
-  addon:on('VOID_STORAGE_CLOSE', function ()
-    widgetFlags.voidstorage = false;
-  end);
-end
-
 local function checkHideOptions ()
-  if (widgetFlags.guildbank == true or
-      widgetFlags.voidstorage == true) then
-    --return false;
-  end
-
   if (farmerOptions.hideAtMailbox == true and
       widgetFlags.mail == true) then
     return false;
@@ -92,7 +67,9 @@ local function checkHideOptions ()
   return true;
 end
 
-local function printMessage (message, colors, markers)
+local function printMessage (message, colors)
+  colors = colors or {1, 1, 1};
+
   farmerFrame:AddMessage(message, unpack(colors, 1, 3));
   -- ChatFrame1:AddMessage(...)
 end
@@ -107,7 +84,7 @@ local function printItem (texture, name, count, text, colors, options)
   local message;
 
   if (options.minimumCount == nil or count > options.minimumCount) then
-    itemCount = 'x' .. addon:formatNumber(count);
+    itemCount = 'x' .. BreakUpLargeNumbers(count);
   end
 
   if (farmerOptions.itemNames == true or options.forceName == true) then
@@ -124,7 +101,7 @@ local function printItem (texture, name, count, text, colors, options)
 end
 
 local function getFormattedItemCount (id, includeBank)
-  return addon:formatNumber(GetItemCount(id, includeBank));
+  return BreakUpLargeNumbers(GetItemCount(id, includeBank, false));
 end
 
 local function printStackableItemTotal (id, texture, name, count, colors)
