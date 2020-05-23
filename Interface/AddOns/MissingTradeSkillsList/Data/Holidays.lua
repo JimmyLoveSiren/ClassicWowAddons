@@ -194,4 +194,20 @@ MTSL_DATA["holidays"] = {
         },
         ["phase"] = 1,
     },
+    {
+        ["id"] = 999999,
+        ["name"] = {
+            ["Chinese"] = "暗月马戏团",
+            ["English"] = "Darkmoon Faire",
+            ["French"] = "Foire de Sombrelune",
+            ["German"] = "Dunkelmond-Jahrmarkt",
+            ["Korean"] = "다크문 유랑단",
+            ["Mexican"] = "Feria de la Luna Negra",
+            ["Portuguese"] = "Feira de Negraluna",
+            ["Russian"] = "Ярмарка Новолуния",
+            ["Spanish"] = "Feria de la Luna Negra",
+            ["Taiwanese"] = "暗月馬戲團",
+        },
+        ["phase"] = 1,
+    },
 }

@@ -38,7 +38,6 @@ GameTooltip:HookScript("OnTooltipSetItem", function(self)
             else
                 other_players = MTSL_LOGIC_PLAYER_NPC:GetOtherPlayersOnCurrentRealmSameFactionLearnedProfession(prof_name)
             end
-            MTSL_TOOLS:SortArrayByProperty(other_players, "NAME")
 
             -- Only add if we have players to add
             if MTSL_TOOLS:CountItemsInArray(other_players) > 0 then
@@ -60,8 +59,12 @@ GameTooltip:HookScript("OnTooltipSetItem", function(self)
                                 status_color = MTSLUI_FONTS.COLORS.AVAILABLE.NO
                             end
                         end
-                        local faction_color = MTSLUI_FONTS.COLORS.FACTION[string.upper(v.FACTION)]
-                        GameTooltip:AddLine(MTSLUI_FONTS.TAB .. status_color  .. "[" .. v["TRADESKILLS"][prof_name]["SKILL_LEVEL"] .. "] " .. faction_color .. v["NAME"])
+                        -- dont add to tooltip if we hide known players
+                        if (MTSLUI_SAVED_VARIABLES:GetEnhancedTooltipShowKnown() == "show" and status_color == MTSLUI_FONTS.COLORS.AVAILABLE.YES) or
+                                status_color ~= MTSLUI_FONTS.COLORS.AVAILABLE.YES then
+                            local faction_color = MTSLUI_FONTS.COLORS.FACTION[string.upper(v.FACTION)]
+                            GameTooltip:AddLine(MTSLUI_FONTS.TAB .. status_color  .. "[" .. v["TRADESKILLS"][prof_name]["SKILL_LEVEL"] .. "] " .. faction_color .. v["NAME"])
+                        end
                     end
                 end
             end

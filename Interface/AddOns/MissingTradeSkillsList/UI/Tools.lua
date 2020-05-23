@@ -103,6 +103,25 @@ MTSLUI_TOOLS = {
 	end,
 
 	----------------------------------------------------------------------------------------
+	-- Creates a checkbox for the given frame
+	--
+	-- @owner			Frame		The frame for which to create the label
+	-- @name			String		The name of the checkbox
+	-- @margin_left		Number		The margin left position
+	-- @margin_top		Number		The margin top position
+	--
+	-- returns		Object		The created label
+	----------------------------------------------------------------------------------------
+	CreateCheckbox = function(self, owner, name, margin_left, margin_top)
+		local checkbox = CreateFrame("CheckButton", name, owner, "ChatConfigCheckButtonTemplate");
+		checkbox:SetPoint("TOPLEFT", owner, "TOPLEFT", margin_left, margin_top)
+		-- ignore the event for ticking checkbox
+		checkbox:SetScript("OnClick", function() end)
+
+		return checkbox
+	end,
+
+	----------------------------------------------------------------------------------------
 	-- Creates a label for the given frame
 	--
 	-- @owner		Frame		The frame for which to create the label
@@ -263,33 +282,41 @@ MTSLUI_TOOLS = {
 	------------------------------------------------------------------------------------------------
 	-- Creates a TomTom waypoint if possible
 	--
-	-- @label_text			String			The string containing the zonename, coords & descrption
+	-- @waypointinfo		Array			The waypointinfo containing the zonename, coords & name npc/object
 	-- @item_name			String			The name of the item
 	------------------------------------------------------------------------------------------------
-	CreateWayPoint = function(self, label_text, item_name)
-		-- parse the text: build up as <name npc/oject> - <name zone> (coord x, coord y)
-		local _, label_text = strsplit("\\	] ", label_text, 2)
-		if label_text ~= nil and label_text ~= "" then
-			local name_npc, label_text = strsplit("-", label_text, 2)
-			if label_text ~= nil and label_text ~= "" then
-				local zone, label_text = strsplit("(", label_text, 2)
-				if label_text ~= nil and label_text ~= "" then
-					local x_coord, label_text = strsplit(",", label_text, 2)
-					if label_text ~= nil and label_text ~= "" then
-						local y_coord, label_text = strsplit(")", label_text, 2)
-						if y_coord ~= nil and y_coord ~= "" then
-							-- only add waypoint is tom tom is installed
-							if IsAddOnLoaded("TomTom") and SlashCmdList["TOMTOM_WAY"] ~= nil then
-								SlashCmdList["TOMTOM_WAY"](zone .. x_coord .. y_coord .. " " .. name_npc .. " (" .. item_name .. ")")
-							elseif not self.tomtom_warned then
-								print(MTSLUI_FONTS.COLORS.TEXT.WARNING .. "MTSL: " .. self:GetLocalisedLabel("tomtom needed"))
-								self.tomtom_warned = true
-							end
-						end
-					end
-				end
+	CreateWayPoint = function(self, waypointinfo, item_name)
+		-- check if we have coords, if not they are in a dungeon so cant set waypoint then
+		if waypointinfo.x and waypointinfo.x ~= "" and waypointinfo.y and waypointinfo.y ~= "" then
+			-- only add waypoint is tom tom is installed
+			if IsAddOnLoaded("TomTom") and SlashCmdList["TOMTOM_WAY"] ~= nil then
+				SlashCmdList["TOMTOM_WAY"](waypointinfo.zone .. " " .. waypointinfo.x .. " " .. waypointinfo.y .. " " .. waypointinfo.name .. " (" .. item_name .. ")")
+			elseif not self.tomtom_warned then
+				print(MTSLUI_FONTS.COLORS.TEXT.WARNING .. "MTSL: " .. self:GetLocalisedLabel("tomtom needed"))
+				self.tomtom_warned = true
 			end
 		end
+	end,
+
+	-----------------------------------------------------------------------------------------
+	-- Create a generic Drop down
+	--
+	-- @frame_owner			Ojbect		The parentframe
+	-- @point_owner			Ojbect		The frame owner when setting point
+	-- @point_anchor		String		The place where the anchor is set when setting point
+	-- @margin_left			Number		The margin from left
+	-- @margin_top			Number		The margin from top
+	-- @initialiser			Function	The function that initialises/populates the drop down
+	-- @with_dd				Number		The width of the drop down
+	--
+	-- returns				Frame		Returns the created frame
+	----------------------------------------------------------------------------------------
+	CreateDropDown = function (self, name, frame_owner, point_owner, point_anchor, margin_left, margin_top, initialiser, width_dd)
+		local drop_down = CreateFrame("Frame", name, frame_owner, "UIDropDownMenuTemplate")
+		drop_down:SetPoint("TOPLEFT", point_owner, point_anchor, margin_left, margin_top)
+		drop_down.initialize = initialiser
+		UIDropDownMenu_SetWidth(drop_down, width_dd)
+		return drop_down
 	end,
 
 	------------------------------------------------------------------------------------------------
@@ -309,7 +336,7 @@ MTSLUI_TOOLS = {
 			info.notCheckable = true
 			-- top level has no submenu
 			info.func = function()
-				if change_frame_name ~= nil and _G[change_frame_name] ~= nil then
+				if change_frame_name and _G[change_frame_name] then
 					change_handler(_G[change_frame_name], v.id, v.name)
 				else
 					change_handler(v.id, v.name)

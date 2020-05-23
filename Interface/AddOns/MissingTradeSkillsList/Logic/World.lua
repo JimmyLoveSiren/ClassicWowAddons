@@ -21,8 +21,8 @@ MTSL_LOGIC_WORLD = {
     --
     -- returns 		String		The localised name of the zone
     ------------------------------------------------------------------------------------------------
-    GetZoneNameById = function(self, id)
-        local zone = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["zones"], "id", id)
+    GetZoneNameById = function(self, zone_id)
+        local zone = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["zones"], "id", zone_id)
         if zone then
             return MTSLUI_TOOLS:GetLocalisedData(zone)
         end
@@ -50,5 +50,21 @@ MTSL_LOGIC_WORLD = {
     GetZonesInContinentById = function(self, continent_id)
         local zones_continent = MTSL_TOOLS:GetAllItemsFromArrayByKeyValue(MTSL_DATA["zones"], "cont_id", continent_id)
         return MTSL_TOOLS:SortArrayByLocalisedProperty(zones_continent, "name")
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Check is zone is a "real" zone (so no BG, dung or raid)
+    --
+    -- @zone_id		Number		The id of the zone
+    --
+    -- returns 		Number		Flag indicating if real zone (= 1) or not (= 0)
+    ------------------------------------------------------------------------------------------------
+    IsRealZone = function(self, zone_id)
+        local zone = MTSL_TOOLS:GetItemFromArrayByKeyValue(MTSL_DATA["zones"], "id", zone_id)
+        local real_zone = 0
+        if zone and zone.cont_id < 3 then
+            real_zone = 1
+        end
+        return real_zone
     end,
 }

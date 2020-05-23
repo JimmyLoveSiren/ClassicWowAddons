@@ -1,5 +1,21 @@
 ## Version History
 
+### v1.13.43 (Apr 8, 2020)
+
+* Improved code to set a waypoint
+* Improved code of the options menu frame
+* Pressing "escape" while in a searchbox will also now trigger the search
+* Added option to hide alts/characters in tooltip if they learned the recipe
+* Added Darkmoon Faire as Holiday
+* Fixed bug where text of "Current zone" & list of skills did not update when changing zones
+* Fixed following data
+  * Added NPC for Darkmoon Faire quests
+  * Chinese translation for "Manual: Strong Anti-Venom"
+  * "Blight" in Blacksmithing now requires weaponsmith specialisation
+  * Gnomish Alarm-o-bot now requires gnomish engineering
+  * Magnus Frostwake is no longer in Winterspring but in Western Plaguelands
+  * Changed phase of schematic for steam tonk controller to 6 (unclear wether it is/will be available)
+  
 ### v1.13.42 (Mar 30, 2020)
 
 * Fixed bug where not all skills obtained from object were shown when filtering on that source type

@@ -132,7 +132,7 @@ MTSL_LOGIC_PLAYER_NPC = {
     ------------------------------------------------------------------------------------------------
     GetOtherPlayersOnCurrentRealmSameFaction = function(self)
         local players = {}
-        if MTSL_CURRENT_PLAYER ~= nil then
+        if MTSL_CURRENT_PLAYER then
             -- loop all players on the current realm
             for k, v in pairs (MTSL_PLAYERS[MTSL_CURRENT_PLAYER.REALM]) do
                 -- skip if name is same as current player

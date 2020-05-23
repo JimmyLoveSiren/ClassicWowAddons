@@ -89,8 +89,9 @@ MTSLUI_FILTER_FRAME = {
         self.ui_frame.search_box:SetAutoFocus(false)
         self.ui_frame.search_box:SetMaxLetters(30)
         self.ui_frame.search_box:SetFontObject(GameFontNormal)
-        -- search by pressing "enter"
+        -- search by pressing "enter" or "escape"
         self.ui_frame.search_box:SetScript("OnEnterPressed", function() _G[self.filter_frame_name]:SearchRecipes() end)
+        self.ui_frame.search_box:SetScript("OnEscapePressed", function() _G[self.filter_frame_name]:SearchRecipes() end)
         self.ui_frame.search_btn = MTSLUI_TOOLS:CreateBaseFrame("Button", "", self.ui_frame, "UIPanelButtonTemplate", 118, 25)
         self.ui_frame.search_btn:SetText(MTSLUI_TOOLS:GetLocalisedLabel("search"))
         self.ui_frame.search_btn:SetScript("OnClick", function() _G[self.filter_frame_name]:SearchRecipes() end)
@@ -181,7 +182,7 @@ MTSLUI_FILTER_FRAME = {
         -- reset source type
         UIDropDownMenu_SetText(self.ui_frame.source_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any source"))
         -- reset phase
-        UIDropDownMenu_SetText(self.ui_frame.phase_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("current") .. " (" .. MTSL_DATA.CURRENT_PATCH_LEVEL .. ")")
+        UIDropDownMenu_SetText(self.ui_frame.phase_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("current phase") .. " (" .. MTSL_DATA.CURRENT_PATCH_LEVEL .. ")")
         -- reset faction
         UIDropDownMenu_SetText(self.ui_frame.faction_drop_down, MTSLUI_TOOLS:GetLocalisedLabel("any faction"))
         -- reset specialisation
@@ -282,11 +283,9 @@ MTSLUI_FILTER_FRAME = {
             self.continents[2]["name"] = self.continents[2]["name"] .. ")"
             self.continents[2]["id"] = (-1 * new_zone.id)
             -- update text in dropdown itself if current is picked
-            if self.current_continent_id == nil and UIDropDownMenu_GetText(self.ui_frame.continent_drop_down) ~= MTSLUI_TOOLS:GetLocalisedLabel("any zone") then
-                UIDropDownMenu_SetText(self.ui_frame.continent_drop_down, self.continents[2]["name"])
-                self.current_zone_id = new_zone.id
-                -- Trigger Refresh
-                self.list_frame:ChangeZone(self.current_zone_id)
+            if self.filter_values["continent"] == nil and UIDropDownMenu_GetText(self.ui_frame.continent_drop_down) ~= MTSLUI_TOOLS:GetLocalisedLabel("any zone") then
+               -- self:ChangeFilter("zone", self.continents[2]["id"], self.ui_frame.zone_drop_down, self.continents[2]["name"])
+                self:ChangeContinent(self.continents[2]["id"], self.continents[2]["name"])
             end
         end
     end,

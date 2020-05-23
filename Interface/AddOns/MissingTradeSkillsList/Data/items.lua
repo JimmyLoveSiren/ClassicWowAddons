@@ -4966,7 +4966,7 @@ MTSL_DATA["items"] = {
                 ["Spanish"] = "Diseño: botas Hierro Negro",
                 ["Taiwanese"] = "設計圖：黑鐵長靴",
             },
-            ["phase"] = 4,
+            ["phase"] = 3,
             ["quality"] = "common",
             ["reputation"] = {
                 ["faction_id"] = 59,
@@ -11227,6 +11227,7 @@ MTSL_DATA["items"] = {
             },
         },
         {
+            ["holiday"] = 999999,
             ["id"] = 22729,
             ["name"] = {
                 ["Chinese"] = "结构图：蒸汽车控制器",
@@ -11240,8 +11241,8 @@ MTSL_DATA["items"] = {
                 ["Spanish"] = "Esquema: mando de tanque a vapor",
                 ["Taiwanese"] = "設計圖：蒸氣坦克控制器",
             },
-            ["phase"] = 1,
-            ["quality"] = "uncommon",
+            ["phase"] = 6,
+            ["quality"] = "common",
             ["quests"] = {
                 9249,
             },
@@ -11257,7 +11258,7 @@ MTSL_DATA["items"] = {
             },
             ["id"] = 6454,
             ["name"] = {
-                ["Chinese"] = "(1)",
+                ["Chinese"] = "手册：强力抗毒药剂",
                 ["English"] = "Manual: Strong Anti-Venom",
                 ["French"] = "Manuel : Sérum anti-venin supérieur",
                 ["German"] = "Handbuch: Starkes Gegengift",

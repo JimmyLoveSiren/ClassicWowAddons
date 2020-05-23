@@ -5758,6 +5758,7 @@ MTSL_DATA["skills"] = {
                 ["Taiwanese"] = "荒蕪",
             },
             ["phase"] = 1,
+            ["specialisation"] = 9787,
             ["trainers"] = {
                 ["price"] = 13500,
                 ["sources"] = {
@@ -7938,7 +7939,7 @@ MTSL_DATA["skills"] = {
                 ["Spanish"] = "Botas Hierro Negro",
                 ["Taiwanese"] = "黑鐵戰靴",
             },
-            ["phase"] = 4,
+            ["phase"] = 3,
             ["specialisation"] = 9788,
         },
         {
@@ -17077,6 +17078,7 @@ MTSL_DATA["skills"] = {
                 ["Taiwanese"] = "報警機器人",
             },
             ["phase"] = 1,
+            ["specialisation"] = 20219,
         },
         {
             ["id"] = 23129,
@@ -17525,7 +17527,7 @@ MTSL_DATA["skills"] = {
                 ["Spanish"] = "Mando de tonque a vapor",
                 ["Taiwanese"] = "蒸氣坦克控制器",
             },
-            ["phase"] = 1,
+            ["phase"] = 6,
         },
     },
     ["First Aid"] = {

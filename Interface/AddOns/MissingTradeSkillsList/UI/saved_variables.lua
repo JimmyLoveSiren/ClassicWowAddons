@@ -18,6 +18,7 @@ MTSLUI_PLAYER = {
     TOOLTIP = {
         ACTIVE,
         FACTIONS,
+        SHOW_KNOWN,
     },
     MTSL_LOCATION,
     UI_SPLIT_MODE = {
@@ -35,9 +36,11 @@ MTSLUI_PLAYER = {
     },
     FONT = {
         NAME,
-        SIZE_SMALL,
-        SIZE_NORMAL,
-        SIZE_LARGE,
+        SIZE = {
+            TITLE,
+            LABEL,
+            TEXT,
+        },
     },
     LINK_TO_CHAT = {
         ACTIVE,
@@ -66,6 +69,8 @@ MTSLUI_SAVED_VARIABLES = {
     DEFAULT_CHAT_CHANNEL = "AUTO",
     -- available chat channels
     CHAT_CHANNELS = { "AUTO", "SAY", "GUILD", "PARTY", "RAID" },
+    DEFAULT_TOOTLITP_FACTION = "current character",
+    DEFAULT_TOOTLITP_SHOW_KNOWN = "show",
 
     -- Try and load the values from saved files
     Initialise = function(self)
@@ -232,8 +237,9 @@ MTSLUI_SAVED_VARIABLES = {
     ------------------------------------------------------------------------------------------------
     ResetEnhancedTooltip = function(self)
         MTSLUI_PLAYER.TOOLTIP = {}
-        MTSLUI_PLAYER.TOOLTIP.FACTIONS = "current character"
+        MTSLUI_PLAYER.TOOLTIP.FACTIONS = self.DEFAULT_TOOTLITP_FACTION
         MTSLUI_PLAYER.TOOLTIP.ACTIVE = 1
+        MTSLUI_PLAYER.TOOLTIP.SHOW_KNOWN = self.DEFAULT_TOOTLITP_SHOW_KNOWN
     end,
 
     ResetLinkToChat = function (self)
@@ -265,7 +271,7 @@ MTSLUI_SAVED_VARIABLES = {
     ------------------------------------------------------------------------------------------------
     ValidateSplitModes = function(self)
         local keys_to_check =  { "MTSL", "ACCOUNT", "DATABASE", "NPC" }
-        
+
         for _,k in pairs(keys_to_check) do
             -- reset split mode if not valid
             if not self:IsValidSplitMode(MTSLUI_PLAYER.UI_SPLIT_MODE[k]) then
@@ -289,6 +295,7 @@ MTSLUI_SAVED_VARIABLES = {
             NPC = MTSLUI_NPC_EXPLORER_FRAME,
         }
         for _,k in pairs(keys_to_check) do
+            k = string.upper(k)
             -- apply split mode if valide
             if self:IsValidSplitMode(split_modes[k]) then
                 MTSLUI_PLAYER.UI_SPLIT_MODE[k] = split_modes[k]
@@ -331,7 +338,7 @@ MTSLUI_SAVED_VARIABLES = {
             if MTSLUI_PLAYER.UI_SCALE == nil then
                 self:ResetUIScales()
                 print(MTSLUI_FONTS.COLORS.TEXT.WARNING .. "MTSL: All UI scales were reset to " ..  self.DEFAULT_UI_SCALE .. "!")
-            -- Scales are saved, so check if valid
+                -- Scales are saved, so check if valid
             else
                 self:ValidateUIScales()
             end
@@ -354,7 +361,7 @@ MTSLUI_SAVED_VARIABLES = {
             end
         end
     end,
-    
+
     ------------------------------------------------------------------------------------------------
     -- Check if a value for UI scale is valid
     --
@@ -379,7 +386,7 @@ MTSLUI_SAVED_VARIABLES = {
             NPC = MTSLUI_NPC_EXPLORER_FRAME,
             OPTIONSMENU = MTSLUI_OPTIONS_MENU_FRAME,
         }
-        
+
         for _,k in pairs(keys_to_check) do
             -- apply split mode if valide
             if self:IsValidUIScale(scales[k]) then
@@ -397,7 +404,7 @@ MTSLUI_SAVED_VARIABLES = {
     GetUIScale = function(self, name)
         -- return the scale if not nil
         if MTSLUI_PLAYER.UI_SCALE[name] ~= nil then
-             return MTSLUI_PLAYER.UI_SCALE[name]
+            return MTSLUI_PLAYER.UI_SCALE[name]
         end
         -- return default if not found
         return self.DEFAULT_UI_SCALE
@@ -465,36 +472,35 @@ MTSLUI_SAVED_VARIABLES = {
     -- @ui_scale        Number      The number of the scale (must be => MIN_UI_SCALE and <= MAX_UI_SCALE)
     ------------------------------------------------------------------------------------------------
     IsValidFontSize = function(self, font_size)
-        return font_size ~= nil and tonumber(font_size) >= tonumber(MTSLUI_FONTS.MIN_SIZE) and tonumber(font_size) <= tonumber(MTSLUI_FONTS.MAX_SIZE)
+        return font_size and tonumber(font_size) >= tonumber(MTSLUI_FONTS.MIN_SIZE) and tonumber(font_size) <= tonumber(MTSLUI_FONTS.MAX_SIZE)
     end,
 
     ------------------------------------------------------------------------------------------------
     -- Set the font
     --
-    -- @font_name           String          The name of the font
-    -- @font_sizes          Array           List containing the sizes for the 3 font_sizes used
+    -- @font_values          Array          List containing the name and sizes for the 3 font_sizes to be used
     --
     -- returns              Boolean         Flag indication if font actually was updated/changed
     ------------------------------------------------------------------------------------------------
-    SetFont = function(self, font_name, font_sizes)
+    SetFont = function(self, font_values)
         local font_changed = false
-        if self:IsValidFontType(font_name) and font_name ~= MTSLUI_PLAYER.FONT.NAME then
-            MTSLUI_PLAYER.FONT.NAME = font_name
+        if self:IsValidFontType(font_values["name"]) and font_values["name"] ~= MTSLUI_PLAYER.FONT.NAME then
+            MTSLUI_PLAYER.FONT.NAME = font_values["name"]
             font_changed = true
         end
 
-        if self:IsValidFontSize(font_sizes["text"]) and font_sizes["text"] ~= MTSLUI_PLAYER.FONT.SIZE.TEXT then
-            MTSLUI_PLAYER.FONT.SIZE.TEXT = tonumber(font_sizes["text"])
+        if self:IsValidFontSize(font_values["text"]) and tonumber(font_values["text"]) ~= tonumber(MTSLUI_PLAYER.FONT.SIZE.TEXT) then
+            MTSLUI_PLAYER.FONT.SIZE.TEXT = tonumber(font_values["text"])
             font_changed = true
         end
 
-        if self:IsValidFontSize(font_sizes["label"]) and font_sizes["label"] ~= MTSLUI_PLAYER.FONT.SIZE.LABEL then
-            MTSLUI_PLAYER.FONT.SIZE.LABEL = tonumber(font_sizes["label"])
+        if self:IsValidFontSize(font_values["label"]) and tonumber(font_values["label"]) ~= tonumber(MTSLUI_PLAYER.FONT.SIZE.LABEL) then
+            MTSLUI_PLAYER.FONT.SIZE.LABEL = tonumber(font_values["label"])
             font_changed = true
         end
 
-        if self:IsValidFontSize(font_sizes["title"]) and font_sizes["title"] ~= MTSLUI_PLAYER.FONT.SIZE.TITLE then
-            MTSLUI_PLAYER.FONT.SIZE.TITLE = tonumber(font_sizes["title"])
+        if self:IsValidFontSize(font_values["title"]) and tonumber(font_values["title"]) ~= tonumber(MTSLUI_PLAYER.FONT.SIZE.TITLE) then
+            MTSLUI_PLAYER.FONT.SIZE.TITLE = tonumber(font_values["title"])
             font_changed = true
         end
 
@@ -582,7 +588,7 @@ MTSLUI_SAVED_VARIABLES = {
             end
             MTSL_DATA.CURRENT_PATCH_LEVEL = tonumber(patch_level)
             MTSLUI_PLAYER.PATCH_LEVEL_MTSL = tonumber(patch_level)
-        -- Set the current level based on server
+            -- Set the current level based on server
         else
             MTSLUI_PLAYER.PATCH_LEVEL_MTSL = "current"
             MTSL_DATA.CURRENT_PATCH_LEVEL = self:GetPatchLevelServer()
@@ -644,7 +650,7 @@ MTSLUI_SAVED_VARIABLES = {
     -- @show_factions        String          Factions to show ("any" or "current player")
     ------------------------------------------------------------------------------------------------
     SetEnhancedTooltipFaction = function(self, show_factions)
-        MTSLUI_PLAYER.TOOLTIP.FACTIONS = "current character"
+        MTSLUI_PLAYER.TOOLTIP.FACTIONS = self.DEFAULT_TOOTLITP_FACTION
         if show_factions == "any" then
             MTSLUI_PLAYER.TOOLTIP.FACTIONS = show_factions
         end
@@ -659,9 +665,31 @@ MTSLUI_SAVED_VARIABLES = {
         return MTSLUI_PLAYER.TOOLTIP.FACTIONS
     end,
 
+    ------------------------------------------------------------------------------------------------
+    -- Sets the flag to say if we show or hide players tot know a recipe in a tooltip
+    --
+    -- @show_known       Number          Flag indicating to show or not (1 = yes, 0 = no)
+    ------------------------------------------------------------------------------------------------
+    SetEnhancedTooltipShowKnown = function(self, show_known)
+        MTSLUI_PLAYER.TOOLTIP.SHOW_KNOWN = self.DEFAULT_TOOTLITP_SHOW_KNOWN
+        if show_known == "hide" then
+            MTSLUI_PLAYER.TOOLTIP.SHOW_KNOWN = show_known
+        end
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Gets the flag to say if we show or hide players tot know a recipe in a tooltip
+    --
+    -- return			Number          Flag indicating to show or not (1 = yes, 0 = no)
+    ------------------------------------------------------------------------------------------------
+    GetEnhancedTooltipShowKnown = function(self)
+        return MTSLUI_PLAYER.TOOLTIP.SHOW_KNOWN
+    end,
+
     ValidateEnhancedTooltip = function(self)
         self:SetEnhancedTooltipActive(MTSLUI_PLAYER.TOOLTIP.ACTIVE)
         self:SetEnhancedTooltipFaction(MTSLUI_PLAYER.TOOLTIP.FACTIONS)
+        self:SetEnhancedTooltipShowKnown(MTSLUI_PLAYER.TOOLTIP.SHOW_KNOWN)
     end,
 
     ------------------------------------------------------------------------------------------------
@@ -818,5 +846,41 @@ MTSLUI_SAVED_VARIABLES = {
     ValidateLinkToChat = function(self)
         self:SetChatLinkEnabled(MTSLUI_PLAYER.LINK_TO_CHAT.ACTIVE)
         self:SetChatLinkChannel(MTSLUI_PLAYER.LINK_TO_CHAT.CHANNEL)
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Gets the name of the font used
+    --
+    -- return			String          The name of the font
+    ------------------------------------------------------------------------------------------------
+    GetFontName = function(self)
+        return MTSLUI_PLAYER.FONT.NAME
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Gets the size of the font used for text
+    --
+    -- return			Number          The size of the font for normal text
+    ------------------------------------------------------------------------------------------------
+    GetFontSizeText = function(self)
+        return MTSLUI_PLAYER.FONT.SIZE.TEXT
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Gets the size of the font used for labels
+    --
+    -- return			Number          The size of the font for labels
+    ------------------------------------------------------------------------------------------------
+    GetFontSizeLabel = function(self)
+        return MTSLUI_PLAYER.FONT.SIZE.LABEL
+    end,
+
+    ------------------------------------------------------------------------------------------------
+    -- Gets the size of the font used for titles
+    --
+    -- return			Number          The size of the font for titles
+    ------------------------------------------------------------------------------------------------
+    GetFontSizeTitle = function(self)
+        return MTSLUI_PLAYER.FONT.SIZE.TITLE
     end,
 }

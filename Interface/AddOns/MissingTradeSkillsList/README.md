@@ -38,12 +38,20 @@ Minimap button & Enhanced tooltip
 * Enhanced tooltip to show status of alts on same realm (or faction) for a recipe
 * Link items to a channel (Say, Guild, Party, Raid or "Auto") or add item to current chat message
 
-### Latest version (v1.13.42)
+### Latest version (v1.13.43)
 
-* Fixed bug where not all skills obtained from object were shown when filtering on that source type
-* Fixed bug where TRAINER_UPDATE event did not correctly update the MTLS window
-* Fixed bugs in NPC explorer frame
-* Fixed translations for profession name "Tailoring" for Spanish and Mexican Spanish, they got swapped around
-* Improved some coding with filter frame
+* Improved code to set a waypoint
+* Improved code of the options menu frame
+* Pressing "escape" while in a searchbox will also now trigger the search
+* Added option to hide alts/characters in tooltip if they learned the recipe
+* Added Darkmoon Faire as Holiday
+* Fixed bug where text of "Current zone" & list of skills did not update when changing zones
+* Fixed following data
+  * Added NPC for Darkmoon Faire quests
+  * Chinese translation for "Manual: Strong Anti-Venom"
+  * "Blight" in Blacksmithing now requires weaponsmith specialisation
+  * Gnomish Alarm-o-bot now requires gnomish engineering
+  * Magnus Frostwake is no longer in Winterspring but in Western Plaguelands
+  * Changed phase of schematic for steam tonk controller to 6 (unclear wether it is/will be available)
    
 View full version history [here](http://mtsl.ddns.net/VERSION_HISTORY.html) or VERSION_HISTORY.md inside zip addon

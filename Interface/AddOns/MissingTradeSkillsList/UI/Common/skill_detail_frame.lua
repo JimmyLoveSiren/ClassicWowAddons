@@ -150,6 +150,13 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         for i=1,self.MAX_SOURCES_SHOWN_PRIMARY do
             local string_sources_content = MTSLUI_TOOLS:CreateLabel(self.labels.sources.ui_frame, i, text_label_right, text_label_top, "TEXT", "TOPLEFT")
             text_label_top = text_label_top - text_gap
+            -- add possibility to save waypoint info
+            string_sources_content.waypoint = {
+                name,
+                x,
+                y,
+                zone,
+            }
             table.insert(self.labels.sources.values, string_sources_content)
         end
         -- add on click for tom tom integration
@@ -195,6 +202,13 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         for i=1,self.MAX_SOURCES_SHOWN_SECONDARY do
             local string_sources_content = MTSLUI_TOOLS:CreateLabel(self.labels.alt_sources.ui_frame, i .. " alt", text_label_right, text_label_top, "TEXT", "TOPLEFT")
             text_label_top = text_label_top - text_gap
+            -- add possibility to save waypoint info
+            string_sources_content.waypoint = {
+                name,
+                x,
+                y,
+                zone,
+            }
             table.insert(self.labels.alt_sources.values, string_sources_content)
         end
         -- add on click for tom tom integration
@@ -226,7 +240,7 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         end
         -- Check if the label is visable
         if label_number <= max_label_number and labels.values[label_number]:IsVisible() then
-            MTSLUI_TOOLS:CreateWayPoint(labels.values[label_number]:GetText(), self.labels.name.value:GetText())
+            MTSLUI_TOOLS:CreateWayPoint(labels.values[label_number].waypoint, self.labels.name.value:GetText())
         end
     end,
 
@@ -858,9 +872,21 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         if npcs_amount <= 0 then
             labels_sources.values[1]:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. MTSLUI_TOOLS:GetLocalisedLabel("not available faction"))
             labels_sources.values[1]:Show()
+            labels_sources.values[1].waypoint = {
+                name,
+                x,
+                y,
+                zone,
+            }
             -- Hide the other labels
             for i=2,amount_labels do
                 labels_sources.values[i]:Hide()
+                labels_sources.values[i].waypoint = {
+                    name,
+                    x,
+                    y,
+                    zone,
+                }
             end
         else
             -- Show the npcs
@@ -885,10 +911,19 @@ MTSLUI_SKILL_DETAIL_FRAME = {
                     end
                     -- add name & zone
                     text = text .. MTSLUI_TOOLS:GetLocalisedData(npcs[i]) .. " - " ..  MTSL_LOGIC_WORLD:GetZoneNameById(npcs[i].zone_id)
+                    labels_sources.values[i].waypoint.name = MTSLUI_TOOLS:GetLocalisedData(npcs[i])
+                    labels_sources.values[i].waypoint.zone = MTSL_LOGIC_WORLD:GetZoneNameById(npcs[i].zone_id)
+                    labels_sources.values[i].waypoint.x = nil
+                    labels_sources.values[i].waypoint.y = nil
                     -- add coords if known
                     if npcs[i].location ~= nil and npcs[i].location.x ~= "-" and
                             npcs[i].location.x ~= "" then
                         text = text .. " (" .. npcs[i].location.x ..", " .. npcs[i].location.y ..")"
+                        -- only fill X and Y if its a real zone
+                        if MTSL_LOGIC_WORLD:IsRealZone(npcs[i].zone_id) == 1 then
+                            labels_sources.values[i].waypoint.x = npcs[i].location.x
+                            labels_sources.values[i].waypoint.y = npcs[i].location.y
+                        end
                     end
                     -- Check if require reputation to interact with npc
                     if npcs[i].reputation ~= nil then
@@ -900,9 +935,16 @@ MTSLUI_SKILL_DETAIL_FRAME = {
                     end
 
                     labels_sources.values[i]:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. text)
+
                     labels_sources.values[i]:Show()
                 else
                     labels_sources.values[i]:Hide()
+                    labels_sources.values[i].waypoint = {
+                        name,
+                        x,
+                        y,
+                        zone,
+                    }
                 end
             end
         end
@@ -928,8 +970,20 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         local drop_text = MTSLUI_TOOLS:GetLocalisedLabel("worldwide drop") .. min_level .. MTSLUI_TOOLS:GetLocalisedLabel("to") .. max_level .. MTSLUI_TOOLS:GetLocalisedLabel("worldwide drop rest")
         label_sources.values[1]:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. drop_text)
         label_sources.values[1]:Show()
+        label_sources.values[1].waypoint = {
+            name,
+            x,
+            y,
+            zone,
+        }
         for i=2,amount_labels do
             label_sources.values[i]:Hide()
+            label_sources.values[i].waypoint = {
+                name,
+                x,
+                y,
+                zone,
+            }
         end
     end,
 
@@ -954,18 +1008,33 @@ MTSLUI_SKILL_DETAIL_FRAME = {
             if items[i] ~= nil then
                 local location =  MTSL_LOGIC_WORLD:GetZoneNameById(items[i].zone_id)
                 local text = "[" .. MTSLUI_TOOLS:GetLocalisedLabel("item") .. "] " ..  MTSLUI_TOOLS:GetLocalisedData(items[i])
+                labels_sources.values[i].waypoint.name = MTSLUI_TOOLS:GetLocalisedData(items[i])
                 if location ~= "" then
                     text = text  .. " - " .. location
+                    labels_sources.values[i].waypoint.zone = location
                 end
+                labels_sources.values[i].waypoint.x = nil
+                labels_sources.values[i].waypoint.y = nil
                 -- add coords if known
                 if items[i].location ~= nil and items[i].location.x ~= "-" and
                         items[i].location.x ~= "" then
                     text = text .. " (" .. items[i].location.x ..", " .. items[i].location.y ..")"
+                    -- only fill X and Y if its a real zone
+                    if MTSL_LOGIC_WORLD:IsRealZone(items[i].zone_id) == 1 then
+                        labels_sources.values[i].waypoint.x = items[i].location.x
+                        labels_sources.values[i].waypoint.y = items[i].location.y
+                    end
                 end
                 labels_sources.values[i]:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. text)
                 labels_sources.values[i]:Show()
             else
                 labels_sources.values[i]:Hide()
+                labels_sources.values[i].waypoint = {
+                    name,
+                    x,
+                    y,
+                    zone,
+                }
             end
         end
     end,
@@ -990,15 +1059,30 @@ MTSLUI_SKILL_DETAIL_FRAME = {
         for i=1, amount_labels do
             if objects[i] ~= nil then
                 local text =  "[" .. MTSLUI_TOOLS:GetLocalisedLabel("object") .. "] " ..  MTSLUI_TOOLS:GetLocalisedData(objects[i]) .. " - " ..  MTSL_LOGIC_WORLD:GetZoneNameById(objects[i].zone_id)
+                labels_sources.values[i].waypoint.name = MTSLUI_TOOLS:GetLocalisedData(objects[i])
+                labels_sources.values[i].waypoint.zone = MTSL_LOGIC_WORLD:GetZoneNameById(objects[i].zone_id)
+                labels_sources.values[i].waypoint.x = nil
+                labels_sources.values[i].waypoint.y = nil
                 -- add coords if known
                 if objects[i].location ~= nil and objects[i].location.x ~= "-" and
                         objects[i].location.x ~= "" then
                     text = text .. " (" .. objects[i].location.x ..", " .. objects[i].location.y ..")"
+                    -- only fill X and Y if its a real zone
+                    if MTSL_LOGIC_WORLD:IsRealZone(objects[i].zone_id) == 1 then
+                        labels_sources.values[i].waypoint.x = objects[i].location.x
+                        labels_sources.values[i].waypoint.y = objects[i].location.y
+                    end
                 end
                 labels_sources.values[i]:SetText(MTSLUI_FONTS.COLORS.TEXT.NORMAL .. text)
                 labels_sources.values[i]:Show()
             else
                 labels_sources.values[i]:Hide()
+                labels_sources.values[i].waypoint = {
+                    name,
+                    x,
+                    y,
+                    zone,
+                }
             end
         end
     end,
