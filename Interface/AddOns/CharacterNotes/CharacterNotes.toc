@@ -1,8 +1,8 @@
-## Interface: 11303
+## Interface: 11304
 ## Title: Character Notes
 ## Notes: Set and manage character notes that are displayed in unit tooltips and /who results.
 ## Author: Talryn
-## Version: 8.2.5
+## Version: 8.2.7
 ## OptionalDeps: Ace3, LibDeformat-3.0, lib-st, LibDataBroker-1.1, LibDBIcon-1.0, LibAlts-1.0
 ## X-Embeds: Ace3
 ## X-Category: Interface Enhancements 

@@ -11,7 +11,7 @@ local LibStub = _G.LibStub
 local CharacterNotes = LibStub("AceAddon-3.0"):NewAddon("CharacterNotes", "AceConsole-3.0", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
 
 local ADDON_NAME, AddonData = ...
-local ADDON_VERSION = "8.2.5"
+local ADDON_VERSION = "8.2.7"
 
 local NotesDB = AddonData.NotesDB
 
@@ -576,6 +576,16 @@ end
 function CharacterNotes:SetNoteHandler(input)
 	if input and #input > 0 then
 		local name, note = input:match("^(%S+) *(.*)")
+
+		if name and name:upper() == "%T" then
+			if _G.UnitExists("target") and _G.UnitIsPlayer("target") then
+				local target = _G.GetUnitName("target", true)
+				if target and #target > 0 then
+					name = target
+				end
+			end
+		end
+
 		name = NotesDB:FormatUnitName(name)
 		if note and #note > 0 then
 			NotesDB:SetNote(name, note)
