@@ -1,44 +1,30 @@
 # Changelog
 
-## v2.12
+## v2.19
 
-* Delay updates up to 0.2 seconds to address performance issues
-* Only update frame on changes for current target
-* Bump LibThreatClassic2 to revision 9
-    - Add cleave threat modifier
-    - Fix Paladin Greater Blessing bug on pets
-    - Blacklist various enemies in BWL
-* Update player target, if target target changes
-* Added option to hide when not in an instance (also hides world bosses!)
-* Improved Version checks
-* Added zhTW translations
+* fix threat warnings not working in raids
+* fix background texture not loading properly
+* add min threat amount to show warnings
+* add smaller positioning options for frame positon (up to 0.01)
+* update chinese translations
 
-## v2.11
+## v2.18
 
-* Update LibThreatClassic to revision 8. Brings better threat sync interval and blacklist Lashlayer trash whelps.
-* Fix some lib loading issues.
-* added a /tc2 debug command to toggle LibThreatClassic2 debug output
-* added a /tc2 runSolo command to toggle LibThreatClassic2 runSolo option
-* added a /tc2 logThreat command to toggle LibThreatClassic2 logThreat option
+* fixed a small bug that caused toggled settings not to be copied to the new profiles
 
-## v2.10
+## v2.17
 
-* Use "target" as a fallback for player target, if other options make no sense (e.g. at vael)
-
-## v2.09
-
-* Update LibThreatClassic2 to revision 7
-* Added option to change color of the player bar
-* enable support for custom class colors addon
-* save variables per character
-* fix friendly units turning hostile
-
-## v2.08-alpha1
-
-Removed LibThreatClassic2 from files
-added pkgmeta
-embed LibThreatClassic2-r6-alpha1
-
-## v2.07
-
-First relase as ThreatClassic2 with LibThreatClassic2-r5
+* Bump LibThreatClassic2 to revision 12
+    * improve buff handling (fixes tranquil totem and blessing of salvation issues)
+    * improve paladin blessing threat tracking (still not perfect)
+    * add french translation for Nefarian classcall
+    * add UnitThreatPercentageOfLoad to public interface
+    * always return boolean for isTanking from UnitDetailedThreatSituation
+* added support for profiles (imports your current settings to a new character profile **once**)
+* added custom color options for current tank and for other units
+* added bar texture selection to options
+* always display the player if he has threat (when sized to 1 bar, this only displays the player)
+* made table update frequency configurable (does not influence incoming rate of other players threat)
+* fix odd resizing beheavior and added positioning to config
+* does no longer display a warning, when losing aggro as a tank
+* added option to display raw threat percentage (pull at 110% or 130% depending on range)
