@@ -3,7 +3,7 @@ ItemRack = {}
 local disable_delayed_swaps = nil -- temporary. change nil to 1 to stop attempting to delay set swaps while casting
 local _
 
-ItemRack.Version = "3.27"
+ItemRack.Version = "3.37"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets
@@ -263,7 +263,8 @@ function ItemRack.OnLeavingCombatOrDeath()
 		ItemRack.UpdateCombatQueue()
 		ItemRack.EquipSet("~CombatQueue")
 	end
-	if event=="PLAYER_REGEN_ENABLED" then
+	local inLockdown = InCombatLockdown()
+	if not inLockdown then
 		ItemRack.inCombat = nil
 		if ItemRackOptFrame and ItemRackOptFrame:IsVisible() then
 			ItemRackOpt.ListScrollFrameUpdate()
@@ -376,14 +377,14 @@ function ItemRack.InitCore()
 
 	-- pattern splitter by Maldivia http://forums.worldofwarcraft.com/thread.html?topicId=6441208576
 	local function split(str, t)
-	    local start, stop, single, plural = str:find("\1244(.-):(.-);")
-	    if start then
-	        split(str:sub(1, start - 1) .. single .. str:sub(stop + 1), t)
-	        split(str:sub(1, start - 1) .. plural .. str:sub(stop + 1), t)
-	    else
-	        tinsert(t, (str:gsub("%%d","%%d+")))
-	    end
-	    return t
+		local start, stop, single, plural = str:find("\1244(.-):(.-);")
+		if start then
+			split(str:sub(1, start - 1) .. single .. str:sub(stop + 1), t)
+			split(str:sub(1, start - 1) .. plural .. str:sub(stop + 1), t)
+		else
+			tinsert(t, (str:gsub("%%d","%%d+")))
+		end
+		return t
 	end
 	ItemRack.CHARGES_PATTERNS = {}
 	split(ITEM_SPELL_CHARGES,ItemRack.CHARGES_PATTERNS)
@@ -393,7 +394,6 @@ function ItemRack.InitCore()
 	ItemRack.CreateTimer("MenuMouseover",ItemRack.MenuMouseover,.25,1)
 	ItemRack.CreateTimer("TooltipUpdate",ItemRack.TooltipUpdate,1,1)
 	ItemRack.CreateTimer("CooldownUpdate",ItemRack.CooldownUpdate,1,1)
-	ItemRack.CreateTimer("CheckForMountedEvents",ItemRack.CheckForMountedEvents,.5,1)
 	ItemRack.CreateTimer("MinimapDragging",ItemRack.MinimapDragging,0,1)
 	ItemRack.CreateTimer("LocksChanged",ItemRack.LocksChanged,.2)
 	ItemRack.CreateTimer("MinimapShine",ItemRack.MinimapShineUpdate,0,1)
@@ -430,7 +430,6 @@ function ItemRack.InitCore()
 		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 	--end
 	ItemRack.StartTimer("CooldownUpdate")
-	ItemRack.StartTimer("CheckForMountedEvents")
 	ItemRack.MoveMinimap()
 	ItemRack.ReflectAlpha()
 	ItemRack.SetSetBindings()
@@ -1335,16 +1334,8 @@ end
 
 function ItemRack.IsPlayerReallyDead()
 	local dead = UnitIsDeadOrGhost("player")
-	if select(2,UnitClass("player"))=="HUNTER" then
-		if GetLocale()=="enUS" and AuraUtil.FindAuraByName("Feign Death", "player") then
-			return nil
-		else
-			for i=1,40 do
-				if select(2,UnitBuff("player",i))==GetFileIDFromPath("Interface\\Icons\\Ability_Rogue_FeignDeath") then
-					return nil
-				end
-			end
-		end
+	if UnitIsFeignDeath("player") then
+		dead = false
 	end
 	return dead
 end
@@ -1374,17 +1365,17 @@ function ItemRack.UpdateCombatQueue()
 			queue:Hide()
 		end
 	end
-	if PaperDollFrame:IsVisible() then
-		for i=1,19 do
-			queue = _G["Character"..ItemRack.SlotInfo[i].name.."Queue"]
-			if ItemRack.CombatQueue[i] then
-				queue:SetTexture(select(2,ItemRack.GetInfoByID(ItemRack.CombatQueue[i])))
-				queue:Show()
-			else
-				queue:Hide()
-			end
+
+	for i=1,19 do
+		queue = _G["Character"..ItemRack.SlotInfo[i].name.."Queue"]
+		if ItemRack.CombatQueue[i] then
+			queue:SetTexture(select(2,ItemRack.GetInfoByID(ItemRack.CombatQueue[i])))
+			queue:Show()
+		else
+			queue:Hide()
 		end
 	end
+
 end
 
 --[[ Tooltip ]]
