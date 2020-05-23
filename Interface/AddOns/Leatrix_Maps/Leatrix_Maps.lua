@@ -1,6 +1,6 @@
 
 	----------------------------------------------------------------------
-	-- 	Leatrix Maps 1.13.56 (1st April 2020)
+	-- 	Leatrix Maps 1.13.64 (20th May 2020)
 	----------------------------------------------------------------------
 
 	-- 10:Func, 20:Comm, 30:Evnt, 40:Panl
@@ -12,7 +12,7 @@
 	local LeaMapsLC, LeaMapsCB, LeaConfigList = {}, {}, {}
 
 	-- Version
-	LeaMapsLC["AddonVer"] = "1.13.56"
+	LeaMapsLC["AddonVer"] = "1.13.64"
 	LeaMapsLC["RestartReq"] = nil
 
 	-- Get locale table
@@ -730,24 +730,29 @@
 
 		do
 
+			-- Store initial pan and zoom settings
 			local lastZoomLevel = WorldMapFrame.ScrollContainer:GetCanvasScale()
 			local lastHorizontal = WorldMapFrame.ScrollContainer:GetNormalizedHorizontalScroll()
 			local lastVertical = WorldMapFrame.ScrollContainer:GetNormalizedVerticalScroll()
 			local lastMapID = WorldMapFrame.mapID
 
-			hooksecurefunc("ToggleWorldMap", function()
+			-- Store pan and zoom settings when map is hidden
+			WorldMapFrame:HookScript("OnHide", function()
 				if LeaMapsLC["RememberZoom"] == "On" then
-					if not WorldMapFrame:IsShown() then
-						lastZoomLevel = WorldMapFrame.ScrollContainer:GetCanvasScale()
-						lastHorizontal = WorldMapFrame.ScrollContainer:GetNormalizedHorizontalScroll()
-						lastVertical = WorldMapFrame.ScrollContainer:GetNormalizedVerticalScroll()
-						lastMapID = WorldMapFrame.mapID
-					else
-						if WorldMapFrame.mapID == lastMapID then
-							WorldMapFrame.ScrollContainer:InstantPanAndZoom(lastZoomLevel, lastHorizontal, lastVertical)
-							WorldMapFrame.ScrollContainer:SetPanTarget(lastHorizontal, lastVertical)
-							WorldMapFrame.ScrollContainer:Hide(); WorldMapFrame.ScrollContainer:Show()
-						end
+					lastZoomLevel = WorldMapFrame.ScrollContainer:GetCanvasScale()
+					lastHorizontal = WorldMapFrame.ScrollContainer:GetNormalizedHorizontalScroll()
+					lastVertical = WorldMapFrame.ScrollContainer:GetNormalizedVerticalScroll()
+					lastMapID = WorldMapFrame.mapID
+				end
+			end)
+
+			-- Restore pan and zoom settings when map is shown
+			WorldMapFrame:HookScript("OnShow", function()
+				if LeaMapsLC["RememberZoom"] == "On" then
+					if WorldMapFrame.mapID == lastMapID then
+						WorldMapFrame.ScrollContainer:InstantPanAndZoom(lastZoomLevel, lastHorizontal, lastVertical)
+						WorldMapFrame.ScrollContainer:SetPanTarget(lastHorizontal, lastVertical)
+						WorldMapFrame.ScrollContainer:Hide(); WorldMapFrame.ScrollContainer:Show()
 					end
 				end
 			end)
@@ -983,7 +988,7 @@
 					{"FlightA", 30.6, 59.4, L["Lake Everstill"] .. ", " .. L["Redridge Mountains"], nil, tATex, nil, nil},
 				},
 				--[[Stranglethorn Vale]] [1434] = {
-					-- {"Raid", 53.9, 17.6, L["Zul'Gurub"], L["Raid"], rdTex, 60, 60},
+					{"Raid", 53.9, 17.6, L["Zul'Gurub"], L["Raid"], rdTex, 60, 60},
 					{"FlightA", 27.5, 77.8, L["Booty Bay"] .. ", " .. L["Stranglethorn Vale"], nil, tATex, nil, nil},
 					{"FlightH", 26.9, 77.1, L["Booty Bay"] .. ", " .. L["Stranglethorn Vale"], nil, tHTex, nil, nil},
 					{"FlightH", 32.5, 29.4, L["Grom'gol Base Camp"] .. ", " .. L["Stranglethorn Vale"], nil, tHTex, nil, nil},
@@ -992,7 +997,7 @@
 					{"TravelH", 31.6, 29.1, L["Zeppelin to"] .. " " .. L["Undercity"] .. ", " .. L["Tirisfal Glades"], nil, fHTex, nil, nil},
 				},
 				--[[Swamp of Sorrows]] [1435] = {
-					{"Dungeon", 69.9, 53.6, L["Temple of Atal'Hakkar"], L["Dungeon"], dnTex, 50, 56},
+					{"Dungeon", 69.9, 53.6, L["Temple of Atal'Hakkar"], L["Dungeon"], dnTex, 50, 60},
 					{"FlightH", 46.1, 54.8, L["Stonard"] .. ", " .. L["Swamp of Sorrows"], nil, tHTex, nil, nil},
 				},
 				--[[Westfall]] [1436] = {
