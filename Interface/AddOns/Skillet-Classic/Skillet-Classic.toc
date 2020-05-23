@@ -4,7 +4,7 @@
 ## Notes-esES: Una sustitucion de la ventana de Habilidades de Comercio
 ## Notes-ruRU: Заменяет окно профессий на более функциональное.
 ## Author: bsmorgan
-## Version: 1.13
+## Version: 1.15
 ## X-Category: Tradeskill
 ## X-License GPL v3 or later
 ## X-RelSite-WoWI: 25287
@@ -44,6 +44,7 @@ Locale\Locale-enUS.lua
 
 Locale\Locale-deDE.lua
 Locale\Locale-esES.lua
+Locale\Locale-esMX.lua
 Locale\Locale-frFR.lua
 Locale\Locale-itIT.lua
 Locale\Locale-koKR.lua
@@ -76,6 +77,7 @@ Plugins\BootyBayGazette.lua
 Plugins\MissingTradeSkillsList.lua
 Plugins\AuctionDB.lua
 Plugins\Auctioneer.lua
+Plugins\AuctionLite.lua
 #### Addons not ported to Classic
 ## Plugins\AckisRecipeList.lua
 ## Plugins\TradeSkillInfo.lua

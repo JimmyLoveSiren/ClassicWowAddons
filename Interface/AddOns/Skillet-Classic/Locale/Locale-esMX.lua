@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local L = LibStub("AceLocale-3.0"):NewLocale("Skillet", "esES")
+local L = LibStub("AceLocale-3.0"):NewLocale("Skillet", "esMX")
 if not L then return end
 
 L[" days"] = " días"

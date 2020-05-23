@@ -17,25 +17,25 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-Skillet.AUCPlugin = {}
+Skillet.ATLPlugin = {}
 
-local plugin = Skillet.AUCPlugin
+local plugin = Skillet.ATLPlugin
 local L = Skillet.L
 
 plugin.options =
 {
 	type = 'group',
-	name = "Auctioneer",
+	name = "AuctionLite",
 	order = 1,
 	args = {
 		enabled = {
 			type = "toggle",
 			name = L["Enabled"],
 			get = function()
-				return Skillet.db.profile.plugins.AUC.enabled
+				return Skillet.db.profile.plugins.ATL.enabled
 			end,
 			set = function(self,value)
-				Skillet.db.profile.plugins.AUC.enabled = value
+				Skillet.db.profile.plugins.ATL.enabled = value
 				Skillet:UpdateTradeSkillWindow()
 			end,
 			width = "double",
@@ -46,12 +46,12 @@ plugin.options =
 			name = "useShort",
 			desc = "Use Short money format",
 			get = function()
-				return Skillet.db.profile.plugins.AUC.useShort
+				return Skillet.db.profile.plugins.ATL.useShort
 			end,
 			set = function(self,value)
-				Skillet.db.profile.plugins.AUC.useShort = value
+				Skillet.db.profile.plugins.ATL.useShort = value
 				if value then
-					Skillet.db.profile.plugins.AUC.useShort = value
+					Skillet.db.profile.plugins.ATL.useShort = value
 				end
 			end,
 			order = 2
@@ -61,12 +61,12 @@ plugin.options =
 			name = "onlyPositive",
 			desc = "Only show positive values",
 			get = function()
-				return Skillet.db.profile.plugins.AUC.onlyPositive
+				return Skillet.db.profile.plugins.ATL.onlyPositive
 			end,
 			set = function(self,value)
-				Skillet.db.profile.plugins.AUC.onlyPositive = value
+				Skillet.db.profile.plugins.ATL.onlyPositive = value
 				if value then
-					Skillet.db.profile.plugins.AUC.onlyPositive = value
+					Skillet.db.profile.plugins.ATL.onlyPositive = value
 				end
 			end,
 			order = 3
@@ -76,12 +76,12 @@ plugin.options =
 			name = "reagentPrices",
 			desc = "Show prices for reagents",
 			get = function()
-				return Skillet.db.profile.plugins.AUC.reagentPrices
+				return Skillet.db.profile.plugins.ATL.reagentPrices
 			end,
 			set = function(self,value)
-				Skillet.db.profile.plugins.AUC.reagentPrices = value
+				Skillet.db.profile.plugins.ATL.reagentPrices = value
 				if value then
-					Skillet.db.profile.plugins.AUC.reagentPrices = value
+					Skillet.db.profile.plugins.ATL.reagentPrices = value
 				end
 			end,
 			order = 4
@@ -91,12 +91,12 @@ plugin.options =
 			name = "buyablePrices",
 			desc = "Show AH prices for buyable reagents",
 			get = function()
-				return Skillet.db.profile.plugins.AUC.buyablePrices
+				return Skillet.db.profile.plugins.ATL.buyablePrices
 			end,
 			set = function(self,value)
-				Skillet.db.profile.plugins.AUC.buyablePrices = value
+				Skillet.db.profile.plugins.ATL.buyablePrices = value
 				if value then
-					Skillet.db.profile.plugins.AUC.buyablePrices = value
+					Skillet.db.profile.plugins.ATL.buyablePrices = value
 				end
 			end,
 			order = 5
@@ -106,12 +106,12 @@ plugin.options =
 			name = "useVendorCalc",
 			desc = "Show calculated cost from vendor sell price for buyable reagents",
 			get = function()
-				return Skillet.db.profile.plugins.AUC.useVendorCalc
+				return Skillet.db.profile.plugins.ATL.useVendorCalc
 			end,
 			set = function(self,value)
-				Skillet.db.profile.plugins.AUC.useVendorCalc = value
+				Skillet.db.profile.plugins.ATL.useVendorCalc = value
 				if value then
-					Skillet.db.profile.plugins.AUC.useVendorCalc = value
+					Skillet.db.profile.plugins.ATL.useVendorCalc = value
 				end
 			end,
 			order = 6
@@ -122,10 +122,10 @@ plugin.options =
 			desc = "Multiply vendor sell price by this to get calculated buy price",
 			min = 1, max = 10, step = 1, isPercent = false,
 			get = function()
-				return Skillet.db.profile.plugins.AUC.buyFactor
+				return Skillet.db.profile.plugins.ATL.buyFactor
 			end,
 			set = function(self,value)
-				Skillet.db.profile.plugins.AUC.buyFactor = value
+				Skillet.db.profile.plugins.ATL.buyFactor = value
 				Skillet:UpdateTradeSkillWindow()
 			end,
 			width = "double",
@@ -136,10 +136,10 @@ plugin.options =
 			name = "Markup %",
 			min = 0, max = 2, step = 0.01, isPercent = true,
 			get = function()
-				return Skillet.db.profile.plugins.AUC.markup
+				return Skillet.db.profile.plugins.ATL.markup
 			end,
 			set = function(self,value)
-				Skillet.db.profile.plugins.AUC.markup = value
+				Skillet.db.profile.plugins.ATL.markup = value
 			end,
 			width = "double",
 			order = 11,
@@ -154,33 +154,28 @@ local buyFactorDef = 4
 local markupDef = 1.05
 
 function plugin.OnInitialize()
-	if not Skillet.db.profile.plugins.AUC then
-		Skillet.db.profile.plugins.AUC = {}
-		Skillet.db.profile.plugins.AUC.enabled = true
-		Skillet.db.profile.plugins.AUC.buyFactor = buyFactorDef
-		Skillet.db.profile.plugins.AUC.markup = markupDef
+	if not Skillet.db.profile.plugins.ATL then
+		Skillet.db.profile.plugins.ATL = {}
+		Skillet.db.profile.plugins.ATL.enabled = true
+		Skillet.db.profile.plugins.ATL.buyFactor = buyFactorDef
+		Skillet.db.profile.plugins.ATL.markup = markupDef
 	end
 	Skillet:AddPluginOptions(plugin.options)
-end
-
-local function GetMarketValue(itemLink)
-	if AucAdvanced.API.GetMarketValue then
-		return AucAdvanced.API.GetMarketValue(itemLink) or nil
-	end
 end
 
 function plugin.GetExtraText(skill, recipe)
 	local label, extra_text
 	if not recipe then return end
 	local itemID = recipe.itemID
-	if Skillet.db.profile.plugins.AUC.enabled and itemID and IsAddOnLoaded("Auc-Advanced") and AucAdvanced then
-		local itemName, itemLink = GetItemInfo(itemID)
-		local market = ( GetMarketValue(itemLink) or 0 ) * recipe.numMade
-		if market then
-			extra_text = Skillet:FormatMoneyFull(market, true)
-			label = "|r".."AUC "..L["Market"]..":"
+	local auctionData = {}
+	if Skillet.db.profile.plugins.ATL.enabled and itemID and AuctionLite and AuctionLite.GetAuctionValue then
+		auctionData = AuctionLite:GetAuctionValue(itemID)
+		local buyout = ( auctionData or 0 ) * recipe.numMade
+		if buyout then
+			extra_text = Skillet:FormatMoneyFull(buyout, true)
+			label = "|r".."AuctionLite "..L["Buyout"]..":"
 		end
-		if Skillet.db.profile.plugins.AUC.reagentPrices then
+		if Skillet.db.profile.plugins.ATL.reagentPrices then
 			local toConcatLabel = {}
 			local toConcatExtra = {}
 			local cost = 0
@@ -192,18 +187,22 @@ function plugin.GetExtraText(skill, recipe)
 				local needed = reagent.numNeeded or 0
 				local id = reagent.id
 				local reagentName, reagentLink
+				local reagentData = {}
 				if id then
 					reagentName, reagentLink = GetItemInfo(id)
 				else
 					reagentName = tostring(id)
 				end
+				if reagentLink then
+					reagentData = AuctionLite:GetAuctionValue(reagentLink)
+				end
 				local text
-				local value = ( GetMarketValue(reagentLink) or 0 ) * needed
-				local buyFactor = Skillet.db.profile.plugins.AUC.buyFactor or buyFactorDef
+				local value = ( reagentData or 0 ) * needed
+				local buyFactor = Skillet.db.profile.plugins.ATL.buyFactor or buyFactorDef
 				if Skillet:VendorSellsReagent(id) then
 					toConcatLabel[#toConcatLabel+1] = string.format("   %d x %s  |cff808080(%s)|r", needed, reagentName, L["buyable"])
-					if Skillet.db.profile.plugins.AUC.buyablePrices then
-						if Skillet.db.profile.plugins.AUC.useVendorCalc then
+					if Skillet.db.profile.plugins.ATL.buyablePrices then
+						if Skillet.db.profile.plugins.ATL.useVendorCalc then
 							local sellValue = select(11, GetItemInfo(id))
 							value = ( sellValue or 0 ) * needed * buyFactor
 						end
@@ -218,9 +217,9 @@ function plugin.GetExtraText(skill, recipe)
 				end
 				cost = cost + value
 			end
-			if Skillet.db.profile.plugins.AUC.useVendorCalc then
-				local markup = Skillet.db.profile.plugins.AUC.markup or markupDef
-				label = label .. "\n\n" .. table.concat(toConcatLabel,"\n") .. "\n   " .. L["Reagents"] .." * ".. (markup * 100) .."%:\n"
+			if Skillet.db.profile.plugins.ATL.useVendorCalc then
+				local markup = Skillet.db.profile.plugins.ATL.markup or markupDef
+				label = label .. "\n\n" .. table.concat(toConcatLabel,"\n") .. "\n   " .. L["Reagents"] .." * ".. markup * 100 .."%:\n"
 				extra_text =  extra_text .. "\n\n" .. table.concat(toConcatExtra,"\n") .. "\n" .. Skillet:FormatMoneyFull(cost * markup, true) .. "\n"
 			else
 				label = label .. "\n\n" .. table.concat(toConcatLabel,"\n") .. "\n   " .. L["Reagents"] .. ":\n"
@@ -235,18 +234,30 @@ function plugin.RecipeNameSuffix(skill, recipe)
 	local text
 	if not recipe then return end
 	local itemID = recipe.itemID
-	if Skillet.db.profile.plugins.AUC.enabled and itemID and IsAddOnLoaded("Auc-Advanced") and AucAdvanced then
-		local buyout = ( GetMarketValue(itemLink) or 0 ) * recipe.numMade
-		if Skillet.db.profile.plugins.AUC.reagentPrices then
+	local auctionData = {}
+	if Skillet.db.profile.plugins.ATL.enabled and itemID and AuctionLite and AuctionLite.GetAuctionValue then
+		auctionData = AuctionLite:GetAuctionValue(itemID)
+		local buyout = ( auctionData or 0 ) * recipe.numMade
+		if Skillet.db.profile.plugins.ATL.reagentPrices then
 			local cost = 0
 			for i=1, #recipe.reagentData, 1 do
 				local needed = recipe.reagentData[i].numNeeded or 0
 				local id = recipe.reagentData[i].id
-				local value = ( GetMarketValue(itemLink) or 0 ) * needed
-				local buyFactor = Skillet.db.profile.plugins.AUC.buyFactor or buyFactorDef
+				local reagentName, reagentLink
+				local reagentData = {}
+				if id then
+					reagentName, reagentLink = GetItemInfo(id)
+				else
+					reagentName = tostring(id)
+				end
+				if reagentLink then
+					reagentData = AuctionLite:GetAuctionValue(reagentLink)
+				end
+				local value = ( reagentData or 0 ) * needed
+				local buyFactor = Skillet.db.profile.plugins.ATL.buyFactor or buyFactorDef
 				if Skillet:VendorSellsReagent(id) then
-					if Skillet.db.profile.plugins.AUC.buyablePrices then
-						if Skillet.db.profile.plugins.AUC.useVendorCalc then
+					if Skillet.db.profile.plugins.ATL.buyablePrices then
+						if Skillet.db.profile.plugins.ATL.useVendorCalc then
 							local sellValue = select(11, GetItemInfo(id))
 							value = ( sellValue or 0 ) * needed * buyFactor
 						end
@@ -256,17 +267,17 @@ function plugin.RecipeNameSuffix(skill, recipe)
 				end
 				cost = cost + value
 			end
-			if Skillet.db.profile.plugins.AUC.useVendorCalc then
-				local markup = Skillet.db.profile.plugins.AUC.markup or markupDef
+			if Skillet.db.profile.plugins.ATL.useVendorCalc then
+				local markup = Skillet.db.profile.plugins.ATL.markup or markupDef
 				cost = cost * markup
 			end
 			local profit = buyout - cost
-			if Skillet.db.profile.plugins.AUC.useShort then
+			if Skillet.db.profile.plugins.ATL.useShort then
 				text = Skillet:FormatMoneyShort(profit, true)
 			else
 				text = Skillet:FormatMoneyFull(profit, true)
 			end
-			if Skillet.db.profile.plugins.AUC.onlyPositive and profit <= 0 then
+			if Skillet.db.profile.plugins.ATL.onlyPositive and profit <= 0 then
 				text = nil
 			end
 		end
@@ -274,6 +285,6 @@ function plugin.RecipeNameSuffix(skill, recipe)
 	return text
 end
 
-Skillet:RegisterRecipeNamePlugin("AUCPlugin")		-- we have a RecipeNamePrefix or a RecipeNameSuffix function
+Skillet:RegisterRecipeNamePlugin("ATLPlugin")		-- we have a RecipeNamePrefix or a RecipeNameSuffix function
 
-Skillet:RegisterDisplayDetailPlugin("AUCPlugin")	-- we have a GetExtraText function
+Skillet:RegisterDisplayDetailPlugin("ATLPlugin")	-- we have a GetExtraText function

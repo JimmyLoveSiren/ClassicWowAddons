@@ -18,59 +18,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 local L = LibStub("AceLocale-3.0"):NewLocale("Skillet", "ptBR")
 if not L then return end
 
-L[" days"] = "dias"
+L[" days"] = " dias"
 L["About"] = "Sobre"
 L["ABOUTDESC"] = "Sobre o Skillet"
---[[Translation missing --]]
---[[ L["Add Recipe to Ignored List"] = ""--]] 
+L["Add Recipe to Ignored List"] = "Adicionar receita à lista ignorada"
 L["Add to Ignore Materials"] = "Add aos Materiais Ignorados"
-L["alts"] = true
+L["alts"] = "alts"
 L["Appearance"] = "Aparência"
 L["APPEARANCEDESC"] = "Opções de visualização do Skillet"
 L["bank"] = "banco"
-L["Blizzard"] = true
+L["Blizzard"] = "Blizzard"
 L["Buy Reagents"] = "Comprar Reagentes"
 L["buyable"] = "comprável"
 L["Buyout"] = "Comprar"
 L["By Difficulty"] = "Por Dificuldade"
-L["By Item Level"] = "Por Nível do Item"
+L["By Item Level"] = "Por Nível do Iten"
 L["By Level"] = "Por Nível"
 L["By Name"] = "Por Nome"
 L["By Quality"] = "Por Qualidade"
 L["By Skill Level"] = "Por Habilidade"
 L["can be created by crafting reagents"] = "pode ser criado por elaboração de reagentes"
-L["can be created from reagents in your inventory"] = "Pode ser criado com reagentes do seu inventario"
---[[Translation missing --]]
---[[ L["can be created from reagents on all characters"] = ""--]] 
+L["can be created from reagents in your inventory"] = "pode ser criado a partir de reagentes em seu inventário"
+L["can be created from reagents on all characters"] = "pode ser criado a partir de reagentes em todos os personagens"
 L["can be created from reagents on other characters"] = "Pode ser criado com reagentes de todos seus personagens"
-L["can be created with reagents bought at vendor"] = true
---[[Translation missing --]]
---[[ L["Changing profession to"] = ""--]] 
+L["can be created with reagents bought at vendor"] = "pode ser criado com reagentes comprados no vendedor"
+L["Changing profession to"] = "Mudando de profissão para"
 L["Clear"] = "Limpar"
---[[Translation missing --]]
---[[ L["Click"] = ""--]] 
+L["Click"] = "Clique"
 L["click here to add a note"] = "clique aqui para adicionar uma nota"
 L["Click to toggle favorite"] = "Clique para alternar o favorito"
 L["Collapse all groups"] = "Contrair todos os grupos"
 L["Config"] = "Configuração"
 L["CONFIGDESC"] = "Abre a tela de configuração do Skillet"
-L["CONFIRMQUEUECLEARDESC"] = "Use Alt-left-click instead of left-click to clear the queue"
+L["CONFIRMQUEUECLEARDESC"] = "Use Alt-clique esquerdo em vez de clicar com o botão esquerdo para limpar a fila"
 L["CONFIRMQUEUECLEARNAME"] = "Use Alt-click to clear queue"
---[[Translation missing --]]
---[[ L["Conflict with the addon TradeSkillMaster"] = ""--]] 
+L["Conflict with the addon TradeSkillMaster"] = "Conflito com o addon TradeSkillMaster"
 L["Copy"] = "Copiar"
 L["Could not find bag space for"] = "Não há espaço na mochila"
 L["craftable"] = "Produzivel"
+L["CRAFTBUTTONSDESC"] = "Incluir botões de artesanato no quadro"
+L["CRAFTBUTTONSNAME"] = "Incluir botões de artesanato"
 L["Crafted By"] = "Feito Por"
 L["Create"] = "Criar"
 L["Create All"] = "Criar Todos"
 L["Cut"] = "Cortar"
-L["DBMarket"] = true
+L["DBMarket"] = "DBMarket"
 L["Delete"] = "Apagar"
---[[Translation missing --]]
---[[ L["DISPLAYITEMLEVELDESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["DISPLAYITEMLEVELNAME"] = ""--]] 
+L["DISPLAYITEMLEVELDESC"] = [=[Se o iten a ser criado tiver um nível de item, esse nível será exibido junto com a receita
+]=]
+L["DISPLAYITEMLEVELNAME"] = "Exibir nível do iten"
 L["DISPLAYREQUIREDLEVELDESC"] = "Se o item requer um nível minimo para ser usado, este nível será mostrado com a receita"
 L["DISPLAYREQUIREDLEVELNAME"] = "Mostrar nivel necessario"
 L["DISPLAYSHOPPINGLISTATAUCTIONDESC"] = "Mostrar uma lista de compras de itens necessarios para fabricação das receitas que estão na lista mas não estão na sua bolsa"
@@ -91,8 +87,7 @@ L["Expand all groups"] = "Expandir todos os grupos"
 L["Features"] = "Caracteristicas"
 L["FEATURESDESC"] = "Habilita ou deshabilita Caracteristicas extras"
 L["Filter"] = "Filtro"
---[[Translation missing --]]
---[[ L["Flat"] = ""--]] 
+L["Flat"] = "Plano"
 L["Flush All Data"] = "Baixar dados"
 L["Flush Recipe Data"] = "Baixar Dados"
 L["FLUSHALLDATADESC"] = "Baixar todos os dados do Skillet"
@@ -105,76 +100,58 @@ L["has cooldown of"] = "tem espera de "
 L["have"] = "possui"
 L["Hide trivial"] = "Esconder triviais"
 L["Hide uncraftable"] = "Esconde não produziveis"
---[[Translation missing --]]
---[[ L["HIDEBLIZZARDFRAMEDESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["HIDEBLIZZARDFRAMENAME"] = ""--]] 
---[[Translation missing --]]
---[[ L["Ignore"] = ""--]] 
+L["HIDEBLIZZARDFRAMEDESC"] = "Ocultar o quadro da profissão Blizzard ao exibir o quadro Skillet"
+L["HIDEBLIZZARDFRAMENAME"] = "Ocultar quadro da Blizzard"
+L["Ignore"] = "Ignorar"
 L["IGNORECLEARDESC"] = "Limpa todas as entradas na lista de Materiais Ignorados"
 L["Ignored List"] = "Lista de ignorados"
 L["Ignored Materials Clear"] = "Limpar Materiais Ignorados"
 L["Ignored Materials List"] = "Materiais Ignorados"
 L["IGNORELISTDESC"] = "Abrir a lista de materiais ignorados"
 L["Illusions"] = "Ilusões"
-L["in your inventory"] = true
+L["in your inventory"] = "no seu inventário"
 L["Include alts"] = "Incluir alts"
 L["Include bank"] = "Incluir banco"
 L["Include guild"] = "Incluir guilda"
---[[Translation missing --]]
---[[ L["INCLUDEREAGENTSDESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["INCLUDEREAGENTSNAME"] = ""--]] 
+L["INCLUDEREAGENTSDESC"] = "Adicione nomes de reagentes ao texto do iten pesquisado."
+L["INCLUDEREAGENTSNAME"] = "Incluir reagentes na pesquisa"
 L["Inventory"] = "Inventorio"
 L["INVENTORYDESC"] = "Informações o inventario"
---[[Translation missing --]]
---[[ L["InvSlot"] = ""--]] 
-L["is now disabled"] = [=[esta desabilitado
-modo de espera - Skillet está desabilitado]=]
-L["is now enabled"] = [=[esta habilitado
-modo de espera - Skillet está habilitado]=]
+L["InvSlot"] = "InvSlot"
+L["is now disabled"] = "esta desabilitado"
+L["is now enabled"] = "esta habilitado"
 L["Learned"] = "Aprendido"
 L["Library"] = "Biblioteca"
 L["Link Recipe"] = "Linkar receita"
 L["LINKCRAFTABLEREAGENTSDESC"] = "Torna os reagentes clicaveis"
 L["LINKCRAFTABLEREAGENTSNAME"] = "Fazer reagentes ser clicavel"
 L["Load"] = "Carregar"
---[[Translation missing --]]
---[[ L["Lock/Unlock"] = ""--]] 
+L["Lock/Unlock"] = "Bloquear/Desbloquear"
 L["Market"] = "Mercado"
 L["Merge items"] = "Unir itens"
-L["Move Down"] = [=[Mover abaixo
-reordenando a fila]=]
-L["Move to Bottom"] = [=[Mover para o final
-reordenando a fila]=]
-L["Move to Top"] = [=[Mover para o topo
-reordenando a fila]=]
-L["Move Up"] = [=[Mover acima
-reordenando a fila]=]
+L["Move Down"] = "Mover abaixo"
+L["Move to Bottom"] = "Mover para o final"
+L["Move to Top"] = "Mover para o topo"
+L["Move Up"] = "Mover acima"
 L["need"] = "necessário"
---[[Translation missing --]]
---[[ L["New"] = ""--]] 
+L["New"] = "Novo"
 L["New Group"] = "Novo Grupo"
 L["No Data"] = "Sem informação"
---[[Translation missing --]]
---[[ L["No headers, try again"] = ""--]] 
+L["No headers, try again"] = "Sem cabeçalhos, tente novamente"
 L["No such queue saved"] = "Nenhuma fila salva"
 L["None"] = "Nenhum"
 L["not yet cached"] = "ainda não armazenados em cache"
 L["Notes"] = "Notas"
 L["Number of items to queue/create"] = "Número de itens para fila/criar"
 L["Options"] = "Opções"
-L["Order by item"] = "Organizar pelo item"
+L["Order by item"] = "Organizar pelo iten"
 L["Paste"] = "Colar"
 L["Pause"] = "Pausa"
-L["Plugins"] = true
---[[Translation missing --]]
---[[ L["Press"] = ""--]] 
---[[Translation missing --]]
---[[ L["Press Okay to continue changing professions"] = ""--]] 
---[[Translation missing --]]
---[[ L["Press Process to continue"] = ""--]] 
-L["Process"] = "Processo"
+L["Plugins"] = "Plugins"
+L["Press"] = "Pressione"
+L["Press Okay to continue changing professions"] = "Pressione Ok para continuar mudando de profissão"
+L["Press Process to continue"] = "Pressione Processar para continuar"
+L["Process"] = "Processar"
 L["Purchased"] = "Comprados"
 L["Queue"] = "Fila"
 L["Queue All"] = "Todos na Fila"
@@ -185,19 +162,16 @@ L["QUEUECRAFTABLEREAGENTSDESC"] = "Se você pode criar um item necessario para r
 L["QUEUECRAFTABLEREAGENTSNAME"] = "Colocar na fila reagentes fabricaveis"
 L["QUEUEGLYPHREAGENTSDESC"] = "Se você pode criar um item necessario para receita, e você não tem, então o reagente sera colocado na fila"
 L["QUEUEGLYPHREAGENTSNAME"] = "Colocar na fila reagente para Glifos"
-L["QUEUEONLYVIEWDESC"] = "Show Standalone Queue Window only when set, show both Standalone Queue Window and Skillet Window when clear."
-L["QUEUEONLYVIEWNAME"] = "Only show Standalone Queue"
+L["QUEUEONLYVIEWDESC"] = "Mostrar janela da fila autônoma apenas quando definido, mostra a janela da fila autônoma e a janela do Skillet quando desmarcada."
+L["QUEUEONLYVIEWNAME"] = "Mostrar apenas fila independente"
 L["Queues"] = "Filas"
---[[Translation missing --]]
---[[ L["reagent id seems corrupt!"] = ""--]] 
+L["reagent id seems corrupt!"] = "A identificação do reagente parece corrompida!"
 L["Reagents"] = "Reagentes"
 L["reagents in inventory"] = "Reagentes no inventario"
 L["Really delete this queue?"] = "Você realmente quer apagar esta fila?"
 L["Remove Favorite"] = "Remover Favorito"
---[[Translation missing --]]
---[[ L["Remove Recipe from Ignored List"] = ""--]] 
---[[Translation missing --]]
---[[ L["Rename"] = ""--]] 
+L["Remove Recipe from Ignored List"] = "Remover receita da lista ignorada"
+L["Rename"] = "Renomear"
 L["Rename Group"] = "Renomear Grupo"
 L["Rescan"] = "Rescanear"
 L["Reset"] = "Redefinir"
@@ -205,26 +179,23 @@ L["Reset Recipe Filter"] = "Limpar o filtro"
 L["RESETDESC"] = "Redefinir posição do Skillet"
 L["RESETRECIPEFILTERDESC"] = "Limpar o filtro"
 L["Retrieve"] = "Recuperar"
-L["Same faction"] = true
+L["Same faction"] = "Mesma facção"
 L["Save"] = "Salvar"
 L["Scale"] = "Escala"
 L["SCALEDESC"] = "Escala da janela principal"
---[[Translation missing --]]
---[[ L["SCALETOOLTIPDESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["SCALETOOLTIPNAME"] = ""--]] 
+L["SCALETOOLTIPDESC"] = "Defina a escala das dicas de habilidade e reagente para corresponder à dica da receita (escala global da interface do usuário)."
+L["SCALETOOLTIPNAME"] = "Escalar todas as dicas"
 L["Scan completed"] = "Verificação concluida"
 L["Scanning tradeskill"] = "Verificando as receitas"
 L["Search"] = "Procurar"
 L["Select All"] = "Selecionar todos"
 L["Select None"] = "Limpar seleção"
-L["Select skill difficulty threshold"] = ""
+L["Select skill difficulty threshold"] = "Selecione o limite de dificuldade da habilidade"
 L["Selected Addon"] = "Addon Selecionado"
 L["Selection"] = "Seleção"
 L["Sells for "] = "Vender por"
 L["Set Favorite"] = "Definir favorito"
---[[Translation missing --]]
---[[ L["shift-click to link"] = ""--]] 
+L["shift-click to link"] = "clique com a tecla Shift pressionada para vincular"
 L["Shopping Clear"] = "Limpar lista"
 L["Shopping List"] = "Lista de Compras"
 L["SHOPPINGCLEARDESC"] = "Limpar a lista de compras"
@@ -240,47 +211,42 @@ L["SHOWDETAILEDRECIPETOOLTIPDESC"] = "Mostrar toda a informação do item a ser 
 L["SHOWDETAILEDRECIPETOOLTIPNAME"] = "Mostrar dicas para as receitas"
 L["SHOWFULLTOOLTIPDESC"] = "Mostrar toda a informação de um item a ser fabricado. Se você desligar, apenas vera uma pequena informação (Segure Ctrl para uma descrição completa)"
 L["SHOWFULLTOOLTIPNAME"] = "Usar caixa de informação padrão"
-L["SHOWITEMNOTESTOOLTIPDESC"] = "Adiciona as notas que você forneceu para um item nas informações desse item"
-L["SHOWITEMNOTESTOOLTIPNAME"] = "Adicionar notas do usuários as informações do item"
-L["SHOWITEMTOOLTIPDESC"] = "Mostrar informações do item a ser fabricado, em vez das informações da receita."
+L["SHOWITEMNOTESTOOLTIPDESC"] = "Adiciona as notas que você forneceu para um iten nas informações desse iten"
+L["SHOWITEMNOTESTOOLTIPNAME"] = "Adicionar notas do usuários as informações do iten"
+L["SHOWITEMTOOLTIPDESC"] = "Mostrar informações do iten a ser fabricado, em vez das informações da receita."
 L["SHOWITEMTOOLTIPNAME"] = "Mostra informações quando possível"
-L["SHOWMAXUPGRADEDESC"] = "When set, show upgradable recipes as \"(current/maximum)\". When not set, show as \"(current)\""
-L["SHOWMAXUPGRADENAME"] = "Show upgradable recipes as (current/max)"
+L["SHOWMAXUPGRADEDESC"] = "Quando definido, mostre receitas atualizáveis ​​como \"(atual/máximo)\". Quando não estiver definido, mostre como \"(atual)\""
+L["SHOWMAXUPGRADENAME"] = "Mostrar receitas atualizáveis ​​como (atual/máx.)"
 L["SHOWRECIPESOURCEFORLEARNEDDESC"] = "Mostrar fonte da receita para receitas aprendidas"
 L["SHOWRECIPESOURCEFORLEARNEDNAME"] = "Mostrar fonte da receita para receitas aprendidas"
-L["Skillet Trade Skills"] = "Skillet - Habilidades de Comercio"
+L["Skillet Trade Skills"] = "Skillet-Clássico"
 L["Skipping"] = "Pulando"
 L["Sold amount"] = "Total vendido"
 L["SORTASC"] = "Organiza a lista do maior (topo) para o menor (abaixo)"
 L["SORTDESC"] = "Organiza a lista do menor (topo) para o maior (abaixo)"
 L["Sorting"] = "Ordenando"
-L["Source:"] = [=[Origem:
-origem da receita do item]=]
+L["Source:"] = "Origem:"
 L["STANDBYDESC"] = "Habilita e desabilita o modo de espera"
 L["STANDBYNAME"] = "Aguardar"
 L["Start"] = "Iniciar"
---[[Translation missing --]]
---[[ L["SubClass"] = ""--]] 
---[[Translation missing --]]
---[[ L["SUPPORTCRAFTINGDESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["SUPPORTCRAFTINGNAME"] = ""--]] 
+L["SubClass"] = "Subclasse"
+L["SUPPORTCRAFTINGDESC"] = "Incluir suporte para profissões de artesanato (requer um /reload)"
+L["SUPPORTCRAFTINGNAME"] = "Suporte de Artesanato"
 L["Supported Addons"] = "Addons Suportados"
 L["SUPPORTEDADDONSDESC"] = "Addons suportados que são usados para escanear seu inventario"
 L["This merchant sells reagents you need!"] = "Este vendedor tem itens que você precisa!"
---[[Translation missing --]]
---[[ L["TOOLTIPSCALEDESC"] = ""--]] 
+L["TOOLTIPSCALEDESC"] = "Escala a lista de receitas, detalhes do iten e dicas de reagentes"
 L["Total Cost:"] = "Custo Total:"
 L["Total spent"] = "Total gasto"
-L["Trained"] = [=[Aprendida
-receita obtida no instrutor]=]
+L["TRADEBUTTONSDESC"] = "Incluir botões de profissão no quadro"
+L["TRADEBUTTONSNAME"] = "Incluir botões de profissão"
+L["Trained"] = "Aprendida"
 L["TRANSPARAENCYDESC"] = "Transparência da janela principal"
 L["Transparency"] = "Transparência"
-L["Unknown"] = [=[Desconhecido
-origem da receita desconhecida]=]
+L["Unknown"] = "Desconhecido"
 L["Unlearned"] = "Desaprender"
-L["USEALTCURRVENDITEMSDESC"] = "Vendor items bought with alternate currencies are considered vendor supplied."
-L["USEALTCURRVENDITEMSNAME"] = "Use vendor items bought with alternate currencies"
+L["USEALTCURRVENDITEMSDESC"] = "Os itens do vendedor comprados com moedas alternativas são considerados fornecidos pelo vendedor."
+L["USEALTCURRVENDITEMSNAME"] = "Use itens de vendedores comprados com moedas alternativas"
 L["USEBLIZZARDFORFOLLOWERSDESC"] = "Usar Interface da Blizzard para seguidores garrison"
 L["USEBLIZZARDFORFOLLOWERSNAME"] = "Usar Interface da Blizzard para seguidores"
 L["USEGUILDBANKASALTDESC"] = "Usar o conteúdo do banco da guilda como se fosse outro alternativo."

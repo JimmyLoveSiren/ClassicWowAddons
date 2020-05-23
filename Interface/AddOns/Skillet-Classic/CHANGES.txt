@@ -1,21 +1,49 @@
 ------------------------------------------------------------------------
-r150 | bsmorgan | 2020-03-11 19:57:21 +0000 (Wed, 11 Mar 2020) | 1 line
+r162 | bsmorgan | 2020-04-20 21:20:40 +0000 (Mon, 20 Apr 2020) | 3 lines
 Changed paths:
-   M /trunk/Plugins/Auctionator.lua
+   M /trunk/Plugins/Auctioneer.lua
+   M /trunk/Plugins/MissingTradeSkillsList.lua
+   M /trunk/SkilletData.lua
+   M /trunk/SkilletPlugin.lua
 
-- Fix Auctionator plugin
+- Change debugs for issue #160
+- Fix issues #161 and #162
+
 ------------------------------------------------------------------------
-r149 | bsmorgan | 2020-03-11 14:15:32 +0000 (Wed, 11 Mar 2020) | 1 line
+r161 | bsmorgan | 2020-04-18 14:53:13 +0000 (Sat, 18 Apr 2020) | 1 line
+Changed paths:
+   M /trunk/Skillet-Classic.toc
+
+- Fix .toc
+------------------------------------------------------------------------
+r160 | bsmorgan | 2020-04-18 14:42:44 +0000 (Sat, 18 Apr 2020) | 2 lines
+Changed paths:
+   M /trunk/Locale/Locale-itIT.lua
+   M /trunk/Locale/Locale-ptBR.lua
+   M /trunk/Skillet-Classic.toc
+
+- Repair Localizations
+
+------------------------------------------------------------------------
+r159 | bsmorgan | 2020-04-17 20:28:03 +0000 (Fri, 17 Apr 2020) | 2 lines
+Changed paths:
+   M /trunk/Skillet-Classic.toc
+
+- Update Localizations
+
+------------------------------------------------------------------------
+r158 | bsmorgan | 2020-04-17 13:19:41 +0000 (Fri, 17 Apr 2020) | 1 line
+Changed paths:
+   A /trunk/Locale/Locale-esMX.lua
+   M /trunk/Skillet-Classic.toc
+
+- Update Localizations
+------------------------------------------------------------------------
+r157 | bsmorgan | 2020-04-15 14:59:47 +0000 (Wed, 15 Apr 2020) | 1 line
 Changed paths:
    M /trunk/UI/MainFrame.lua
    M /trunk/UI/MainFrame.xml
 
-- Fix issue #143
-------------------------------------------------------------------------
-r148 | bsmorgan | 2020-03-11 14:02:21 +0000 (Wed, 11 Mar 2020) | 1 line
-Changed paths:
-   M /trunk/Plugins/Auctionator.lua
-
-- Fix Auctionator plugin
+- Fix issue #155
 ------------------------------------------------------------------------
 

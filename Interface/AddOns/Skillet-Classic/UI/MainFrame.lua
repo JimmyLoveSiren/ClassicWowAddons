@@ -642,6 +642,7 @@ function Skillet:TradeButton_OnClick(this,button)
 					if button then
 						button:SetChecked(false)
 					end
+					self.closingTrade = true
 					if self.isCraft then
 						CloseCraft()
 					else
@@ -747,9 +748,12 @@ function Skillet:UpdateTradeButtons(player)
 			else
 				button:SetChecked(false)
 			end
-			button:Show()
-		else
-			--DA.DEBUG(3,"No ranks for tradeID= "..tostring(tradeID)..", tradeName= "..tostring(self.tradeSkillNamesByID[tradeID]))
+			if (self.db.profile.include_craftbuttons and self.skillIsCraft[tradeID]) or
+			  (self.db.profile.include_tradebuttons and not self.skillIsCraft[tradeID]) then
+				button:Show()
+			else
+				button:Hide()
+			end
 		end
 	end		-- for
 --
@@ -1279,7 +1283,7 @@ function Skillet:SkillButton_OnEnter(button)
 		return
 	end
 	buttonName:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
-	local recipe = self:GetRecipe(skill.recipeID) or Skillet.UnknownRecipe
+	local recipe = self:GetRecipe(skill.recipeID) or Skillet.unknownRecipe
 	if not self.db.profile.show_detailed_recipe_tooltip then
 --
 -- user does not want the tooltip displayed, it can get a bit big after all
@@ -1474,8 +1478,8 @@ end
 --
 -- Sets the game tooltip item to the selected skill
 --
-function Skillet:SetTradeSkillToolTip(skillIndex)
-	--DA.DEBUG(2,"SetTradeSkillToolTip("..tostring(skillIndex)..")")
+function Skillet:SetTradeSkillToolTip(skillIndex, buttonID)
+	--DA.DEBUG(2,"SetTradeSkillToolTip("..tostring(skillIndex)..", "..tostring(buttonID)..")")
 	GameTooltip:ClearLines()
 	if Skillet.db.profile.scale_tooltip then
 		local uiScale = 1.0;
@@ -1489,24 +1493,8 @@ function Skillet:SetTradeSkillToolTip(skillIndex)
 	end
 	local recipe, recipeID = self:GetRecipeDataByTradeIndex(self.currentTrade, skillIndex)
 	if Skillet.isCraft then
-		local craftName, craftSubSpellName, craftType, numAvailable, isExpanded, trainingPointCost, requiredLevel = GetCraftInfo(skillIndex)
-		local color = CraftTypeColor[craftType];
-		if (color) then
-			GameTooltip:AddLine(craftName, color.r, color.g, color.b, false);
-		else
-			GameTooltip:AddLine(craftName, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, false);
-		end
 		if skillIndex then
---			GameTooltip:SetCraftItem(skillIndex)
-			local requiredTotems = BuildColoredListString(GetCraftSpellFocus(skillIndex))
-			if ( requiredTotems ) then
-				GameTooltip:AddLine(REQUIRES_LABEL.." "..requiredTotems, 1,1,1, false)
-			end
-			GameTooltip:AddLine(" ")
-			local desc = GetCraftDescription(skillIndex)
-			if (desc) then
-				GameTooltip:AddLine(desc, 1,1,1, true)
-			end
+			GameTooltip:SetCraftSpell(skillIndex)
 			if recipe and recipe.itemID ~= 0 then
 				Skillet:AddItemNotesToTooltip(GameTooltip, recipe.itemID)
 			end
@@ -1667,9 +1655,9 @@ function Skillet:UpdateDetailsWindow(skillIndex)
 		return
 	end
 	lastUpdateSpellID = skill.id
-	local recipe = Skillet.UnknownRecipe
+	local recipe = Skillet.unknownRecipe
 	if skill then
-		recipe = self:GetRecipe(skill.id) or Skillet.UnknownRecipe
+		recipe = self:GetRecipe(skill.id) or Skillet.unknownRecipe
 --
 -- Name of the skill
 --
@@ -1707,7 +1695,7 @@ function Skillet:UpdateDetailsWindow(skillIndex)
 			end
 		end
 	else
-		recipe = Skillet.UnknownRecipe
+		recipe = Skillet.unknownRecipe
 		SkilletSkillName:SetText("unknown")
 	end
 --
@@ -2549,6 +2537,8 @@ function Skillet:SkilletFrameForceClose()
 	else
 		CloseTradeSkill()
 	end
+	Skillet.processingSpell = nil
+	Skillet.changingTrade = nil
 	return self:HideAllWindows()
 end
 
@@ -3028,6 +3018,7 @@ Skillet.fullView = true
 function Skillet:ShowFullView()
 	Skillet.fullView = true
 	SkilletQueueParentBase:SetParent(SkilletFrame)
+	SkilletQueueParentBase:ClearAllPoints()
 	SkilletQueueParentBase:SetPoint("TOPLEFT",SkilletCreateAllButton,"BOTTOMLEFT",0,-3)
 	SkilletQueueParentBase:SetPoint("BOTTOMRIGHT",SkilletFrame,"BOTTOMRIGHT",-10,32)
 	SkilletStandaloneQueue:Hide()
@@ -3038,6 +3029,7 @@ end
 function Skillet:ShowQueueView()
 	Skillet.fullView = false
 	SkilletQueueParentBase:SetParent(SkilletStandaloneQueue)
+	SkilletQueueParentBase:ClearAllPoints()
 	SkilletQueueParentBase:SetPoint("TOPLEFT",SkilletStandaloneQueue,"TOPLEFT",5,-32)
 	SkilletQueueParentBase:SetPoint("BOTTOMRIGHT",SkilletStandaloneQueue,"BOTTOMRIGHT",-5,30)
 	SkilletStandaloneQueue:Show()
