@@ -5,16 +5,16 @@
 local ADDON, NS = ...;
 ----------------------------------------------------------------------------------------------------upvalue LUA
 local math, table, string, bit = math, table, string, bit;
-local type = type;
-local assert, collectgarbage, date, difftime, error, getfenv, getmetatable, loadstring, next, newproxy, pcall, select, setfenv, setmetatable, time, type, unpack, xpcall, rawequal, rawget, rawset =
-		assert, collectgarbage, date, difftime, error, getfenv, getmetatable, loadstring, next, newproxy, pcall, select, setfenv, setmetatable, time, type, unpack, xpcall, rawequal, rawget, rawset;
-local abs, acos, asin, atan, atan2, ceil, cos, deg, exp, floor, fmod, frexp,ldexp, log, log10, max, min, mod, rad, random, sin, sqrt, tan, fastrandom =
-		abs, acos, asin, atan, atan2, ceil, cos, deg, exp, floor, fmod or math.fmod, frexp,ldexp, log, log10, max, min, mod, rad, random, sin, sqrt, tan, fastrandom;
-local format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, tonumber, tostring =
-		format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, tonumber, tostring;
-local strcmputf8i, strlenutf8, strtrim, strsplit, strjoin, strconcat, tostringall = strcmputf8i, strlenutf8, strtrim, strsplit, strjoin, strconcat, tostringall;
-local ipairs, pairs, sort, tContains, tinsert, tremove, wipe = ipairs, pairs, sort, tContains, tinsert, tremove, wipe;
-local gcinfo, foreach, foreachi, getn = gcinfo, foreach, foreachi, getn;	-- Deprecated
+local type, tonumber, tostring = type, tonumber, tostring;
+local getfenv, setfenv, pcall, xpcall, assert, error, loadstring = getfenv, setfenv, pcall, xpcall, assert, error, loadstring;
+local abs, ceil, floor, max, min, random, sqrt = abs, ceil, floor, max, min, random, sqrt;
+local format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, strtrim, strsplit, strjoin, strconcat =
+		format, gmatch, gsub, strbyte, strchar, strfind, strlen, strlower, strmatch, strrep, strrev, strsub, strupper, strtrim, strsplit, strjoin, strconcat;
+local getmetatable, setmetatable, rawget, rawset = getmetatable, setmetatable, rawget, rawset;
+local ipairs, pairs, sort, tContains, tinsert, tremove, wipe, unpack = ipairs, pairs, sort, tContains, tinsert, tremove, wipe, unpack;
+local tConcat = table.concat;
+local select = select;
+local date, time = date, time;
 ----------------------------------------------------------------------------------------------------
 local _G = _G;
 local _ = nil;
@@ -49,7 +49,7 @@ local height = 16;
 local interval = 0;
 local v_to_border = 8;
 local h_to_border = 8;
-local menu = CreateFrame("Button", nil, DropDownList1);
+local menu = CreateFrame("BUTTON", nil, DropDownList1);
 menu:SetFrameStrata("FULLSCREEN_DIALOG");
 menu:SetClampedToScreen(false);
 menu:Show();
@@ -82,7 +82,7 @@ local function dropMenuButtonOnClick(self)
 		which = nil;
 		return;
 	end
-	local values = list[which];
+	local values = list[which] or list["*"];
 	local id = self.id;
 	if values and values[id] then
 		meta[values[id]][2](which, target);
@@ -91,7 +91,7 @@ local function dropMenuButtonOnClick(self)
 	which = nil;
 end
 function func.create(menu, id, x, y)
-	local button = CreateFrame("Button", nil, menu);
+	local button = CreateFrame("BUTTON", nil, menu);
 	--button:SetFrameStrata("FULLSCREEN_DIALOG");
 	button:SetHeight(height);
 	--button:SetNormalTexture("Interface\\Buttons\\UI-StopButton");
@@ -132,8 +132,8 @@ function func.set_num(num)
 	end
 end
 function func.set(which)
-	if which and list[which] then
-		local values = list[which];
+	if which and (list[which] or list["*"]) then
+		local values = list[which] or list["*"];
 		local num = #values;
 		func.set_num(num);
 		for i = 1, num do
@@ -146,7 +146,6 @@ end
 
 local function hook(level, value, frame, ...)
 	if level == 1 and DropDownList1:IsShown() then
-		_G.aladrop = frame;
 		-- bnetIDAccount
 		if frame and frame.which then
 			target = frame;
